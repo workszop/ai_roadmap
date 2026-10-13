@@ -57,6 +57,10 @@
       --red-soft: #C92823;
       --red-ink:  #FFFFFF;
 
+      /* Grape - play palette, used as a phase category colour (white text 5.2:1) */
+      --grape:     #7A5AC2;
+      --grape-ink: #FFFFFF;
+
       --bg:        var(--paper);
       --fg:        var(--ink);
       --fg-muted:  var(--ink-2);
@@ -146,7 +150,6 @@
     .sec-head h2 { margin: 0; }
     .sec-head::after { content: ""; flex: 1; height: 1px; background: var(--line-2); }
     .sec-lead { margin: 0 0 26px; }
-    .sec-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 14px; }
 
     /* ─── Chips ─── */
     .edu-chip { display: inline-block; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; padding: 4px 10px; border-radius: var(--r-pill); background: var(--blue-soft); color: var(--blue-ink); white-space: nowrap; }
@@ -188,16 +191,6 @@
     details.card > summary:focus-visible { box-shadow: inset 0 0 0 3px var(--ink); }
     .head-right { display: flex; align-items: center; gap: 10px; }
 
-    /* ─── Overview cards ─── */
-    .overview { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
-    a.ov { text-decoration: none; color: inherit; transition: box-shadow .15s; }
-    a.ov:hover { box-shadow: var(--shadow-md); }
-    a.ov .card-head { padding: 10px 16px; }
-    a.ov .card-body { padding: 14px 16px 16px; }
-    .ov-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; line-height: 1.2; color: var(--ink); margin: 0 0 6px; }
-    .ov-text { font-size: var(--body-sm); line-height: 1.45; color: var(--ink-2); margin: 0; }
-    .ov-bar { height: 6px; margin-top: 12px; background: var(--paper-3); border-radius: var(--r-pill); overflow: hidden; }
-    .ov-bar span { display: block; height: 100%; width: 0; background: var(--yellow); border-radius: var(--r-pill); transition: width .3s; }
     .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 22px; }
     .controls .spacer { flex: 1; }
     .big-prog { display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 13px; color: var(--ink); }
@@ -224,12 +217,6 @@
     .refs a:hover { text-decoration: underline; color: var(--ink); }
 
     /* ─── Gate & callouts ─── */
-    .gate { margin-top: 18px; border-radius: var(--r-xl); padding: 26px 30px; background: var(--blue-soft); color: var(--blue-ink); display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
-    .gate .edu-overline { color: inherit; margin: 0 0 6px; }
-    .gate h3 { margin: 0; font-size: 22px; }
-    .gate ul { margin: 0; padding-left: 20px; }
-    .gate li { margin: 4px 0; line-height: 1.5; }
-    .gate .then { margin: 12px 0 0; font-weight: 600; }
     .callout { margin-top: 18px; border-radius: var(--r-md); padding: 16px 20px; background: var(--yellow-soft); color: var(--yellow-ink); }
     .callout p { margin: 0; }
     .callout .refs, .callout .refs a { color: inherit; }
@@ -246,22 +233,109 @@
     .plain { margin: 0; padding-left: 20px; color: var(--ink-2); }
     .plain li { margin: 6px 0; line-height: 1.5; }
 
-    /* ─── Tables ─── */
-    .table-card .card-body { padding: 0; overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 15px; }
-    th { text-align: left; padding: 12px 16px; background: var(--paper-3); border-bottom: 1px solid var(--line-2); font-family: var(--font-mono); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--ink); }
-    td { padding: 12px 16px; border-bottom: 1px solid var(--line); color: var(--ink-2); vertical-align: top; line-height: 1.5; }
-    tbody tr:nth-child(even) td { background: var(--paper-2); }
-    tbody tr:last-child td { border-bottom: none; }
-    td:first-child { color: var(--ink); font-weight: 600; }
-    td.date { white-space: nowrap; font-variant-numeric: tabular-nums; }
-
     /* ─── Sources ─── */
     .sources { margin: 0; padding-left: 28px; columns: 2; column-gap: 36px; font-size: var(--body-sm); color: var(--ink-2); }
     .sources li { break-inside: avoid; margin: 0 0 10px; line-height: 1.45; scroll-margin-top: 110px; }
     .sources li:target { background: var(--yellow); color: var(--yellow-ink); border-radius: var(--r-xs); }
     .sources .src-meta { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); }
     .sources li:target .src-meta { color: var(--yellow-ink); }
+
+    /* ─── Tones: category colours, always paired with a text label ─── */
+    .tone-grape  { background: var(--grape);      color: var(--grape-ink); }
+    .tone-blue   { background: var(--blue-soft);  color: var(--blue-ink); }
+    .tone-yellow { background: var(--yellow);     color: var(--yellow-ink); }
+    .tone-green  { background: var(--green-soft); color: var(--green-ink); }
+    .tone-red    { background: var(--red-soft);   color: var(--red-ink); }
+    .tone-ink    { background: var(--ink);        color: var(--paper); }
+    .tone-stone  { background: var(--paper-3);    color: var(--ink); }
+    .ic { width: 18px; height: 18px; flex: none; }
+    .badge { flex: none; width: 34px; height: 34px; border-radius: var(--r-sm); display: inline-grid; place-items: center; }
+    .badge-lg { width: 46px; height: 46px; border-radius: var(--r-md); }
+    .badge-lg .ic { width: 24px; height: 24px; }
+    .badge.tone-ink { color: var(--yellow); }
+    .tile-h { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .tile-h h3 { margin: 0; font-size: 18px; line-height: 1.3; }
+    .card-foot { padding: 12px 22px; border-top: 1px dashed var(--line-2); font-size: var(--body-sm); color: var(--ink-2); font-weight: 600; }
+
+    /* ─── Phase timeline (single-series: position = time, label = identity) ─── */
+    .gantt .card-body { padding: 10px 22px 16px; }
+    .g-axis, .g-row { display: grid; grid-template-columns: 320px 1fr; gap: 20px; align-items: center; }
+    .g-scale { position: relative; height: 22px; }
+    .g-tick { position: absolute; top: 2px; transform: translateX(-50%); font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
+    .g-tick:first-child { transform: none; }
+    .g-row { padding: 10px 10px; margin: 0 -10px; border-top: 1px solid var(--line); text-decoration: none; color: inherit; transition: background-color .15s; }
+    .g-row:hover { background: var(--paper-2); }
+    .g-label { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .g-text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+    .g-name { font-family: var(--font-display); font-weight: 700; font-size: 17px; line-height: 1.2; color: var(--ink); }
+    .g-time { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+    .g-track { position: relative; height: 26px; background: var(--paper-3); border-radius: var(--r-pill); }
+    .g-bar { position: absolute; top: 0; bottom: 0; background: var(--ink); border-radius: var(--r-pill); overflow: hidden; display: flex; align-items: center; justify-content: flex-end; }
+    .g-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--yellow); transition: width .3s; }
+    .g-bar .ic { position: relative; color: var(--yellow); width: 16px; height: 16px; margin-right: 8px; }
+
+    /* ─── Phase intro block ─── */
+    .phase-hero { border-radius: var(--r-xl); padding: 26px 30px; display: grid; grid-template-columns: 1fr 230px; gap: 32px; align-items: center; margin-bottom: 20px; }
+    .phase-hero .edu-overline { color: inherit; margin: 0 0 8px; }
+    .ph-intro { margin: 0; font-size: var(--body-lg); line-height: 1.55; }
+    .ph-side { display: flex; flex-direction: column; gap: 10px; }
+    .ph-num { font-family: var(--font-display); font-weight: 700; font-size: 34px; line-height: 1; }
+    .ph-lbl { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; margin-left: 10px; }
+    .ph-bar { height: 10px; border-radius: var(--r-pill); background: color-mix(in srgb, currentColor 24%, transparent); overflow: hidden; }
+    .ph-bar span { display: block; height: 100%; width: 0; background: currentColor; border-radius: var(--r-pill); transition: width .3s; }
+    .ph-meta { font-size: var(--body-sm); }
+    .phase-hero.tone-ink .edu-overline, .phase-hero.tone-ink .ph-num { color: var(--yellow); }
+
+    /* ─── Gate card ─── */
+    .gate-card { margin-top: 18px; }
+    .gate-card .card-head { flex-wrap: wrap; }
+    .outcomes { display: flex; gap: 6px; flex-wrap: wrap; }
+    .gate-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 28px; }
+    .gate-list li { display: flex; gap: 10px; align-items: flex-start; color: var(--ink-2); line-height: 1.5; }
+    .gate-list .ic { color: var(--green-600); margin-top: 3px; }
+
+    /* ─── Regulatory timeline ─── */
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink); }
+    .legend > span { display: inline-flex; align-items: center; gap: 8px; }
+    .tl { list-style: none; margin: 0; padding: 0; }
+    .tl-row, .tl-year { display: grid; grid-template-columns: 170px 28px 1fr; column-gap: 16px; }
+    .tl-rail { position: relative; display: flex; justify-content: center; }
+    .tl-rail::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; transform: translateX(-50%); background: var(--line-2); }
+    .tl > li:first-child .tl-rail::before { top: 14px; }
+    .tl > li:last-child .tl-rail::before { bottom: auto; height: 14px; }
+    .tl-dot { position: relative; z-index: 1; flex: none; display: inline-block; width: 16px; height: 16px; border-radius: 50%; }
+    .tl-rail .tl-dot { margin-top: 6px; }
+    .dot-inforce { background: var(--green-soft); }
+    .dot-soon { background: var(--red-soft); }
+    .dot-later { background: var(--surface); border: 2px solid var(--line-strong); }
+    .dot-today { width: 22px; height: 22px; background: var(--yellow); border: 3px solid var(--ink); }
+    .tl-rail .dot-today { margin-top: 3px; }
+    .tl-date { padding: 4px 0 20px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+    .tl-body { padding: 2px 0 20px; }
+    .tl-body p { margin: 6px 0 0; }
+    .tl-today .tl-body { padding-bottom: 22px; }
+    .tl-ylabel { padding: 4px 0 12px; font-family: var(--font-display); font-weight: 800; font-size: 22px; color: var(--ink); }
+
+    /* ─── Autonomy ladder ─── */
+    .ladder-axis { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; font-family: var(--font-mono); font-size: 12px; color: var(--ink); text-transform: uppercase; letter-spacing: .06em; }
+    .ladder-axis .axis-line { flex: 1; height: 2px; background: var(--line-2); }
+    .ladder { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .rung-head { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 12px; }
+    .rung-head h3 { margin: 0; font-size: 21px; }
+    .rung-top { display: flex; align-items: center; justify-content: space-between; }
+    .rung-top .ic { width: 22px; height: 22px; }
+    .pips { display: flex; gap: 4px; }
+    .pip { width: 16px; height: 6px; border-radius: var(--r-pill); background: color-mix(in srgb, currentColor 28%, transparent); }
+    .pip.on { background: currentColor; }
+    .rung .card-body p { margin: 0 0 14px; font-size: var(--body-sm); line-height: 1.5; }
+    .rung .card-body .edu-overline { margin: 0 0 4px; font-size: 11px; }
+
+    /* ─── Tiles & pitfalls ─── */
+    .tile .card-body p { margin: 0; }
+    .pit .card-head { justify-content: flex-start; }
+    .pit .tile-h h3 { font-size: 17px; }
+    .pit-fix { display: flex; gap: 12px; align-items: flex-start; }
+    .pit-fix p { margin: 6px 0 0; color: var(--ink-2); }
 
     /* ─── Footer ─── */
     .foot { border-top: 1px solid var(--line-2); }
@@ -270,7 +344,8 @@
 
     /* ─── Responsive ─── */
     @media (max-width: 1080px) {
-      .overview { grid-template-columns: repeat(3, 1fr); }
+      .ladder { grid-template-columns: repeat(2, 1fr); }
+      .g-axis, .g-row { grid-template-columns: 250px 1fr; }
       .stats { grid-template-columns: repeat(2, 1fr); }
       .nav a { padding: 8px 9px; }
     }
@@ -285,22 +360,24 @@
       .sec-head { flex-direction: column; align-items: stretch; gap: 12px; }
       .sec-head::after { flex: none; width: 100%; }
       :where(.edu) h2 { font-size: 28px; }
+      .sec-head { flex-direction: row; flex-wrap: wrap; align-items: center; }
+      .sec-head h2 { flex: 1; min-width: 0; }
+      .sec-head::after { flex: 1 0 100%; }
       .grid-2, .grid-3 { grid-template-columns: 1fr; }
-      .overview { grid-template-columns: 1fr 1fr; }
-      .gate { grid-template-columns: 1fr; gap: 12px; padding: 22px; }
       .sources { columns: 1; }
-      /* tables stack into one block per row */
-      .table-card thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-      .table-card table, .table-card tbody, .table-card tr, .table-card td { display: block; }
-      .table-card tr { padding: 14px 16px; border-bottom: 1px solid var(--line); }
-      .table-card tbody tr:last-child { border-bottom: none; }
-      .table-card tbody tr:nth-child(even) { background: var(--paper-2); }
-      .table-card td { padding: 2px 0; border: none; background: transparent !important; }
-      .table-card td.date, .table-card td:has(> .edu-chip) { display: inline-block; margin: 0 8px 6px 0; vertical-align: middle; }
       .big-prog .prog-track { width: 120px; }
+      .g-axis { display: none; }
+      .g-row { grid-template-columns: 1fr; gap: 10px; }
+      .phase-hero { grid-template-columns: 1fr; padding: 22px; gap: 18px; }
+      .gate-list { grid-template-columns: 1fr; }
+      .tl-row, .tl-year { grid-template-columns: 24px 1fr; column-gap: 12px; }
+      .tl-row .tl-rail, .tl-year .tl-rail { grid-column: 1; grid-row: 1 / span 2; }
+      .tl-row .tl-date { grid-column: 2; grid-row: 1; padding-bottom: 2px; }
+      .tl-row .tl-body { grid-column: 2; grid-row: 2; }
+      .tl-year .tl-ylabel { grid-column: 2; grid-row: 1; }
     }
     @media (max-width: 480px) {
-      .stats, .overview { grid-template-columns: 1fr; }
+      .stats, .ladder { grid-template-columns: 1fr; }
       .edu-wordmark { font-size: 19px; }
       .head-tools { gap: 8px; }
     }
@@ -341,11 +418,13 @@
   <footer class="foot"><div class="foot-inner" id="foot"></div></footer>
   <div class="sr-only" aria-live="polite" id="live"></div>
 
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script>
   // ─── Constants ───
   const STORAGE_KEYS = { lang: 'aiRoadmap.lang', done: 'aiRoadmap.done' };
   const LANGS = ['pl', 'en'];
   const SOON_DAYS = 60;
+  const WEEKS_MAX = 28;
   const RESET_ARM_MS = 3000;
   const FONT_WAIT_MS = 1500;
   const BRAND_FONTS = ['400 1em Outfit', '700 1em Outfit', '400 1em "IBM Plex Sans"', '600 1em "IBM Plex Sans"', '400 1em "Roboto Mono"'];
@@ -397,6 +476,11 @@
       aCollapsed: 'Zwinięto wszystkie karty',
       aExpanded: 'Rozwinięto wszystkie karty',
       aReset: 'Postęp wyczyszczony',
+      today: 'Dziś',
+      ganttTitle: 'Harmonogram faz', ganttUnit: 'tygodnie od startu', m3: 'M3', m6: 'M6',
+      streamsLbl: 'obszary', gateLbl: 'kryteria bramki',
+      outScale: 'skaluj', outFix: 'popraw', outStop: 'stop',
+      lessAuto: 'Mniej autonomii', moreAuto: 'więcej nadzoru',
       locale: 'pl-PL',
     },
     en: {
@@ -444,6 +528,11 @@
       aCollapsed: 'All cards collapsed',
       aExpanded: 'All cards expanded',
       aReset: 'Progress cleared',
+      today: 'Today',
+      ganttTitle: 'Phase timeline', ganttUnit: 'weeks from start', m3: 'M3', m6: 'M6',
+      streamsLbl: 'workstreams', gateLbl: 'gate criteria',
+      outScale: 'scale', outFix: 'fix', outStop: 'stop',
+      lessAuto: 'Less autonomy', moreAuto: 'more oversight',
       locale: 'en-GB',
     },
   };
@@ -526,30 +615,30 @@
 
   const PHASES = [
     {
-      id: 'foundations', key: '1',
+      id: 'foundations', key: '1', tone: 'grape', icon: 'landmark', span: [0, 4],
       time: { pl: 'Tygodnie 0–4', en: 'Weeks 0–4' },
       title: { pl: 'Fundamenty', en: 'Foundations' },
       summary: { pl: 'Właściciel, zasady, spis systemów AI i szkolenia.', en: 'An owner, rules, an AI inventory and training.' },
       intro: { pl: 'Zanim wybierzesz narzędzia, ustal, kto odpowiada za wynik, jakie AI już działa w firmie i na jakich zasadach. Programy bez efektów najczęściej pominęły ten krok i doklejały AI do niezmienionych procesów.',
                en: 'Before choosing tools, settle who owns the result, what AI is already running in the organisation and under which rules. Programmes without results usually skipped this and bolted AI onto unchanged processes.' },
       streams: [
-        { id: 'f-own', title: { pl: 'Odpowiedzialność i cele', en: 'Ownership and goals' }, actions: [
+        { id: 'f-own', icon: 'user-check', title: { pl: 'Odpowiedzialność i cele', en: 'Ownership and goals' }, actions: [
           { id: 'f1', pl: 'Wyznacz członka zarządu odpowiedzialnego za wynik biznesowy AI, a nie za liczbę użytkowników.', en: 'Name an executive accountable for AI business results, not for user counts.', src: ['mckinsey'] },
           { id: 'f2', pl: 'Powiąż cele AI z 2–3 wynikami biznesowymi (koszt, czas realizacji, przychód, ryzyko) i zmierz punkt wyjścia.', en: 'Tie AI goals to 2–3 business outcomes (cost, cycle time, revenue, risk) and measure the baseline.' },
           { id: 'f3', pl: 'Zaplanuj budżet z kosztami utrzymania (tokeny, licencje, monitoring, migracje modeli), nie tylko pilotaż.', en: 'Budget for run costs (tokens, licences, monitoring, model migrations), not just the pilot.', src: ['finops'] },
         ] },
-        { id: 'f-inv', title: { pl: 'Spis systemów i shadow AI', en: 'Inventory and shadow AI' }, actions: [
+        { id: 'f-inv', icon: 'search', title: { pl: 'Spis systemów i shadow AI', en: 'Inventory and shadow AI' }, actions: [
           { id: 'f4', pl: 'Spisz każdy używany system AI: narzędzia dostawców, funkcje AI wbudowane w SaaS, rozwiązania własne i agentów.', en: 'Inventory every AI system in use: vendor tools, AI features inside SaaS, internal builds and agents.', src: ['gSprawl'] },
           { id: 'f5', pl: 'Wykryj shadow AI (wtyczki, prywatne konta, nieznane klucze API). Zacznij od amnestii, nie od kar.', en: 'Discover shadow AI (extensions, personal accounts, unknown API keys). Start with an amnesty, not penalties.', src: ['ibm'] },
           { id: 'f6', pl: 'Udostępnij zatwierdzone narzędzie na tyle dobre, żeby zastąpiło nieoficjalne. Samo blokowanie spycha użycie do podziemia.', en: 'Provide a sanctioned tool good enough to replace unofficial ones. Blocking alone drives use underground.', src: ['gSprawl'] },
         ] },
-        { id: 'f-law', title: { pl: 'Polityka i AI Act', en: 'Policy and the AI Act' }, actions: [
+        { id: 'f-law', icon: 'scale', title: { pl: 'Polityka i AI Act', en: 'Policy and the AI Act' }, actions: [
           { id: 'f7', pl: 'Opublikuj zasady korzystania z AI: zatwierdzone narzędzia, dane, których nie wolno wklejać, obowiązek weryfikacji wyników, zasady ujawniania.', en: 'Publish an AI acceptable-use policy: approved tools, data that must not be pasted, the duty to verify output, disclosure rules.' },
           { id: 'f8', pl: 'Sklasyfikuj każdy system wg AI Act: praktyka zakazana, wysokie ryzyko (zał. III), obowiązki przejrzystości (art. 50), ryzyko minimalne.', en: 'Classify each system under the AI Act: prohibited, high-risk (Annex III), transparency duties (Art. 50), minimal risk.', src: ['fpf'] },
           { id: 'f9', pl: 'Wyłącz praktyki zakazane – obowiązuje to od lutego 2025 (np. rozpoznawanie emocji pracowników).', en: 'Shut down prohibited practices – banned since February 2025 (e.g. emotion recognition of employees).', src: ['fpf'] },
           { id: 'f10', pl: 'W Polsce: w sprawach granicznych rozważ wiążącą opinię indywidualną KRiBSI.', en: 'In Poland: for borderline cases consider a binding individual opinion from KRiBSI.', src: ['chambers'] },
         ] },
-        { id: 'f-lit', title: { pl: 'Kompetencje AI', en: 'AI literacy' }, actions: [
+        { id: 'f-lit', icon: 'graduation-cap', title: { pl: 'Kompetencje AI', en: 'AI literacy' }, actions: [
           { id: 'f11', pl: 'Przeprowadź szkolenia dopasowane do ról (art. 4): podstawy dla wszystkich, ryzyko i ROI dla menedżerów, ewaluacje i bezpieczeństwo dla zespołów technicznych.', en: 'Run role-based AI literacy (Art. 4): basics for everyone, risk and ROI for managers, evals and security for technical teams.', src: ['fpf'] },
           { id: 'f12', pl: 'Prowadź rejestr szkoleń: kto, z czego i kiedy.', en: 'Keep a training record: who, on what, and when.' },
           { id: 'f13', pl: 'Wyłoń ambasadorów AI (2–3 na dział) i zarezerwuj im 10–20% czasu pracy.', en: 'Recruit AI champions (2–3 per department) and reserve 10–20% of their time.' },
@@ -559,29 +648,29 @@
               en: ['There is a named owner and a budget that includes run costs.', 'The AI inventory exists and has an owner.', 'Every system has an AI Act risk class.', 'The AI acceptable-use policy is published.'] },
     },
     {
-      id: 'portfolio', key: '2',
+      id: 'portfolio', key: '2', tone: 'blue', icon: 'layers', span: [3, 6],
       time: { pl: 'Tygodnie 3–6', en: 'Weeks 3–6' },
       title: { pl: 'Portfel zastosowań i dane', en: 'Use cases and data' },
       summary: { pl: 'Mniej, ale głębiej: proces, autonomia, dane, punkt wyjścia.', en: 'Fewer, deeper: workflow, autonomy, data, baseline.' },
       intro: { pl: 'Wybierz mniej zastosowań i wejdź w nie głębiej. Firmy z wynikiem przebudowują cały proces, zamiast dokładać czat do starego. Najpewniejszy zwrot dają procesy zaplecza: finanse, zakupy, IT, obsługa zgłoszeń.',
                en: 'Choose fewer use cases and go deeper. Organisations with results redesign the whole workflow instead of adding a chat window to the old one. Back-office processes give the most reliable return: finance, procurement, IT, ticket handling.' },
       streams: [
-        { id: 'p-sel', title: { pl: 'Wybór od procesu', en: 'Workflow-first selection' }, actions: [
+        { id: 'p-sel', icon: 'workflow', title: { pl: 'Wybór od procesu', en: 'Workflow-first selection' }, actions: [
           { id: 'p1', pl: 'Rozrysuj docelowy proces od początku do końca i przeprojektuj go. Nie doklejaj AI do obecnego.', en: 'Map the target workflow end to end and redesign it. Do not bolt AI onto the current one.', src: ['mckinsey'] },
           { id: 'p2', pl: 'Oceń kandydatów: wartość, wykonalność, dostępność danych, klasa ryzyka i odwracalność błędów.', en: 'Score candidates on value, feasibility, data availability, risk class and reversibility of errors.' },
           { id: 'p3', pl: 'Wybierz 2–3 zastosowania. Każde dostaje właściciela biznesowego i docelowy wskaźnik.', en: 'Select 2–3 use cases. Each gets a business owner and a target KPI.', src: ['mit'] },
         ] },
-        { id: 'p-aut', title: { pl: 'Poziom autonomii', en: 'Autonomy level' }, actions: [
+        { id: 'p-aut', icon: 'gauge', title: { pl: 'Poziom autonomii', en: 'Autonomy level' }, actions: [
           { id: 'p4', pl: 'Przypisz każdemu zastosowaniu poziom: obserwuje, doradza, działa za zgodą, działa samodzielnie.', en: 'Give each use case a level: observe, advise, act with approval, act autonomously.', src: ['gAutonomy'] },
           { id: 'p5', pl: 'Zacznij poziom niżej, niż się wydaje potrzebne. Autonomię przyznawaj na podstawie wyników ewaluacji.', en: 'Start one level lower than seems necessary. Grant autonomy on the strength of eval results.' },
           { id: 'p6', pl: 'Tam, gdzie się da, wybierz prosty przepływ o stałych krokach zamiast agenta, który sam planuje.', en: 'Where possible, choose a simple fixed-step workflow over an agent that plans for itself.', src: ['effective', 'openaiGuide'] },
         ] },
-        { id: 'p-buy', title: { pl: 'Kupić, zbudować czy współpracować', en: 'Buy, build or partner' }, actions: [
+        { id: 'p-buy', icon: 'shopping-bag', title: { pl: 'Kupić, zbudować czy współpracować', en: 'Buy, build or partner' }, actions: [
           { id: 'p7', pl: 'Dla typowych funkcji domyślnie kupuj lub współpracuj: rozwiązania od dostawców udawały się mniej więcej dwa razy częściej niż budowane w firmie.', en: 'For commodity capabilities default to buy or partner: vendor solutions succeeded roughly twice as often as internal builds.', src: ['mit'] },
           { id: 'p8', pl: 'Buduj tam, gdzie proces jest Twoją przewagą. Przelicz to na nowo: agenci programistyczni obniżyli koszt budowy.', en: 'Build where the workflow is your edge. Re-run the numbers: coding agents have lowered the cost of building.', src: ['mckinsey'] },
           { id: 'p9', pl: 'Sprawdź dostawcę: trenowanie na Twoich danych, lokalizacja danych, polityka wycofywania modeli, logi audytowe, możliwość wyjścia.', en: 'Check the vendor: training on your data, data residency, model deprecation policy, audit logs, exit options.', src: ['deprecation'] },
         ] },
-        { id: 'p-data', title: { pl: 'Gotowość danych', en: 'Data readiness' }, actions: [
+        { id: 'p-data', icon: 'database', title: { pl: 'Gotowość danych', en: 'Data readiness' }, actions: [
           { id: 'p10', pl: 'Wskaż źródło prawdy i jego właściciela. Popraw uprawnienia przed indeksowaniem – RAG dziedziczy każde nadmierne udostępnienie.', en: 'Name the source of truth and its owner. Fix permissions before indexing – RAG inherits every overshare.' },
           { id: 'p11', pl: 'Zdefiniuj pojęcia biznesowe (słownik, warstwa semantyczna), żeby agenci czytali dane tak samo jak ludzie.', en: 'Define business terms (glossary, semantic layer) so agents read data the way people do.', src: ['gSemantics'] },
           { id: 'p12', pl: 'Ustal zasady aktualności i usuń nieaktualne dokumenty z baz wiedzy.', en: 'Set freshness rules and remove outdated documents from knowledge bases.' },
@@ -592,31 +681,31 @@
               en: ['Every use case has an owner, an autonomy level and a data source.', 'The baseline is measured.', 'The pilot success threshold is written down before launch.'] },
     },
     {
-      id: 'pilot', key: '3',
+      id: 'pilot', key: '3', tone: 'yellow', icon: 'flask-conical', span: [6, 12],
       time: { pl: 'Tygodnie 6–12', en: 'Weeks 6–12' },
       title: { pl: 'Pilotaż z ewaluacją', en: 'Pilot with evals' },
       summary: { pl: 'Eksperyment z progiem zaliczenia, a nie pokaz.', en: 'An experiment with a pass mark, not a demo.' },
       intro: { pl: 'Pilotaż to eksperyment z progiem zaliczenia, a nie pokaz możliwości. Najpierw zbuduj zestaw testowy, potem rozwiązanie. Dzięki ewaluacjom zmiana modelu zajmuje dni, a nie tygodnie.',
                en: 'A pilot is an experiment with a pass mark, not a showcase. Build the test set first, then the solution. With evals in place, switching models takes days instead of weeks.' },
       streams: [
-        { id: 'e-eval', title: { pl: 'Najpierw ewaluacje', en: 'Evals first' }, actions: [
+        { id: 'e-eval', icon: 'clipboard-check', title: { pl: 'Najpierw ewaluacje', en: 'Evals first' }, actions: [
           { id: 'e1', pl: 'Zbierz zestaw wzorcowy 20–50 prawdziwych zadań, w tym dawne porażki i przypadki brzegowe.', en: 'Build a golden set of 20–50 real tasks, including past failures and edge cases.', src: ['evals'] },
           { id: 'e2', pl: 'Połącz oceniających: testy w kodzie, model-sędzia skalibrowany na ocenach ludzi i przegląd ekspercki.', en: 'Combine graders: code checks, an LLM judge calibrated against human ratings, and expert review.', src: ['evals'] },
           { id: 'e3', pl: 'Oceniaj wynik, nie tylko przebieg rozmowy. Uruchamiaj zadania kilka razy, bo odpowiedzi się różnią.', en: 'Grade the outcome, not just the transcript. Run each task several times, because outputs vary.', src: ['evals'] },
           { id: 'e4', pl: 'Trzymaj zestaw testowy i prompty w repozytorium z wersjonowaniem.', en: 'Keep the test set and prompts under version control.' },
         ] },
-        { id: 'e-guard', title: { pl: 'Zabezpieczenia i nadzór', en: 'Guardrails and oversight' }, actions: [
+        { id: 'e-guard', icon: 'shield', title: { pl: 'Zabezpieczenia i nadzór', en: 'Guardrails and oversight' }, actions: [
           { id: 'e5', pl: 'Ułóż zabezpieczenia warstwami: filtr wejścia, walidacja wyjścia, maskowanie danych osobowych, lista dozwolonych narzędzi.', en: 'Layer guardrails: input filtering, output validation, PII masking, a tool allowlist.', src: ['openaiGuide'] },
           { id: 'e6', pl: 'Wymagaj zgody człowieka na każde nieodwracalne lub zewnętrzne działanie (płatność, e-mail, zmiana rekordu).', en: 'Require human approval for every irreversible or external action (payment, email, record change).', src: ['openaiGuide'] },
           { id: 'e7', pl: 'Przetestuj rozwiązanie wg OWASP Top 10 dla LLM i dla agentów, zwłaszcza pod kątem wstrzykiwania promptów.', en: 'Test against the OWASP Top 10 for LLM and for agentic applications, especially prompt injection.', src: ['owaspLlm', 'owaspAgentic'] },
           { id: 'e8', pl: 'Spełnij art. 50 tam, gdzie dotyczy: użytkownik wie, że rozmawia z AI, a treści generowane są oznaczone.', en: 'Meet Art. 50 where it applies: users know they are talking to AI and generated content is labelled.', src: ['fpf'] },
         ] },
-        { id: 'e-run', title: { pl: 'Prowadzenie pilotażu', en: 'Running the pilot' }, actions: [
+        { id: 'e-run', icon: 'play', title: { pl: 'Prowadzenie pilotażu', en: 'Running the pilot' }, actions: [
           { id: 'e9', pl: 'Zacznij od danych niewrażliwych i małej grupy, potem przejdź do prawdziwej pracy pod nadzorem.', en: 'Start with non-sensitive data and a small group, then move to real work under review.' },
           { id: 'e10', pl: 'Zapisuj każde uruchomienie: wejście, wynik, wywołania narzędzi, koszt i ocenę recenzenta.', en: 'Log every run: input, output, tool calls, cost and the reviewer\'s verdict.' },
           { id: 'e11', pl: 'Raz w tygodniu przeglądaj wyniki z ekspertami. Każdy nowy błąd zamieniaj w przypadek testowy.', en: 'Review results weekly with experts. Turn every new failure into a test case.', src: ['evals'] },
         ] },
-        { id: 'e-cost', title: { pl: 'Ekonomika', en: 'Unit economics' }, actions: [
+        { id: 'e-cost', icon: 'coins', title: { pl: 'Ekonomika', en: 'Unit economics' }, actions: [
           { id: 'e12', pl: 'Licz koszt udanego zadania (z czasem weryfikacji przez człowieka), a nie koszt pojedynczego wywołania.', en: 'Measure cost per successful task (including human review time), not cost per call.', src: ['finops'] },
           { id: 'e13', pl: 'Porównaj klasy modeli i wybierz najtańszy, który przechodzi próg ewaluacji.', en: 'Compare model tiers and pick the cheapest one that passes the eval threshold.', src: ['gInference'] },
           { id: 'e14', pl: 'Przelicz koszty na pełny wolumen: przepływy agentowe zużywają wielokrotnie więcej tokenów niż czat.', en: 'Project costs at full volume: agentic workflows use many times more tokens than chat.', src: ['gInference'] },
@@ -626,30 +715,30 @@
               en: ['Eval threshold met across several runs.', 'The business KPI beats the baseline.', 'Cost per successful task is within budget.', 'No open critical security findings.'] },
     },
     {
-      id: 'scale', key: '4',
+      id: 'scale', key: '4', tone: 'green', icon: 'rocket', span: [12, 26],
       time: { pl: 'Miesiące 3–6', en: 'Months 3–6' },
       title: { pl: 'Produkcja i skalowanie', en: 'Production and scale' },
       summary: { pl: 'Wspólna platforma, tożsamość agentów, zmiana w zespołach.', en: 'Shared platform, agent identity, team change.' },
       intro: { pl: 'Przejście z pilotażu do produkcji to miejsce, w którym utyka większość programów. Zbuduj wspólne mechanizmy kontroli raz, a kolejne zastosowania podłączaj do nich.',
                en: 'The move from pilot to production is where most programmes stall. Build the shared controls once, then plug each new use case into them.' },
       streams: [
-        { id: 's-plat', title: { pl: 'Platforma', en: 'Platform' }, actions: [
+        { id: 's-plat', icon: 'server', title: { pl: 'Platforma', en: 'Platform' }, actions: [
           { id: 's1', pl: 'Przepuść cały ruch do modeli przez bramę AI (proxy): klucze, przypisanie kosztów, routing modeli, limity.', en: 'Route all model traffic through an AI gateway (proxy): keys, cost attribution, model routing, rate limits.', src: ['finops'] },
           { id: 's2', pl: 'Dodaj śledzenie i monitoring: jakość, opóźnienia, koszt, dryf i błędy dla każdego zastosowania.', en: 'Add tracing and monitoring: quality, latency, cost, drift and errors per use case.' },
           { id: 's3', pl: 'Miej plan awaryjny: drugi dostawca albo model open-weight uruchamiany u siebie dla krytycznych procesów.', en: 'Keep a fallback: a second provider or a self-hosted open-weight model for critical processes.' },
         ] },
-        { id: 's-id', title: { pl: 'Tożsamość agentów i narzędzia', en: 'Agent identity and tools' }, actions: [
+        { id: 's-id', icon: 'key-round', title: { pl: 'Tożsamość agentów i narzędzia', en: 'Agent identity and tools' }, actions: [
           { id: 's4', pl: 'Prowadź centralny rejestr agentów: właściciel, cel, poziom autonomii, narzędzia, dostęp do danych.', en: 'Keep a central agent registry: owner, purpose, autonomy level, tools, data access.', src: ['gSprawl'] },
           { id: 's5', pl: 'Daj każdemu agentowi własną tożsamość i krótko żyjące uprawnienia o minimalnym zakresie.', en: 'Give every agent its own identity and short-lived, least-privilege credentials.', src: ['gSprawl', 'ibm'] },
           { id: 's6', pl: 'Dopuszczaj tylko zatwierdzone serwery MCP i konektory, za bramą, która widzi wywoływane narzędzia.', en: 'Allow only approved MCP servers and connectors, behind a gateway that sees which tools are called.', src: ['mcp'] },
           { id: 's7', pl: 'Stosuj regułę dwóch: bez zgody człowieka agent łączy najwyżej dwie z trzech cech (niezaufane treści, wrażliwe dane, działanie na zewnątrz).', en: 'Apply the Rule of Two: without human approval an agent combines at most two of three traits (untrusted input, sensitive data, external action).', src: ['ruleOfTwo'] },
         ] },
-        { id: 's-roll', title: { pl: 'Wdrożenie i zmiana', en: 'Rollout and change' }, actions: [
+        { id: 's-roll', icon: 'users', title: { pl: 'Wdrożenie i zmiana', en: 'Rollout and change' }, actions: [
           { id: 's8', pl: 'Wdrażaj dział po dziale, z ambasadorami, szkoleniami dla konkretnych ról i dyżurami wsparcia.', en: 'Roll out department by department, with champions, role-specific training and support office hours.' },
           { id: 's9', pl: 'Aktualizuj opisy stanowisk i procedury razem z narzędziem, nie po fakcie.', en: 'Update job descriptions and procedures together with the tool, not afterwards.', src: ['mckinsey'] },
           { id: 's10', pl: 'Pokazuj sukcesy z liczbami i pozwól bezpiecznie zgłaszać porażki.', en: 'Share wins with numbers and make it safe to report failures.' },
         ] },
-        { id: 's-comp', title: { pl: 'Zgodność w produkcji', en: 'Compliance in production' }, actions: [
+        { id: 's-comp', icon: 'file-check', title: { pl: 'Zgodność w produkcji', en: 'Compliance in production' }, actions: [
           { id: 's11', pl: 'Dla każdego systemu prowadź dokumentację techniczną, logi i procedurę nadzoru człowieka.', en: 'Keep technical documentation, logs and a human-oversight procedure for every system.' },
           { id: 's12', pl: 'Systemy wysokiego ryzyka z zał. III: buduj teraz system zarządzania jakością, zarządzanie ryzykiem i ocenę zgodności. Termin: 2 grudnia 2027.', en: 'Annex III high-risk systems: build the quality management system, risk management and conformity assessment now. Deadline: 2 December 2027.', src: ['omnibus', 'fpf'] },
           { id: 's13', pl: 'Przeprowadź DPIA tam, gdzie przetwarzasz dane osobowe (RODO), i ocenę wpływu AI.', en: 'Run a DPIA where personal data is processed (GDPR), plus an AI impact assessment.' },
@@ -659,29 +748,29 @@
               en: ['Monitoring and rollback are in place.', 'Every agent is registered and has an owner.', 'Documentation and the oversight procedure are ready.', 'Teams have completed role-specific training.'] },
     },
     {
-      id: 'operate', key: '5',
+      id: 'operate', key: '5', tone: 'ink', icon: 'refresh-cw', span: [12, 28], open: true,
       time: { pl: 'Stale', en: 'Ongoing' },
       title: { pl: 'Utrzymanie i nadzór', en: 'Operate and govern' },
       summary: { pl: 'Cykl życia modeli, bezpieczeństwo, przegląd portfela.', en: 'Model lifecycle, security, portfolio review.' },
       intro: { pl: 'Systemy AI zmieniają się pod Tobą: dostawcy wycofują modele, dane się starzeją, przepisy się przesuwają. Traktuj AI jak linię produktów, którą trzeba utrzymywać.',
                en: 'AI systems change underneath you: vendors retire models, data drifts, regulation moves. Treat AI as a product line that needs maintenance.' },
       streams: [
-        { id: 'o-gov', title: { pl: 'System zarządzania', en: 'Management system' }, actions: [
+        { id: 'o-gov', icon: 'building-2', title: { pl: 'System zarządzania', en: 'Management system' }, actions: [
           { id: 'o1', pl: 'Oprzyj nadzór na ISO/IEC 42001, a praktykę zarządzania ryzykiem na NIST AI RMF i jego profilu dla GenAI.', en: 'Base governance on ISO/IEC 42001, and risk practice on the NIST AI RMF and its GenAI profile.', src: ['iso42001', 'nist'] },
           { id: 'o2', pl: 'Stały komitet AI (biznes, IT, bezpieczeństwo, prawo, HR) spotyka się co miesiąc i zatwierdza nowe zastosowania oraz podniesienie autonomii.', en: 'A standing AI committee (business, IT, security, legal, HR) meets monthly and approves new use cases and autonomy upgrades.' },
           { id: 'o3', pl: 'Co kwartał przeglądaj spis systemów i wyłączaj to, co nie daje efektu.', en: 'Review the inventory quarterly and retire what is not delivering.', src: ['gAutonomy'] },
         ] },
-        { id: 'o-life', title: { pl: 'Cykl życia modeli', en: 'Model lifecycle' }, actions: [
+        { id: 'o-life', icon: 'history', title: { pl: 'Cykl życia modeli', en: 'Model lifecycle' }, actions: [
           { id: 'o4', pl: 'Śledź kalendarze wycofywania modeli u dostawców i zaplanuj budżet na migracje.', en: 'Track vendor model deprecation calendars and budget for migrations.', src: ['deprecation'] },
           { id: 'o5', pl: 'Uruchamiaj testy regresji przy każdej zmianie modelu, promptu lub źródła danych, przed publikacją.', en: 'Run regression evals on every model, prompt or data-source change, before release.', src: ['evals'] },
           { id: 'o6', pl: 'Regularnie przeglądaj dobór modeli do zadań, bo ceny i możliwości szybko się zmieniają.', en: 'Revisit which model serves which task regularly, as prices and capabilities change fast.', src: ['gInference'] },
         ] },
-        { id: 'o-sec', title: { pl: 'Bezpieczeństwo i incydenty', en: 'Security and incidents' }, actions: [
+        { id: 'o-sec', icon: 'siren', title: { pl: 'Bezpieczeństwo i incydenty', en: 'Security and incidents' }, actions: [
           { id: 'o7', pl: 'Testuj ataki stale (red teaming) i dopisuj nowe wzorce do zestawu testowego.', en: 'Red-team continuously and add new attack patterns to the test set.', src: ['owaspAgentic'] },
           { id: 'o8', pl: 'Przygotuj procedurę incydentu AI: wyłącznik dla każdego agenta, wycofanie zmian, obowiązki zgłoszeniowe.', en: 'Prepare an AI incident playbook: a kill switch per agent, rollback, reporting duties.' },
           { id: 'o9', pl: 'Pilnuj łańcucha dostaw AI: pakiety, pliki modeli, serwery MCP, wersje SDK.', en: 'Watch the AI supply chain: packages, model files, MCP servers, SDK versions.', src: ['owaspAgentic'] },
         ] },
-        { id: 'o-val', title: { pl: 'Mierzenie wartości', en: 'Value tracking' }, actions: [
+        { id: 'o-val', icon: 'trending-up', title: { pl: 'Mierzenie wartości', en: 'Value tracking' }, actions: [
           { id: 'o10', pl: 'Co kwartał raportuj zarządowi wyniki: wpływ na EBIT, czas realizacji, jakość, ryzyko.', en: 'Report outcomes to the board quarterly: EBIT impact, cycle time, quality, risk.', src: ['mckinsey'] },
           { id: 'o11', pl: 'Śledź koszt udanego zadania i łączny koszt utrzymania każdego zastosowania.', en: 'Track cost per successful task and total run cost per use case.', src: ['finops'] },
           { id: 'o12', pl: 'Odświeżaj szkolenia co roku i przy każdej większej zmianie narzędzi.', en: 'Refresh training yearly and with every major tool change.' },
@@ -693,16 +782,16 @@
   ];
 
   const AUTONOMY = [
-    { level: { pl: 'Obserwuje', en: 'Observe' },
+    { tone: 'stone', icon: 'eye', level: { pl: 'Obserwuje', en: 'Observe' },
       does: { pl: 'Czyta dane i raportuje; niczego nie zmienia.', en: 'Reads data and reports; changes nothing.' },
       controls: { pl: 'Logowanie, przegląd dostępu do danych.', en: 'Logging, data access review.' } },
-    { level: { pl: 'Doradza', en: 'Advise' },
+    { tone: 'blue', icon: 'message-square', level: { pl: 'Doradza', en: 'Advise' },
       does: { pl: 'Proponuje działanie; decyzję i wykonanie zostawia człowiekowi.', en: 'Proposes an action; a person decides and executes.' },
       controls: { pl: 'Ewaluacje jakości, cytowanie źródeł, wskazany recenzent.', en: 'Quality evals, source citations, a named reviewer.' } },
-    { level: { pl: 'Działa za zgodą', en: 'Act with approval' },
+    { tone: 'yellow', icon: 'hand', level: { pl: 'Działa za zgodą', en: 'Act with approval' },
       does: { pl: 'Wykonuje działanie po akceptacji człowieka.', en: 'Executes an action after a person approves it.' },
       controls: { pl: 'Zgoda na każde działanie, ślad audytowy, wąskie uprawnienia.', en: 'Per-action approval, audit trail, narrow credentials.' } },
-    { level: { pl: 'Działa samodzielnie', en: 'Act autonomously' },
+    { tone: 'red', icon: 'zap', level: { pl: 'Działa samodzielnie', en: 'Act autonomously' },
       does: { pl: 'Działa sam w ustalonych granicach.', en: 'Acts alone within set limits.' },
       controls: { pl: 'Bezpieczniki (limity kosztów i liczby działań), wycofanie zmian, imienny właściciel, stały monitoring.', en: 'Circuit breakers (spend and action limits), rollback, a named owner, continuous monitoring.' } },
   ];
@@ -727,22 +816,22 @@
   ];
 
   const KPIS = [
-    { area: { pl: 'Wynik biznesowy', en: 'Business outcome' }, metric: { pl: 'Wpływ na EBIT, koszt jednostkowy procesu, przychód z nowych usług.', en: 'EBIT impact, unit cost of the process, revenue from new services.' } },
-    { area: { pl: 'Szybkość', en: 'Speed' }, metric: { pl: 'Czas realizacji, przepustowość, czas odpowiedzi dla klienta.', en: 'Cycle time, throughput, customer response time.' } },
-    { area: { pl: 'Jakość', en: 'Quality' }, metric: { pl: 'Odsetek błędów i poprawek, eskalacje do człowieka, wynik ewaluacji.', en: 'Error and rework rate, escalations to a person, eval pass rate.' } },
-    { area: { pl: 'Ekonomika', en: 'Economics' }, metric: { pl: 'Koszt udanego zadania (z czasem weryfikacji), koszt utrzymania wobec budżetu.', en: 'Cost per successful task (incl. review time), run cost against budget.' } },
-    { area: { pl: 'Ryzyko i zgodność', en: 'Risk and compliance' }, metric: { pl: 'Incydenty, naruszenia polityki, wykryte shadow AI, odsetek sklasyfikowanych systemów.', en: 'Incidents, policy violations, shadow AI found, share of systems classified.' } },
-    { area: { pl: 'Użycie (pomocniczo)', en: 'Usage (secondary)' }, metric: { pl: 'Aktywne użycie w przebudowanych procesach – sygnał wyprzedzający, nie cel.', en: 'Active use within redesigned workflows – a leading signal, not a goal.' } },
+    { tone: 'yellow', icon: 'trending-up', area: { pl: 'Wynik biznesowy', en: 'Business outcome' }, metric: { pl: 'Wpływ na EBIT, koszt jednostkowy procesu, przychód z nowych usług.', en: 'EBIT impact, unit cost of the process, revenue from new services.' } },
+    { tone: 'blue', icon: 'timer', area: { pl: 'Szybkość', en: 'Speed' }, metric: { pl: 'Czas realizacji, przepustowość, czas odpowiedzi dla klienta.', en: 'Cycle time, throughput, customer response time.' } },
+    { tone: 'green', icon: 'badge-check', area: { pl: 'Jakość', en: 'Quality' }, metric: { pl: 'Odsetek błędów i poprawek, eskalacje do człowieka, wynik ewaluacji.', en: 'Error and rework rate, escalations to a person, eval pass rate.' } },
+    { tone: 'grape', icon: 'coins', area: { pl: 'Ekonomika', en: 'Economics' }, metric: { pl: 'Koszt udanego zadania (z czasem weryfikacji), koszt utrzymania wobec budżetu.', en: 'Cost per successful task (incl. review time), run cost against budget.' } },
+    { tone: 'red', icon: 'shield-alert', area: { pl: 'Ryzyko i zgodność', en: 'Risk and compliance' }, metric: { pl: 'Incydenty, naruszenia polityki, wykryte shadow AI, odsetek sklasyfikowanych systemów.', en: 'Incidents, policy violations, shadow AI found, share of systems classified.' } },
+    { tone: 'stone', icon: 'activity', area: { pl: 'Użycie (pomocniczo)', en: 'Usage (secondary)' }, metric: { pl: 'Aktywne użycie w przebudowanych procesach – sygnał wyprzedzający, nie cel.', en: 'Active use within redesigned workflows – a leading signal, not a goal.' } },
   ];
   const KPI_NOTE = { pl: 'Liderzy w badaniu McKinsey dwa razy częściej mają zaangażowane kierownictwo i zdefiniowany sposób mierzenia efektów.', en: 'High performers in the McKinsey survey are twice as likely to have committed senior leaders and a defined way to measure impact.', src: ['mckinsey'] };
 
   const INDUSTRIES = [
-    { title: { pl: 'Finanse', en: 'Financial services' }, text: { pl: 'Ocena zdolności kredytowej osób fizycznych to system wysokiego ryzyka. Zacznij od analizy dokumentów, compliance i obsługi klienta. Dostawców AI obejmij zarządzaniem ryzykiem ICT według DORA.', en: 'Creditworthiness assessment of individuals is high-risk. Start with document analysis, compliance and customer service. Bring AI vendors under DORA ICT risk management.' } },
-    { title: { pl: 'Ochrona zdrowia', en: 'Healthcare' }, text: { pl: 'Zacznij od administracji: dokumentacja, rejestracja, rozliczenia. AI diagnostyczna to zwykle wyrób medyczny (zał. I, termin 2 sierpnia 2028). Dane o zdrowiu to kategoria szczególna RODO; w USA dochodzi HIPAA.', en: 'Start with admin: documentation, scheduling, billing. Diagnostic AI is usually a medical device (Annex I, deadline 2 August 2028). Health data is a GDPR special category; in the US, HIPAA applies too.' } },
-    { title: { pl: 'Edukacja i sektor publiczny', en: 'Education and public sector' }, text: { pl: 'Ocenianie, rekrutacja na studia i dostęp do świadczeń publicznych to obszary wysokiego ryzyka. Uczeń i obywatel muszą wiedzieć, że rozmawiają z AI (art. 50).', en: 'Grading, admissions and access to public benefits are high-risk areas. Students and citizens must know they are talking to AI (Art. 50).' } },
-    { title: { pl: 'Kadry (każda branża)', en: 'HR (every sector)' }, text: { pl: 'Rekrutacja, ocena i zwalnianie z pomocą AI to wysokie ryzyko od 2 grudnia 2027. Rozpoznawanie emocji pracowników jest zakazane od lutego 2025.', en: 'AI in hiring, appraisal and dismissal is high-risk from 2 December 2027. Recognising employees\' emotions has been banned since February 2025.' } },
-    { title: { pl: 'Produkcja', en: 'Manufacturing' }, text: { pl: 'Utrzymanie predykcyjne, kontrola jakości, planowanie. AI jako element bezpieczeństwa maszyn podlega zał. I (sierpień 2028). Uporządkuj znaczenie danych z czujników i MES, zanim podłączysz agentów.', en: 'Predictive maintenance, quality control, planning. AI as a machinery safety component falls under Annex I (August 2028). Sort out the meaning of sensor and MES data before connecting agents.' } },
-    { title: { pl: 'Handel', en: 'Retail' }, text: { pl: 'Agent obsługi klienta musi przedstawiać się jako AI. Przy prognozach popytu i dynamicznych cenach mierz wpływ na marżę i dostępność towaru, nie liczbę rozmów.', en: 'Customer service agents must identify as AI. For demand forecasting and dynamic pricing measure the effect on margin and availability, not the number of conversations.' } },
+    { tone: 'blue', icon: 'banknote', title: { pl: 'Finanse', en: 'Financial services' }, text: { pl: 'Ocena zdolności kredytowej osób fizycznych to system wysokiego ryzyka. Zacznij od analizy dokumentów, compliance i obsługi klienta. Dostawców AI obejmij zarządzaniem ryzykiem ICT według DORA.', en: 'Creditworthiness assessment of individuals is high-risk. Start with document analysis, compliance and customer service. Bring AI vendors under DORA ICT risk management.' } },
+    { tone: 'green', icon: 'heart-pulse', title: { pl: 'Ochrona zdrowia', en: 'Healthcare' }, text: { pl: 'Zacznij od administracji: dokumentacja, rejestracja, rozliczenia. AI diagnostyczna to zwykle wyrób medyczny (zał. I, termin 2 sierpnia 2028). Dane o zdrowiu to kategoria szczególna RODO; w USA dochodzi HIPAA.', en: 'Start with admin: documentation, scheduling, billing. Diagnostic AI is usually a medical device (Annex I, deadline 2 August 2028). Health data is a GDPR special category; in the US, HIPAA applies too.' } },
+    { tone: 'yellow', icon: 'graduation-cap', title: { pl: 'Edukacja i sektor publiczny', en: 'Education and public sector' }, text: { pl: 'Ocenianie, rekrutacja na studia i dostęp do świadczeń publicznych to obszary wysokiego ryzyka. Uczeń i obywatel muszą wiedzieć, że rozmawiają z AI (art. 50).', en: 'Grading, admissions and access to public benefits are high-risk areas. Students and citizens must know they are talking to AI (Art. 50).' } },
+    { tone: 'grape', icon: 'users', title: { pl: 'Kadry (każda branża)', en: 'HR (every sector)' }, text: { pl: 'Rekrutacja, ocena i zwalnianie z pomocą AI to wysokie ryzyko od 2 grudnia 2027. Rozpoznawanie emocji pracowników jest zakazane od lutego 2025.', en: 'AI in hiring, appraisal and dismissal is high-risk from 2 December 2027. Recognising employees\' emotions has been banned since February 2025.' } },
+    { tone: 'ink', icon: 'factory', title: { pl: 'Produkcja', en: 'Manufacturing' }, text: { pl: 'Utrzymanie predykcyjne, kontrola jakości, planowanie. AI jako element bezpieczeństwa maszyn podlega zał. I (sierpień 2028). Uporządkuj znaczenie danych z czujników i MES, zanim podłączysz agentów.', en: 'Predictive maintenance, quality control, planning. AI as a machinery safety component falls under Annex I (August 2028). Sort out the meaning of sensor and MES data before connecting agents.' } },
+    { tone: 'stone', icon: 'shopping-cart', title: { pl: 'Handel', en: 'Retail' }, text: { pl: 'Agent obsługi klienta musi przedstawiać się jako AI. Przy prognozach popytu i dynamicznych cenach mierz wpływ na marżę i dostępność towaru, nie liczbę rozmów.', en: 'Customer service agents must identify as AI. For demand forecasting and dynamic pricing measure the effect on margin and availability, not the number of conversations.' } },
   ];
 
   const PITFALLS = [
@@ -808,7 +897,11 @@
     set(key, v) { try { localStorage.setItem(key, v); } catch { /* storage unavailable */ } },
   };
   const saveDone = () => store.set(STORAGE_KEYS.done, JSON.stringify([...state.done]));
-  const secHead = title => `<div class="sec-head"><h2>${esc(title)}</h2></div>`;
+  const icon = name => `<i data-lucide="${name}" class="ic" aria-hidden="true"></i>`;
+  const badge = (name, tone, size = '') => `<span class="badge ${size} tone-${tone}">${icon(name)}</span>`;
+  const secHead = (title, ic, tone = 'ink') => `<div class="sec-head">${ic ? badge(ic, tone, 'badge-lg') : ''}<h2>${esc(title)}</h2></div>`;
+  const pos = w => (w / WEEKS_MAX * 100).toFixed(3) + '%';
+  const drawIcons = () => { if (window.lucide) window.lucide.createIcons(); };
 
   // ─── Render ───
   function renderChrome() {
@@ -833,7 +926,7 @@
 
   function renderChanged() {
     return `<section class="sec" id="changed"><div class="wrap">
-      ${secHead(t('secChanged'))}
+      ${secHead(t('secChanged'), 'sparkles')}
       <p class="edu-body-lg sec-lead">${esc(t('changedLead'))}</p>
       <div class="stats">${STATS.map(s => `
         <div class="stat stat-${s.tone} edu-block">
@@ -851,34 +944,61 @@
       soon: `<span class="edu-chip chip-red">${esc(t('stSoon'))}</span>`,
       later: `<span class="edu-chip chip-stone">${esc(t('stLater'))}</span>`,
     }[st]);
+    const todayRow = `<li class="tl-row tl-today" data-today>
+        <span class="tl-date">${esc(fmtDate(localIso(new Date())))}</span>
+        <span class="tl-rail"><span class="tl-dot dot-today"></span></span>
+        <div class="tl-body"><span class="edu-chip chip-yellow">${esc(t('today'))}</span></div>
+      </li>`;
+    let rows = '';
+    let lastYear = null;
+    let todayPlaced = false;
+    CLOCK.forEach(r => {
+      const st = clockStatus(r.date);
+      if (!todayPlaced && st !== 'inforce') { rows += todayRow; todayPlaced = true; }
+      const year = r.date.slice(0, 4);
+      if (year !== lastYear) {
+        rows += `<li class="tl-year"><span class="tl-ylabel">${year}</span><span class="tl-rail"></span></li>`;
+        lastYear = year;
+      }
+      rows += `<li class="tl-row" data-status="${st}">
+        <span class="tl-date">${esc(fmtDate(r.date))}</span>
+        <span class="tl-rail"><span class="tl-dot dot-${st}"></span></span>
+        <div class="tl-body">${chip(st)}<p>${esc(L(r.what))} ${refs(r.src)}</p></div>
+      </li>`;
+    });
+    if (!todayPlaced) rows += todayRow;
     return `<section class="sec" id="law" data-nav="law"><div class="wrap">
-      ${secHead(t('secLaw'))}
+      ${secHead(t('secLaw'), 'scale')}
       <p class="edu-body-lg sec-lead">${esc(t('lawLead'))}</p>
-      <div class="card table-card"><div class="card-body">
-        <table>
-          <thead><tr><th>${esc(t('thDate'))}</th><th>${esc(t('thWhat'))}</th><th>${esc(t('thStatus'))}</th><th>${esc(t('thSrc'))}</th></tr></thead>
-          <tbody>${CLOCK.map(r => {
-            const st = clockStatus(r.date);
-            return `<tr data-status="${st}"><td class="date">${esc(fmtDate(r.date))}</td><td>${esc(L(r.what))}</td><td>${chip(st)}</td><td>${refs(r.src)}</td></tr>`;
-          }).join('')}</tbody>
-        </table>
-      </div></div>
+      <div class="card">
+        <div class="card-head">
+          <span class="legend">
+            <span><span class="tl-dot dot-inforce"></span>${esc(t('stInForce'))}</span>
+            <span><span class="tl-dot dot-soon"></span>${esc(t('stSoon'))}</span>
+            <span><span class="tl-dot dot-later"></span>${esc(t('stLater'))}</span>
+          </span>
+        </div>
+        <div class="card-body"><ol class="tl">${rows}</ol></div>
+      </div>
     </div></section>`;
   }
 
   function renderOverview() {
+    const ticks = [0, 4, 8, 12, 16, 20, 26];
+    const tickLabel = w => w === 12 ? t('m3') : w === 26 ? t('m6') : String(w);
     return `<section class="sec" id="plan" data-nav="plan"><div class="wrap">
-      ${secHead(t('secPlan'))}
+      ${secHead(t('secPlan'), 'map')}
       <p class="edu-body-lg sec-lead">${esc(t('planLead'))}</p>
-      <div class="overview">${PHASES.map(p => `
-        <a class="card ov" href="#${p.id}" data-ov="${p.id}">
-          <div class="card-head"><span class="edu-chip chip-yellow">${esc(L(p.time))}</span><span class="count" data-count="${p.id}"></span></div>
-          <div class="card-body">
-            <p class="ov-title">${esc(L(p.title))}</p>
-            <p class="ov-text">${esc(L(p.summary))}</p>
-            <div class="ov-bar" aria-hidden="true"><span data-bar="${p.id}"></span></div>
-          </div>
-        </a>`).join('')}
+      <div class="card gantt">
+        <div class="card-head"><h3>${esc(t('ganttTitle'))}</h3><span class="count">${esc(t('ganttUnit'))}</span></div>
+        <div class="card-body">
+          <div class="g-axis" aria-hidden="true"><span></span><span class="g-scale">${ticks.map(w => `<span class="g-tick" style="left:${pos(w)}">${tickLabel(w)}</span>`).join('')}</span></div>
+          ${PHASES.map(p => `
+          <a class="g-row" href="#${p.id}" data-ov="${p.id}" title="${esc(L(p.title))} · ${esc(L(p.time))}">
+            <span class="g-label">${badge(p.icon, p.tone)}<span class="g-text"><span class="g-name">${esc(L(p.title))}</span><span class="g-time">${esc(L(p.time))}</span></span><span class="count" data-count="${p.id}"></span></span>
+            <span class="g-track"><span class="g-bar" style="left:${pos(p.span[0])};width:${pos(p.span[1] - p.span[0])}"><span class="g-fill" data-bar="${p.id}"></span>${p.open ? icon('arrow-right') : ''}</span></span>
+          </a>`).join('')}
+        </div>
       </div>
       <div class="controls">
         <div class="big-prog"><span class="prog-track" aria-hidden="true"><span class="prog-fill" id="bigProgFill"></span></span><span id="bigProgText"></span></div>
@@ -891,15 +1011,24 @@
 
   function renderPhase(p) {
     const actions = phaseActions(p);
-    return `<section class="sec phase" id="${p.id}" data-nav="plan" data-phase="${p.id}" data-total="${actions.length}">
+    return `<section class="sec phase" id="${p.id}" data-nav="plan" data-phase="${p.id}" data-tone="${p.tone}" data-total="${actions.length}">
       <div class="wrap">
-      ${secHead(L(p.title))}
-      <div class="sec-meta"><span class="edu-chip chip-yellow">${esc(L(p.time))}</span><span class="count" data-count="${p.id}"></span></div>
-      <p class="edu-body-lg sec-lead">${esc(L(p.intro))}</p>
+      ${secHead(L(p.title), p.icon, p.tone)}
+      <div class="phase-hero tone-${p.tone} edu-block">
+        <div>
+          <p class="edu-overline">${esc(L(p.time))}</p>
+          <p class="ph-intro">${esc(L(p.intro))}</p>
+        </div>
+        <div class="ph-side">
+          <div><span class="ph-num" data-count="${p.id}"></span><span class="ph-lbl">${esc(t('done'))}</span></div>
+          <div class="ph-bar" aria-hidden="true"><span data-bar="${p.id}"></span></div>
+          <div class="ph-meta">${p.streams.length} ${esc(t('streamsLbl'))} · ${L(p.gate).length} ${esc(t('gateLbl'))}</div>
+        </div>
+      </div>
       <div class="grid-2">${p.streams.map(s => `
         <details class="card stream" data-stream="${s.id}" ${state.collapsed.has(s.id) ? '' : 'open'}>
           <summary class="card-head">
-            <h3>${esc(L(s.title))}</h3>
+            <span class="tile-h">${badge(s.icon, p.tone)}<h3>${esc(L(s.title))}</h3></span>
             <span class="head-right"><span class="count" data-scount="${s.id}"></span>${CHEVRON}</span>
           </summary>
           <div class="card-body">
@@ -912,9 +1041,13 @@
           </div>
         </details>`).join('')}
       </div>
-      <div class="gate edu-block" data-gate="${p.id}">
-        <div><p class="edu-overline">${esc(t('gate'))}</p><h3>${esc(L(p.title))}</h3></div>
-        <div><ul>${L(p.gate).map(g => `<li>${esc(g)}</li>`).join('')}</ul><p class="then">${esc(t('gateThen'))}</p></div>
+      <div class="card gate-card" data-gate="${p.id}">
+        <div class="card-head">
+          <span class="tile-h">${badge('flag', 'ink')}<h3>${esc(t('gate'))}: ${esc(L(p.title))}</h3></span>
+          <span class="outcomes"><span class="edu-chip chip-green">${esc(t('outScale'))}</span><span class="edu-chip chip-yellow">${esc(t('outFix'))}</span><span class="edu-chip chip-red">${esc(t('outStop'))}</span></span>
+        </div>
+        <div class="card-body"><ul class="gate-list">${L(p.gate).map(g => `<li>${icon('circle-check')}<span>${esc(g)}</span></li>`).join('')}</ul></div>
+        <div class="card-foot">${esc(t('gateThen'))}</div>
       </div>
       </div>
     </section>`;
@@ -922,14 +1055,20 @@
 
   function renderAgents() {
     return `<section class="sec" id="agents" data-nav="agents"><div class="wrap">
-      ${secHead(t('secAgents'))}
+      ${secHead(t('secAgents'), 'bot')}
       <p class="edu-body-lg sec-lead">${esc(t('agentsLead'))}</p>
-      <div class="card table-card">
-        <div class="card-head"><h3>${esc(t('autonomyHead'))}</h3>${refs(['gAutonomy'])}</div>
-        <div class="card-body"><table>
-          <thead><tr><th>${esc(t('thLevel'))}</th><th>${esc(t('thDoes'))}</th><th>${esc(t('thControls'))}</th></tr></thead>
-          <tbody>${AUTONOMY.map(r => `<tr><td>${esc(L(r.level))}</td><td>${esc(L(r.does))}</td><td>${esc(L(r.controls))}</td></tr>`).join('')}</tbody>
-        </table></div>
+      <div class="ladder-axis"><span>${esc(t('lessAuto'))}</span><span class="axis-line"></span>${icon('arrow-right')}<span>${esc(t('moreAuto'))}</span>${refs(['gAutonomy'])}</div>
+      <div class="ladder">${AUTONOMY.map((r, i) => `
+        <div class="card rung" data-level="${i + 1}">
+          <div class="rung-head tone-${r.tone} edu-block">
+            <span class="rung-top">${icon(r.icon)}<span class="pips" aria-hidden="true">${AUTONOMY.map((_, j) => `<span class="pip${j <= i ? ' on' : ''}"></span>`).join('')}</span></span>
+            <h3>${esc(L(r.level))}</h3>
+          </div>
+          <div class="card-body">
+            <p class="edu-overline">${esc(t('thDoes'))}</p><p>${esc(L(r.does))}</p>
+            <p class="edu-overline">${esc(t('thControls'))}</p><p>${esc(L(r.controls))}</p>
+          </div>
+        </div>`).join('')}
       </div>
       <div class="grid-2 mt">
         <div class="panel-dark">
@@ -940,47 +1079,48 @@
           <p class="pd-foot">${esc(L(RULE_OF_TWO.foot))} ${refs(RULE_OF_TWO.src)}</p>
         </div>
         <div class="card">
-          <div class="card-head"><h3>${esc(t('toolsHead'))}</h3></div>
+          <div class="card-head"><span class="tile-h">${badge('key-round', 'blue')}<h3>${esc(t('toolsHead'))}</h3></span></div>
           <div class="card-body"><ul class="plain">${TOOL_RULES.map(r => `<li>${esc(L(r))} ${refs(r.src)}</li>`).join('')}</ul></div>
         </div>
       </div>
     </div></section>`;
   }
 
+  const tileCard = (ic, tone, title, body) => `
+    <div class="card tile"><div class="card-head"><span class="tile-h">${badge(ic, tone)}<h3>${esc(title)}</h3></span></div>
+    <div class="card-body"><p class="edu-small">${esc(body)}</p></div></div>`;
+
   function renderMeasure() {
     return `<section class="sec" id="measure" data-nav="measure"><div class="wrap">
-      ${secHead(t('secMeasure'))}
+      ${secHead(t('secMeasure'), 'chart-column')}
       <p class="edu-body-lg sec-lead">${esc(t('measureLead'))}</p>
-      <div class="card table-card"><div class="card-body"><table>
-        <thead><tr><th>${esc(t('thArea'))}</th><th>${esc(t('thMetric'))}</th></tr></thead>
-        <tbody>${KPIS.map(k => `<tr><td>${esc(L(k.area))}</td><td>${esc(L(k.metric))}</td></tr>`).join('')}</tbody>
-      </table></div></div>
+      <div class="grid-3">${KPIS.map(k => tileCard(k.icon, k.tone, L(k.area), L(k.metric))).join('')}</div>
       <div class="callout edu-block"><p>${esc(L(KPI_NOTE))} ${refs(KPI_NOTE.src)}</p></div>
     </div></section>`;
   }
 
   function renderIndustries() {
     return `<section class="sec" id="industries" data-nav="measure"><div class="wrap">
-      ${secHead(t('secIndustry'))}
-      <div class="grid-3">${INDUSTRIES.map(i => `
-        <div class="card"><div class="card-head"><h3>${esc(L(i.title))}</h3></div><div class="card-body"><p class="edu-small">${esc(L(i.text))}</p></div></div>`).join('')}
-      </div>
+      ${secHead(t('secIndustry'), 'building-2')}
+      <div class="grid-3">${INDUSTRIES.map(i => tileCard(i.icon, i.tone, L(i.title), L(i.text))).join('')}</div>
     </div></section>`;
   }
 
   function renderPitfalls() {
     return `<section class="sec" id="pitfalls" data-nav="measure"><div class="wrap">
-      ${secHead(t('secPitfalls'))}
-      <div class="card table-card"><div class="card-body"><table>
-        <thead><tr><th>${esc(t('thSymptom'))}</th><th>${esc(t('thFix'))}</th></tr></thead>
-        <tbody>${PITFALLS.map(r => `<tr><td>${esc(L(r.symptom))}</td><td>${esc(L(r.fix))}</td></tr>`).join('')}</tbody>
-      </table></div></div>
+      ${secHead(t('secPitfalls'), 'triangle-alert')}
+      <div class="grid-2">${PITFALLS.map(r => `
+        <div class="card pit">
+          <div class="card-head"><span class="tile-h">${badge('triangle-alert', 'red')}<h3>${esc(L(r.symptom))}</h3></span></div>
+          <div class="card-body pit-fix">${badge('circle-check', 'green')}<p>${esc(L(r.fix))}</p></div>
+        </div>`).join('')}
+      </div>
     </div></section>`;
   }
 
   function renderSources() {
     return `<section class="sec" id="sources" data-nav="sources"><div class="wrap">
-      ${secHead(t('secSources'))}
+      ${secHead(t('secSources'), 'book-open')}
       <p class="sec-lead edu-small">${esc(t('sourcesLead'))}</p>
       <ol class="sources">${SOURCES.map((s, i) => `
         <li id="src-${i + 1}"><a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a><br><span class="src-meta">${esc(s.org)} · ${esc(s.date)}</span></li>`).join('')}
@@ -997,6 +1137,7 @@
     updateProgress();
     updateToggleLabel();
     observeNav();
+    drawIcons();
   }
 
   function updateProgress() {
@@ -1018,8 +1159,7 @@
       const list = phaseActions(ph);
       const d = countDone(list);
       document.querySelectorAll(`[data-count="${ph.id}"]`).forEach(el => { el.textContent = `${d}/${list.length}`; });
-      const bar = document.querySelector(`[data-bar="${ph.id}"]`);
-      if (bar) bar.style.width = pct(d, list.length) + '%';
+      document.querySelectorAll(`[data-bar="${ph.id}"]`).forEach(el => { el.style.width = pct(d, list.length) + '%'; });
       const sec = document.getElementById(ph.id);
       if (sec) sec.dataset.done = d;
       ph.streams.forEach(s => {
@@ -1151,6 +1291,14 @@
       if (!usedSrc.has(s.id)) errors.push(`unused source ${s.id}`);
       if (!/^https:\/\//.test(s.url)) errors.push(`non-https source ${s.id}`);
     });
+    const TONES = ['grape', 'blue', 'yellow', 'green', 'red', 'ink', 'stone'];
+    PHASES.forEach(p => {
+      if (!TONES.includes(p.tone) || !p.icon || !Array.isArray(p.span)) errors.push(`phase ${p.id} missing tone/icon/span`);
+      p.streams.forEach(s => { if (!s.icon) errors.push(`stream ${s.id} missing icon`); });
+    });
+    [...AUTONOMY, ...KPIS, ...INDUSTRIES].forEach((x, i) => { if (!TONES.includes(x.tone) || !x.icon) errors.push(`tile ${i} missing tone/icon`); });
+    if (document.querySelectorAll('[data-today]').length !== 1) errors.push('today marker missing or duplicated');
+    if (window.lucide && document.querySelector('main i[data-lucide]')) errors.push('icons not drawn');
     const boxes = document.querySelectorAll('input[data-action]').length;
     if (boxes !== ids.length) errors.push(`checkbox count ${boxes} != actions ${ids.length}`);
     if (String(ids.length) !== document.body.dataset.total) errors.push('body[data-total] out of sync');
