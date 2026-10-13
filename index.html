@@ -1,986 +1,1228 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl" data-lang="pl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Interactive AI Implementation Roadmap</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Mapa wdrożenia AI 2026</title>
+  <meta name="description" content="AI implementation roadmap for 2026: five phases from ownership and AI inventory to governed agents in production, with the amended EU AI Act timeline, Poland's AI law, evals, agent security and FinOps. Polish and English.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23FFD500'/%3E%3Cg fill='none' stroke='%231C1917' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='6' cy='19' r='3'/%3E%3Cpath d='M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15'/%3E%3Ccircle cx='18' cy='5' r='3'/%3E%3C/g%3E%3C/svg%3E">
+
+  <!-- ─── edustyl head: fonts + boot gate ─── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap">
   <style>
-    /* Grayscale color scheme */
-    body {
-      background-color: #f8f8f8;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      color: #343a40;
-      scroll-behavior: smooth;
+    @keyframes boot-reveal { to { visibility: visible; } }
+    html:not(.app-ready) body { visibility: hidden; animation: boot-reveal 0s 4s forwards; }
+    @media print { html:not(.app-ready) body { visibility: visible; animation: none; } }
+  </style>
+  <noscript><style>html:not(.app-ready) body { visibility: visible; animation: none; }</style></noscript>
+
+  <style>
+    /* ─── edulab tokens (edustyl tokens/colors_and_type.css) ─── */
+    :root {
+      --font-display: 'Outfit', 'IBM Plex Sans', system-ui, sans-serif;
+      --font-sans:    'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+      --font-mono:    'Roboto Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+      --paper:    #FFFFFF;
+      --paper-2:  #F5F3F0;
+      --paper-3:  #EAE6E0;
+      --surface:  #FFFFFF;
+
+      --ink:      #1C1917;
+      --ink-2:    #44403C;
+      --ink-3:    #625B53;
+      --line:     #E0DBD3;
+      --line-2:   #C9C2B7;
+      --line-strong: #857C69;
+
+      --yellow:      #FFD500;
+      --yellow-600:  #F0C800;
+      --yellow-soft: #FFD500;
+      --yellow-ink:  #1C1917;
+
+      --blue:      #1E8FC2;
+      --blue-600:  #177AA8;
+      --blue-soft: #177AA8;
+      --blue-ink:  #FFFFFF;
+
+      --green:      #00A651;
+      --green-600:  #078342;
+      --green-soft: #078342;
+      --green-ink:  #FFFFFF;
+
+      --red:      #E5322D;
+      --red-600:  #C92823;
+      --red-soft: #C92823;
+      --red-ink:  #FFFFFF;
+
+      --bg:        var(--paper);
+      --fg:        var(--ink);
+      --fg-muted:  var(--ink-2);
+      --primary:   var(--yellow);
+      --on-primary:#1C1917;
+      --focus-ring: 0 0 0 2px var(--paper), 0 0 0 5px var(--ink);
+      --track: color-mix(in srgb, var(--ink) 24%, transparent);
+      --on-dark-muted: color-mix(in srgb, var(--paper) 62%, transparent);
+      --on-dark-line:  color-mix(in srgb, var(--paper) 14%, transparent);
+
+      --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+      --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+      --sp-12: 48px; --sp-16: 64px; --sp-20: 80px; --sp-24: 96px;
+
+      --r-xs: 6px; --r-sm: 10px; --r-md: 14px; --r-lg: 20px; --r-xl: 28px; --r-pill: 999px;
+
+      --shadow-sm: 0 1px 2px rgba(33,30,26,.10), 0 2px 6px rgba(33,30,26,.06);
+      --shadow-md: 0 6px 18px rgba(33,30,26,.12), 0 1px 3px rgba(33,30,26,.08);
+      --shadow-lg: 0 16px 40px rgba(33,30,26,.12), 0 3px 8px rgba(33,30,26,.06);
+      --shadow-primary:  0 8px 22px color-mix(in srgb, var(--yellow) 30%, transparent);
+
+      --display-font:  clamp(48px, 6vw, 72px);
+      --h1: 44px; --h2: 33px; --h3: 25px; --h4: 19px;
+      --body-lg: 18px; --body: 16px; --body-sm: 14px;
+      --caption: 13px; --overline: 12px;
+
+      /* page-level layout tokens */
+      --wrap: 1100px;
+      --gutter: 30px;
+      --stat-value: 38px;
+      --card-title: 20px;
     }
-    header, .footer, .navbar {
-      background-color: #343a40;
+
+    :where(.edu) h1, .edu-h1 { font-family: var(--font-display); font-weight: 700; font-size: var(--h1); line-height: 1.06; letter-spacing: -0.02em; color: var(--ink); }
+    :where(.edu) h2, .edu-h2 { font-family: var(--font-display); font-weight: 700; font-size: var(--h2); line-height: 1.12; letter-spacing: -0.015em; color: var(--ink); }
+    :where(.edu) h3, .edu-h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--h3); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+    :where(.edu) p, .edu-p { font-family: var(--font-sans); font-weight: 400; font-size: var(--body); line-height: 1.6; color: var(--ink-2); }
+    .edu-body-lg { font-family: var(--font-sans); font-size: var(--body-lg); line-height: 1.6; color: var(--ink-2); }
+    .edu-small  { font-family: var(--font-sans); font-size: var(--body-sm); line-height: 1.5; color: var(--ink-2); }
+    .edu-overline { font-family: var(--font-mono); font-weight: 500; font-size: var(--overline); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+    .edu-block, .edu-block h1, .edu-block h2, .edu-block h3, .edu-block h4, .edu-block p, .edu-block li, .edu-block small { color: inherit; }
+    body.edu { background: var(--paper); color: var(--ink); font-family: var(--font-sans); }
+
+    /* ─── Base ─── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body { margin: 0; font-size: var(--body); line-height: 1.6; }
+    a { color: var(--ink); text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+    a:hover { text-decoration-color: var(--ink); }
+    :focus-visible { outline: 3px solid transparent; outline-offset: 2px; box-shadow: var(--focus-ring); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    .skip { position: absolute; left: 16px; top: -60px; z-index: 100; background: var(--yellow); color: var(--yellow-ink); padding: 10px 16px; border-radius: var(--r-pill); font-weight: 600; }
+    .skip:focus { top: 12px; }
+
+    /* ─── Top menu ─── */
+    .edu-header { position: sticky; top: 0; z-index: 50; width: 100%; background: var(--paper); border-bottom: 1px solid var(--line-2); }
+    .edu-header-inner { max-width: var(--wrap); margin: 0 auto; padding: 8px var(--gutter); display: flex; align-items: center; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .edu-logo { width: 64px; height: 64px; display: block; margin-right: -6px; }
+    .edu-wordmark { font-family: var(--font-display); font-weight: 700; font-size: 22px; letter-spacing: -.02em; color: var(--ink); }
+    .nav { display: flex; gap: 2px; list-style: none; margin: 0 0 0 18px; padding: 0; }
+    .nav a { display: block; padding: 8px 12px; border-radius: var(--r-pill); color: var(--ink-2); text-decoration: none; font-weight: 500; font-size: 15px; transition: background-color .15s; }
+    .nav a:hover { background: var(--paper-2); }
+    .nav a.active { background: var(--yellow); color: var(--yellow-ink); font-weight: 600; }
+    .head-tools { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+    .prog { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--ink); text-decoration: none; }
+    .prog-track { width: 88px; height: 8px; background: var(--paper-3); border-radius: var(--r-pill); overflow: hidden; }
+    .prog-fill { height: 100%; width: 0; background: var(--yellow); border-radius: var(--r-pill); transition: width .3s; }
+    .edu-seg { display: inline-flex; gap: 2px; padding: 3px; background: var(--paper-2); border-radius: var(--r-pill); }
+    .edu-seg button { border: none; background: transparent; padding: 6px 12px; border-radius: var(--r-pill); font-family: var(--font-sans); font-weight: 600; font-size: 14px; color: var(--ink-2); cursor: pointer; }
+    .edu-seg button[aria-pressed="true"] { background: var(--yellow); color: var(--yellow-ink); }
+
+    /* ─── Page header ─── */
+    .page-head { max-width: var(--wrap); margin: 0 auto; padding: 44px var(--gutter) 36px; text-align: left; border-bottom: 1px solid var(--line-2); }
+    .page-head:has(+ main) { border-bottom: none; padding-bottom: 52px; }
+    .app-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.3rem, 5vw, 3.3rem); letter-spacing: -.025em; line-height: 1.05; color: var(--ink); margin: 0 0 14px; }
+    .edu-lead { font-size: 1.15rem; line-height: 1.6; color: var(--ink-2); margin: 0; }
+    .asof { margin: 14px 0 0; font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); }
+
+    /* ─── Section bands ─── */
+    main { margin: 0; padding: 0; }
+    .sec { margin: 0; padding: 52px 0 60px; border-top: 1px solid var(--line); }
+    .sec:nth-of-type(odd) { background: var(--paper-2); }
+    .sec > .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+    .sec-head { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+    .sec-head h2 { margin: 0; }
+    .sec-head::after { content: ""; flex: 1; height: 1px; background: var(--line-2); }
+    .sec-lead { margin: 0 0 26px; }
+    .sec-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 14px; }
+
+    /* ─── Chips ─── */
+    .edu-chip { display: inline-block; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; padding: 4px 10px; border-radius: var(--r-pill); background: var(--blue-soft); color: var(--blue-ink); white-space: nowrap; }
+    .chip-yellow { background: var(--yellow-soft); color: var(--yellow-ink); }
+    .chip-green  { background: var(--green-soft);  color: var(--green-ink); }
+    .chip-red    { background: var(--red-soft);    color: var(--red-ink); }
+    .chip-stone  { background: var(--paper-3);     color: var(--ink); }
+    .count { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+
+    /* ─── Stat blocks ─── */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .stat { border-radius: var(--r-lg); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; }
+    .stat-yellow { background: var(--yellow-soft); color: var(--yellow-ink); }
+    .stat-blue   { background: var(--blue-soft);   color: var(--blue-ink); }
+    .stat-green  { background: var(--green-soft);  color: var(--green-ink); }
+    .stat-ink    { background: var(--ink);         color: var(--paper); }
+    .stat-value { font-family: var(--font-display); font-weight: 700; font-size: var(--stat-value); line-height: 1.05; letter-spacing: -.02em; }
+    .stat-ink .stat-value { color: var(--yellow); }
+    .stat p { margin: 0; font-size: 15px; line-height: 1.5; flex: 1; }
+    .stat .refs, .stat .refs a { color: inherit; }
+
+    /* ─── Cards ─── */
+    .card { background: var(--surface); border: 1px solid var(--line-2); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden; display: flex; flex-direction: column; }
+    .card-head { padding: 14px 22px; background: var(--paper-2); border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .card-head h3 { margin: 0; font-size: var(--card-title); }
+    .card-body { padding: 18px 22px; flex: 1; }
+    .card-body > :first-child { margin-top: 0; }
+    .card-body > :last-child { margin-bottom: 0; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; align-items: start; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .mt { margin-top: 18px; }
+
+    /* collapsible stream card */
+    details.card > summary { list-style: none; cursor: pointer; }
+    details.card > summary::-webkit-details-marker { display: none; }
+    details.card:not([open]) > summary { border-bottom: none; }
+    .chev { width: 18px; height: 18px; flex: none; color: var(--ink-2); transition: transform .2s; }
+    details[open] .chev { transform: rotate(180deg); }
+    details.card > summary:focus-visible { box-shadow: inset 0 0 0 3px var(--ink); }
+    .head-right { display: flex; align-items: center; gap: 10px; }
+
+    /* ─── Overview cards ─── */
+    .overview { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+    a.ov { text-decoration: none; color: inherit; transition: box-shadow .15s; }
+    a.ov:hover { box-shadow: var(--shadow-md); }
+    a.ov .card-head { padding: 10px 16px; }
+    a.ov .card-body { padding: 14px 16px 16px; }
+    .ov-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; line-height: 1.2; color: var(--ink); margin: 0 0 6px; }
+    .ov-text { font-size: var(--body-sm); line-height: 1.45; color: var(--ink-2); margin: 0; }
+    .ov-bar { height: 6px; margin-top: 12px; background: var(--paper-3); border-radius: var(--r-pill); overflow: hidden; }
+    .ov-bar span { display: block; height: 100%; width: 0; background: var(--yellow); border-radius: var(--r-pill); transition: width .3s; }
+    .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 22px; }
+    .controls .spacer { flex: 1; }
+    .big-prog { display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 13px; color: var(--ink); }
+    .big-prog .prog-track { width: 180px; height: 10px; }
+
+    /* ─── Buttons ─── */
+    .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); border-radius: var(--r-pill); padding: 9px 18px; font-family: var(--font-display); font-weight: 600; font-size: 15px; cursor: pointer; transition: background-color .15s; }
+    .btn-ghost:hover { background: var(--paper-3); }
+    .btn-ghost.armed { background: var(--red-soft); color: var(--red-ink); border-color: var(--red-soft); }
+
+    /* ─── Checklist ─── */
+    .checklist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .checklist li { display: flex; align-items: flex-start; gap: 6px; }
+    .check { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; flex: 1; position: relative; color: var(--ink-2); line-height: 1.5; }
+    .check input { position: absolute; opacity: 0; width: 22px; height: 22px; margin: 0; cursor: pointer; }
+    .box { flex: none; width: 22px; height: 22px; margin-top: 1px; border: 1.5px solid var(--line-strong); border-radius: var(--r-xs); background: var(--surface); display: grid; place-items: center; transition: background-color .15s; }
+    .box::after { content: ""; width: 6px; height: 11px; border: solid var(--yellow-ink); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg) translate(-1px, -1px); opacity: 0; }
+    .check input:checked + .box { background: var(--yellow); border-color: var(--yellow-ink); }
+    .check input:checked + .box::after { opacity: 1; }
+    .check input:checked ~ .txt { color: var(--ink-3); }
+    .check input:focus-visible + .box { box-shadow: var(--focus-ring); }
+    .refs { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); white-space: nowrap; padding-top: 2px; }
+    .refs a { color: var(--ink-3); text-decoration: none; }
+    .refs a:hover { text-decoration: underline; color: var(--ink); }
+
+    /* ─── Gate & callouts ─── */
+    .gate { margin-top: 18px; border-radius: var(--r-xl); padding: 26px 30px; background: var(--blue-soft); color: var(--blue-ink); display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
+    .gate .edu-overline { color: inherit; margin: 0 0 6px; }
+    .gate h3 { margin: 0; font-size: 22px; }
+    .gate ul { margin: 0; padding-left: 20px; }
+    .gate li { margin: 4px 0; line-height: 1.5; }
+    .gate .then { margin: 12px 0 0; font-weight: 600; }
+    .callout { margin-top: 18px; border-radius: var(--r-md); padding: 16px 20px; background: var(--yellow-soft); color: var(--yellow-ink); }
+    .callout p { margin: 0; }
+    .callout .refs, .callout .refs a { color: inherit; }
+
+    /* dark data panel */
+    .panel-dark { background: var(--ink); color: var(--paper); border-radius: var(--r-xl); padding: 28px 30px; }
+    .panel-dark .edu-overline { color: var(--on-dark-muted); margin: 0 0 8px; }
+    .panel-dark h3 { color: var(--paper); margin: 0 0 14px; font-size: 22px; }
+    .panel-dark p { color: var(--paper); margin: 0 0 14px; }
+    .pd-row { display: flex; gap: 14px; align-items: baseline; padding: 11px 0; border-top: 1px solid var(--on-dark-line); font-size: 15px; }
+    .pd-row b { font-family: var(--font-display); font-weight: 600; font-size: 20px; color: var(--yellow); width: 18px; flex: none; }
+    .panel-dark .pd-foot { margin: 14px 0 0; padding-top: 14px; border-top: 1px solid var(--on-dark-line); color: var(--on-dark-muted); font-size: var(--body-sm); }
+    .panel-dark .refs, .panel-dark .refs a { color: var(--on-dark-muted); }
+    .plain { margin: 0; padding-left: 20px; color: var(--ink-2); }
+    .plain li { margin: 6px 0; line-height: 1.5; }
+
+    /* ─── Tables ─── */
+    .table-card .card-body { padding: 0; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    th { text-align: left; padding: 12px 16px; background: var(--paper-3); border-bottom: 1px solid var(--line-2); font-family: var(--font-mono); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--ink); }
+    td { padding: 12px 16px; border-bottom: 1px solid var(--line); color: var(--ink-2); vertical-align: top; line-height: 1.5; }
+    tbody tr:nth-child(even) td { background: var(--paper-2); }
+    tbody tr:last-child td { border-bottom: none; }
+    td:first-child { color: var(--ink); font-weight: 600; }
+    td.date { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+    /* ─── Sources ─── */
+    .sources { margin: 0; padding-left: 28px; columns: 2; column-gap: 36px; font-size: var(--body-sm); color: var(--ink-2); }
+    .sources li { break-inside: avoid; margin: 0 0 10px; line-height: 1.45; scroll-margin-top: 110px; }
+    .sources li:target { background: var(--yellow); color: var(--yellow-ink); border-radius: var(--r-xs); }
+    .sources .src-meta { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); }
+    .sources li:target .src-meta { color: var(--yellow-ink); }
+
+    /* ─── Footer ─── */
+    .foot { border-top: 1px solid var(--line-2); }
+    .foot-inner { max-width: var(--wrap); margin: 0 auto; padding: 26px var(--gutter) 40px; display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: space-between; font-size: var(--body-sm); color: var(--ink-3); }
+    .foot kbd { font-family: var(--font-mono); font-size: 12px; background: var(--paper-3); color: var(--ink); border-radius: var(--r-xs); padding: 1px 6px; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 1080px) {
+      .overview { grid-template-columns: repeat(3, 1fr); }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .nav a { padding: 8px 9px; }
     }
-    header h1, header p, .footer, .navbar-brand, .nav-link {
-      color: #fff;
+    @media (max-width: 900px) { .nav { display: none; } }
+    @media (max-width: 768px) {
+      :root { --gutter: 16px; --stat-value: 32px; }
+      .edu-logo { width: 48px; height: 48px; }
+      .edu-header-inner { padding: 6px var(--gutter); }
+      .head-tools .prog-track { display: none; }
+      .page-head { padding: 28px var(--gutter) 32px; }
+      .sec { padding: 36px 0 44px; }
+      .sec-head { flex-direction: column; align-items: stretch; gap: 12px; }
+      .sec-head::after { flex: none; width: 100%; }
+      :where(.edu) h2 { font-size: 28px; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .overview { grid-template-columns: 1fr 1fr; }
+      .gate { grid-template-columns: 1fr; gap: 12px; padding: 22px; }
+      .sources { columns: 1; }
+      /* tables stack into one block per row */
+      .table-card thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+      .table-card table, .table-card tbody, .table-card tr, .table-card td { display: block; }
+      .table-card tr { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+      .table-card tbody tr:last-child { border-bottom: none; }
+      .table-card tbody tr:nth-child(even) { background: var(--paper-2); }
+      .table-card td { padding: 2px 0; border: none; background: transparent !important; }
+      .table-card td.date, .table-card td:has(> .edu-chip) { display: inline-block; margin: 0 8px 6px 0; vertical-align: middle; }
+      .big-prog .prog-track { width: 120px; }
     }
-    .navbar {
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
+    @media (max-width: 480px) {
+      .stats, .overview { grid-template-columns: 1fr; }
+      .edu-wordmark { font-size: 19px; }
+      .head-tools { gap: 8px; }
     }
-    .nav-link:hover, .navbar-brand:hover {
-      color: #adb5bd;
-      transform: translateY(-2px);
-    }
-    .phase {
-      background-color: #fff;
-      margin-bottom: 2rem;
-      padding: 2rem;
-      border-radius: 0.75rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transition: all 0.3s ease;
-      border-left: 5px solid #343a40;
-    }
-    .phase:hover {
-      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-      transform: translateY(-3px);
-    }
-    .phase h2 {
-      color: #343a40;
-      font-weight: 600;
-      margin-bottom: 1.25rem;
-      border-bottom: 2px solid #f8f8f8;
-      padding-bottom: 0.75rem;
-    }
-    .phase h3 {
-      color: #495057;
-      font-weight: 500;
-      margin-top: 1rem;
-    }
-    .accordion-button {
-      background-color: #f8f8f8;
-      color: #343a40;
-      font-weight: 500;
-      border-left: 3px solid #6c757d;
-      transition: all 0.2s ease;
-    }
-    .accordion-button:not(.collapsed) {
-      background-color: #e9ecef;
-      color: #212529;
-      border-left: 3px solid #343a40;
-    }
-    .accordion-button:hover {
-      background-color: #e9ecef;
-    }
-    .accordion-body {
-      background-color: #fff;
-      border-left: 3px solid #e9ecef;
-    }
-    pre {
-      background: #e9ecef;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      overflow-x: auto;
-    }
-    .lead {
-      letter-spacing: 0.5px;
-    }
-    .footer {
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-    /* Fade in animation for page elements */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .phase {
-      animation: fadeIn 0.5s ease forwards;
+    @media print {
+      .edu-header, .controls, .skip { display: none; }
     }
   </style>
 </head>
-<body>
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-robot me-2" viewBox="0 0 16 16">
-          <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.6 26.6 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.93.93 0 0 1-.765.935c-.845.147-2.34.346-4.235.346s-3.39-.2-4.235-.346A.93.93 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a24.8 24.8 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135"/>
-          <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5"/>
-        </svg>
-        AI Roadmap
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#phase1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-1-circle me-1" viewBox="0 0 16 16">
-                <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M9.283 4.002V12H7.971V5.338h-.065L6.072 6.656V5.385l1.899-1.383z"/>
-              </svg>
-              Phase 1
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#phase2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-2-circle me-1" viewBox="0 0 16 16">
-                <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.646 6.24v.07H5.375v-.064c0-1.213.879-2.402 2.637-2.402 1.582 0 2.613.949 2.613 2.215 0 1.002-.6 1.667-1.287 2.43l-.096.107-1.974 2.22v.077h3.498V12H5.422v-.832l2.97-3.293c.434-.475.903-1.008.903-1.705 0-.744-.557-1.236-1.313-1.236-.843 0-1.336.615-1.336 1.306"/>
-              </svg>
-              Phase 2
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#phase3">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-3-circle me-1" viewBox="0 0 16 16">
-                <path d="M7.918 8.414h-.879V7.342h.838c.78 0 1.348-.522 1.342-1.237 0-.709-.563-1.195-1.348-1.195-.79 0-1.312.498-1.348 1.055H5.275c.036-1.137.95-2.115 2.625-2.121 1.594-.012 2.608.885 2.637 2.062.023 1.137-.885 1.776-1.482 1.875v.07c.703.07 1.71.64 1.734 1.917.024 1.459-1.277 2.396-2.93 2.396-1.705 0-2.707-.967-2.754-2.144H6.33c.059.597.68 1.06 1.541 1.066.973.006 1.6-.563 1.588-1.354-.006-.779-.621-1.318-1.541-1.318Z"/>
-                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8"/>
-              </svg>
-              Phase 3
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#phase4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-4-circle me-1" viewBox="0 0 16 16">
-                <path d="M7.519 5.057c.22-.352.439-.703.657-1.055h1.933v5.332h1.008v1.107H10.11V12H8.85v-1.559H4.978V9.322c.77-1.427 1.656-2.847 2.542-4.265ZM6.225 9.281v.053H8.85V5.063h-.065c-.867 1.33-1.787 2.806-2.56 4.218Z"/>
-                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8"/>
-              </svg>
-              Phase 4
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#ongoing">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-infinity me-1" viewBox="0 0 16 16">
-                <path d="M5.68 5.792 7.345 7.75 5.681 9.708a2.75 2.75 0 1 1 0-3.916ZM8 6.978 6.416 5.113l-.014-.015a3.75 3.75 0 1 0 0 5.304l.014-.015L8 8.522l1.584 1.865.014.015a3.75 3.75 0 1 0 0-5.304l-.014.015zm.656.772 1.663-1.958a2.75 2.75 0 1 1 0 3.916z"/>
-              </svg>
-              Ongoing
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#challenges">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle me-1" viewBox="0 0 16 16">
-                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
-                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
-              </svg>
-              Challenges
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#industry">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building me-1" viewBox="0 0 16 16">
-                <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
-                <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>
-              </svg>
-              Industry
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#success">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up me-1" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
-              </svg>
-              Success
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#conclusion">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle me-1" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
-              </svg>
-              Conclusion
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+<body class="edu" data-done="0" data-total="0">
+  <a class="skip" href="#main" data-t="skip">Przejdź do treści</a>
 
-  <!-- Header -->
-  <header class="py-5 mb-4 text-center">
-    <div class="container">
-      <h1 class="display-4">
-        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-robot mb-3" viewBox="0 0 16 16">
-          <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.6 26.6 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.93.93 0 0 1-.765.935c-.845.147-2.34.346-4.235.346s-3.39-.2-4.235-.346A.93.93 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a24.8 24.8 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135"/>
-          <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5"/>
-        </svg>
-        <br>Interactive AI Implementation Roadmap
-      </h1>
-      <p class="lead">A step-by-step guide to implementing AI in your organization</p>
+  <!-- ─── Top menu ─── -->
+  <header class="edu-header">
+    <div class="edu-header-inner">
+      <a class="brand" href="#top" aria-label="edulab">
+        <img class="edu-logo" alt="" src="data:image/png;base64,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">
+        <span class="edu-wordmark">edulab</span>
+      </a>
+      <nav id="navWrap">
+        <ul class="nav" id="nav"></ul>
+      </nav>
+      <div class="head-tools">
+        <a class="prog" href="#plan" id="headProg" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <span class="prog-track"><span class="prog-fill" id="headProgFill"></span></span>
+          <span id="headProgText">0/0</span>
+        </a>
+        <div class="edu-seg" role="group" id="langSeg">
+          <button type="button" data-lang-btn="pl" aria-pressed="true">PL</button>
+          <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <div class="container">
-    <!-- Phase 1: Foundation -->
-    <div class="phase" id="phase1">
-      <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-building-fill-gear me-2" viewBox="0 0 16 16">
-          <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7.256A4.5 4.5 0 0 0 12.5 8a4.5 4.5 0 0 0-3.59 1.787A.5.5 0 0 0 9 9.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .39-.187A4.5 4.5 0 0 0 8.5 13v.5a.5.5 0 0 1-.5.5H12a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.5-.5V9h-.5a.5.5 0 0 1-.5-.5v-.5a.5.5 0 0 1 .5-.5H6V7h-.5a.5.5 0 0 1-.5-.5V6H4.5a.5.5 0 0 1-.5-.5V5H3V1.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 .5.5V2H5a.5.5 0 0 1 .5.5V3H6a.5.5 0 0 1 .5.5V4h.5a.5.5 0 0 1 .5.5V5h.5a.5.5 0 0 1 .5.5V6H9a.5.5 0 0 1 .5.5V7h.5a.5.5 0 0 1 .5.5v.5a.5.5 0 0 1-.5.5H9v.5a.5.5 0 0 1-.5.5H8v.5a.5.5 0 0 1-.5.5H7v-6.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v6.5H4.5a.5.5 0 0 1-.5-.5V10H3.5a.5.5 0 0 1-.5-.5V9H2V2Z"/>
-          <path d="M8.5 14.25a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5m.5-5.25a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5m1.655 2.565 1.156 1.156a.75.75 0 0 1-1.06 1.06l-1.156-1.156a2.5 2.5 0 0 1-.35.267V14.5a.75.75 0 0 1-1.5 0v-.911a2.5 2.5 0 0 1-1.404-3.958.75.75 0 0 1 1.06 1.06 1 1 0 1 0 1.516-.832.75.75 0 0 1 1.456-.364l.001.006a2.5 2.5 0 0 1-.636 2.509.75.75 0 0 1-.333.215"/>
-        </svg>
-        Phase 1: Foundation <span class="text-muted">(Weeks 1-2)</span>
-      </h2>
-      <div class="mb-3">
-        <h3>Week 1: Strategic Planning</h3>
-        <div class="accordion" id="accordionPhase1Week1">
-          <!-- Leadership Alignment -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne1">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne1" aria-expanded="false" aria-controls="collapseOne1">
-                Leadership Alignment
-              </button>
-            </h2>
-            <div id="collapseOne1" class="accordion-collapse collapse" aria-labelledby="headingOne1" data-bs-parent="#accordionPhase1Week1">
-              <div class="accordion-body">
-                <ul>
-                  <li>Secure executive sponsorship with clear responsibilities</li>
-                  <li>Establish budget parameters for initial implementation</li>
-                  <li>Draft preliminary AI policy addressing security, privacy, ethics, and transparency</li>
-                  <li>Create a communication plan to announce the initiative</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- AI Champions Selection -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo1">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo1" aria-expanded="false" aria-controls="collapseTwo1">
-                AI Champions Selection
-              </button>
-            </h2>
-            <div id="collapseTwo1" class="accordion-collapse collapse" aria-labelledby="headingTwo1" data-bs-parent="#accordionPhase1Week1">
-              <div class="accordion-body">
-                <ul>
-                  <li>Identify 2-3 AI champions per department based on technical aptitude, influence, and openness to innovation</li>
-                  <li>Allocate official time (5-10 hours/week) for champions' AI responsibilities</li>
-                  <li>Create dedicated communication channels and schedule weekly meetings</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Goal Setting & Success Metrics -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree1">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree1" aria-expanded="false" aria-controls="collapseThree1">
-                Goal Setting & Success Metrics
-              </button>
-            </h2>
-            <div id="collapseThree1" class="accordion-collapse collapse" aria-labelledby="headingThree1" data-bs-parent="#accordionPhase1Week1">
-              <div class="accordion-body">
-                <ul>
-                  <li>Establish SMART goals for AI implementation</li>
-                  <li>Define specific KPIs such as time saved, cost savings, quality improvements, and adoption rates</li>
-                  <li>Create baseline measurements of current performance</li>
-                  <li>Set up tracking mechanisms for measuring progress</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mb-3">
-        <h3>Week 2: Use Case Selection & Planning</h3>
-        <div class="accordion" id="accordionPhase1Week2">
-          <!-- Use Case Identification -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne2">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="false" aria-controls="collapseOne2">
-                Use Case Identification
-              </button>
-            </h2>
-            <div id="collapseOne2" class="accordion-collapse collapse" aria-labelledby="headingOne2" data-bs-parent="#accordionPhase1Week2">
-              <div class="accordion-body">
-                <ul>
-                  <li>Conduct department meetings to identify high-value, low-risk initial use cases using a criteria matrix</li>
-                  <li>Select 2-3 initial use cases with the highest scores</li>
-                  <li>Document current processes with pain points and bottlenecks</li>
-                  <li>Map out how AI could address these pain points</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Tool Selection -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo2">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2">
-                Tool Selection
-              </button>
-            </h2>
-            <div id="collapseTwo2" class="accordion-collapse collapse" aria-labelledby="headingTwo2" data-bs-parent="#accordionPhase1Week2">
-              <div class="accordion-body">
-                <ul>
-                  <li>Evaluate AI tools based on security, functionality, integration capabilities, pricing, and training requirements</li>
-                  <li>Shortlist 2-3 tools for the initial pilot</li>
-                  <li>Request demos using scenarios based on your specific use cases</li>
-                  <li>Initiate the procurement process with IT and legal review</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Implementation Planning -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree2">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree2" aria-expanded="false" aria-controls="collapseThree2">
-                Implementation Planning
-              </button>
-            </h2>
-            <div id="collapseThree2" class="accordion-collapse collapse" aria-labelledby="headingThree2" data-bs-parent="#accordionPhase1Week2">
-              <div class="accordion-body">
-                <ul>
-                  <li>Create detailed implementation plans for each use case with process maps, timelines, and resource requirements</li>
-                  <li>Develop a communication plan for organization-wide announcement</li>
-                  <li>Schedule training sessions for pilot participants</li>
-                  <li>Create a risk register with mitigation strategies</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <header class="page-head" id="top"></header>
+  <main id="main"></main>
 
-    <!-- Phase 2: Pilot Program -->
-    <div class="phase" id="phase2">
-      <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-rocket-takeoff me-2" viewBox="0 0 16 16">
-          <path d="M9.752 6.193c.599.6 1.73.437 2.528-.362s.96-1.932.362-2.531c-.599-.6-1.73-.438-2.528.361-.798.8-.96 1.933-.362 2.532"/>
-          <path d="M15.811 3.312c-.363 1.534-1.334 3.626-3.64 6.218l-.24 2.408a2.56 2.56 0 0 1-.732 1.526L8.817 15.85a.51.51 0 0 1-.867-.434l.27-1.899c.04-.28-.013-.593-.131-.956a9 9 0 0 0-.249-.657l-.082-.202c-.815-.197-1.578-.662-2.191-1.277-.614-.615-1.079-1.379-1.275-2.195l-.203-.083a10 10 0 0 0-.655-.248c-.363-.119-.675-.172-.955-.132l-1.896.27A.51.51 0 0 1 .15 7.17l2.382-2.386c.41-.41.947-.67 1.524-.734h.006l2.4-.238C9.005 1.55 11.087.582 12.623.208c.89-.217 1.59-.424 2.053-.216.265.12.455.84.62.271q.17.018.33.039c.18.324.196 1.024-.019 1.911-.07.3-.176.682-.372 1.099"/>
-        </svg>
-        Phase 2: Pilot Program <span class="text-muted">(Weeks 3-4)</span>
-      </h2>
-      <div class="mb-3">
-        <h3>Week 3: Pilot Preparation & Training</h3>
-        <div class="accordion" id="accordionPhase2Week3">
-          <!-- Environment Setup -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne3">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne3" aria-expanded="false" aria-controls="collapseOne3">
-                Environment Setup
-              </button>
-            </h2>
-            <div id="collapseOne3" class="accordion-collapse collapse" aria-labelledby="headingOne3" data-bs-parent="#accordionPhase2Week3">
-              <div class="accordion-body">
-                <ul>
-                  <li>Finalize agreements with selected AI tool providers</li>
-                  <li>Set up user accounts with appropriate permissions</li>
-                  <li>Configure security settings and test integrations</li>
-                  <li>Prepare and cleanse data for initial testing ensuring privacy compliance</li>
-                  <li>Establish data governance protocols</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Champion & Pilot Team Training -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo3">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo3" aria-expanded="false" aria-controls="collapseTwo3">
-                Champion & Pilot Team Training
-              </button>
-            </h2>
-            <div id="collapseTwo3" class="accordion-collapse collapse" aria-labelledby="headingTwo3" data-bs-parent="#accordionPhase2Week3">
-              <div class="accordion-body">
-                <ul>
-                  <li>Conduct intensive training sessions covering tool functionality, prompt engineering, quality control, and troubleshooting</li>
-                  <li>Develop use-case-specific prompt libraries with examples</li>
-                  <li>Create quick-reference guides with screenshots</li>
-                  <li>Set up sandbox environments for practice</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Pilot Launch -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree3">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree3" aria-expanded="false" aria-controls="collapseThree3">
-                Pilot Launch
-              </button>
-            </h2>
-            <div id="collapseThree3" class="accordion-collapse collapse" aria-labelledby="headingThree3" data-bs-parent="#accordionPhase2Week3">
-              <div class="accordion-body">
-                <ul>
-                  <li>Hold a kick-off meeting to review objectives, clarify roles, and set expectations</li>
-                  <li>Distribute detailed task assignments with clear deadlines</li>
-                  <li>Schedule daily check-ins during the first week</li>
-                  <li>Implement feedback mechanisms for issues and improvements</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mb-3">
-        <h3>Week 4: Pilot Execution & Evaluation</h3>
-        <div class="accordion" id="accordionPhase2Week4">
-          <!-- Supervised Implementation -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne4">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne4" aria-expanded="false" aria-controls="collapseOne4">
-                Supervised Implementation
-              </button>
-            </h2>
-            <div id="collapseOne4" class="accordion-collapse collapse" aria-labelledby="headingOne4" data-bs-parent="#accordionPhase2Week4">
-              <div class="accordion-body">
-                <ul>
-                  <li>Begin using AI tools on non-sensitive materials</li>
-                  <li>Document the process step-by-step, noting time spent, prompts used, and quality assessments</li>
-                  <li>Conduct daily reviews of outputs with subject matter experts</li>
-                  <li>Refine prompts and processes based on initial results</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Transition to Real Work -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo4">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo4" aria-expanded="false" aria-controls="collapseTwo4">
-                Transition to Real Work
-              </button>
-            </h2>
-            <div id="collapseTwo4" class="accordion-collapse collapse" aria-labelledby="headingTwo4" data-bs-parent="#accordionPhase2Week4">
-              <div class="accordion-body">
-                <ul>
-                  <li>Begin carefully supervised use on appropriate business activities</li>
-                  <li>Implement mandatory review protocols with clear criteria</li>
-                  <li>Track time savings and quality improvements with structured metrics</li>
-                  <li>Identify any new use cases discovered during implementation</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Preliminary Evaluation -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree4">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree4" aria-expanded="false" aria-controls="collapseThree4">
-                Preliminary Evaluation
-              </button>
-            </h2>
-            <div id="collapseThree4" class="accordion-collapse collapse" aria-labelledby="headingThree4" data-bs-parent="#accordionPhase2Week4">
-              <div class="accordion-body">
-                <ul>
-                  <li>Conduct a comprehensive pilot review meeting</li>
-                  <li>Collect quantitative metrics (time saved, error rates, user satisfaction)</li>
-                  <li>Document lessons learned and required adjustments</li>
-                  <li>Make a data-driven decision for expanded rollout</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <footer class="foot"><div class="foot-inner" id="foot"></div></footer>
+  <div class="sr-only" aria-live="polite" id="live"></div>
 
-    <!-- Phase 3: Expansion -->
-    <div class="phase" id="phase3">
-      <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrows-expand me-2" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10"/>
-        </svg>
-        Phase 3: Expansion <span class="text-muted">(Weeks 5-8)</span>
-      </h2>
-      <div class="mb-3">
-        <h3>Weeks 5-6: Process Refinement & Documentation</h3>
-        <div class="accordion" id="accordionPhase3Week56">
-          <!-- Documentation Development -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne5">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne5" aria-expanded="false" aria-controls="collapseOne5">
-                Documentation Development
-              </button>
-            </h2>
-            <div id="collapseOne5" class="accordion-collapse collapse" aria-labelledby="headingOne5" data-bs-parent="#accordionPhase3Week56">
-              <div class="accordion-body">
-                <ul>
-                  <li>Refine standard operating procedures based on pilot results</li>
-                  <li>Create comprehensive documentation including tool guidelines, playbooks, and prompt libraries</li>
-                  <li>Develop quality checklists and ethical guidelines</li>
-                  <li>Establish a formal review process for AI-generated work</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Training Materials -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo5">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo5" aria-expanded="false" aria-controls="collapseTwo5">
-                Training Materials
-              </button>
-            </h2>
-            <div id="collapseTwo5" class="accordion-collapse collapse" aria-labelledby="headingTwo5" data-bs-parent="#accordionPhase3Week56">
-              <div class="accordion-body">
-                <ul>
-                  <li>Develop multi-format training materials (videos, examples, exercises)</li>
-                  <li>Create customer/client disclosure language when appropriate</li>
-                  <li>Prepare role-specific training modules</li>
-                  <li>Design troubleshooting guides and FAQs</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mb-3">
-        <h3>Weeks 7-8: Phased Rollout</h3>
-        <div class="accordion" id="accordionPhase3Week78">
-          <!-- Rollout Preparation -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne6">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne6" aria-expanded="false" aria-controls="collapseOne6">
-                Rollout Preparation
-              </button>
-            </h2>
-            <div id="collapseOne6" class="accordion-collapse collapse" aria-labelledby="headingOne6" data-bs-parent="#accordionPhase3Week78">
-              <div class="accordion-body">
-                <ul>
-                  <li>Develop a detailed rollout schedule by department</li>
-                  <li>Identify and train additional champions for each new group</li>
-                  <li>Customize training materials for each department</li>
-                  <li>Create "AI Office Hours" for implementation support</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Execution & Monitoring -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo6">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo6" aria-expanded="false" aria-controls="collapseTwo6">
-                Execution & Monitoring
-              </button>
-            </h2>
-            <div id="collapseTwo6" class="accordion-collapse collapse" aria-labelledby="headingTwo6" data-bs-parent="#accordionPhase3Week78">
-              <div class="accordion-body">
-                <ul>
-                  <li>Begin rollout to additional departments with comprehensive training</li>
-                  <li>Implement peer mentoring for new users</li>
-                  <li>Track adoption rates and address resistance points</li>
-                  <li>Share success metrics with leadership</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <script>
+  // ─── Constants ───
+  const STORAGE_KEYS = { lang: 'aiRoadmap.lang', done: 'aiRoadmap.done' };
+  const LANGS = ['pl', 'en'];
+  const SOON_DAYS = 60;
+  const RESET_ARM_MS = 3000;
+  const FONT_WAIT_MS = 1500;
+  const BRAND_FONTS = ['400 1em Outfit', '700 1em Outfit', '400 1em "IBM Plex Sans"', '600 1em "IBM Plex Sans"', '400 1em "Roboto Mono"'];
+  const CHEVRON = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
 
-    <!-- Phase 4: Integration -->
-    <div class="phase" id="phase4">
-      <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-boxes me-2" viewBox="0 0 16 16">
-          <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067z"/>
-        </svg>
-        Phase 4: Integration <span class="text-muted">(Months 3-6)</span>
-      </h2>
-      <div class="mb-3">
-        <h3>Month 3: Optimization & Expansion</h3>
-        <div class="accordion" id="accordionPhase4Month3">
-          <!-- Process Optimization -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne7">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne7" aria-expanded="false" aria-controls="collapseOne7">
-                Process Optimization
-              </button>
-            </h2>
-            <div id="collapseOne7" class="accordion-collapse collapse" aria-labelledby="headingOne7" data-bs-parent="#accordionPhase4Month3">
-              <div class="accordion-body">
-                <ul>
-                  <li>Analyze usage data to identify bottlenecks and inefficiencies</li>
-                  <li>Refine workflows and update documentation with best practices</li>
-                  <li>Implement improved quality control measures</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- New Use Cases -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo7">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo7" aria-expanded="false" aria-controls="collapseTwo7">
-                New Use Cases
-              </button>
-            </h2>
-            <div id="collapseTwo7" class="accordion-collapse collapse" aria-labelledby="headingTwo7" data-bs-parent="#accordionPhase4Month3">
-              <div class="accordion-body">
-                <ul>
-                  <li>Identify the next tier of use cases based on initial success</li>
-                  <li>Develop implementation plans for new applications</li>
-                  <li>Begin testing with selected teams using a pilot approach</li>
-                  <li>Update training materials to include new use cases</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mb-3">
-        <h3>Month 4: Training & Knowledge Management</h3>
-        <div class="accordion" id="accordionPhase4Month4">
-          <!-- Formal Training -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne8">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne8" aria-expanded="false" aria-controls="collapseOne8">
-                Formal Training
-              </button>
-            </h2>
-            <div id="collapseOne8" class="accordion-collapse collapse" aria-labelledby="headingOne8" data-bs-parent="#accordionPhase4Month4">
-              <div class="accordion-body">
-                <ul>
-                  <li>Develop a formal training program for new hires</li>
-                  <li>Include AI competency in professional development plans</li>
-                  <li>Create a certification program for advanced users</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Knowledge Management -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo8">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo8" aria-expanded="false" aria-controls="collapseTwo8">
-                Knowledge Management
-              </button>
-            </h2>
-            <div id="collapseTwo8" class="accordion-collapse collapse" aria-labelledby="headingTwo8" data-bs-parent="#accordionPhase4Month4">
-              <div class="accordion-body">
-                <ul>
-                  <li>Implement a knowledge management system for AI resources</li>
-                  <li>Establish regular knowledge-sharing sessions</li>
-                  <li>Create communities of practice around specific AI use cases</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mb-3">
-        <h3>Month 5: Customer/Client Engagement</h3>
-        <div class="accordion" id="accordionPhase4Month5">
-          <!-- External Communications -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne9">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne9" aria-expanded="false" aria-controls="collapseOne9">
-                External Communications
-              </button>
-            </h2>
-            <div id="collapseOne9" class="accordion-collapse collapse" aria-labelledby="headingOne9" data-bs-parent="#accordionPhase4Month5">
-              <div class="accordion-body">
-                <ul>
-                  <li>Develop customer-facing materials highlighting AI capabilities</li>
-                  <li>Create transparent disclosure policies for external communications</li>
-                  <li>Hold customer education sessions on AI in your industry</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Business Opportunities -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo9">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo9" aria-expanded="false" aria-controls="collapseTwo9">
-                Business Opportunities
-              </button>
-            </h2>
-            <div id="collapseTwo9" class="accordion-collapse collapse" aria-labelledby="headingTwo9" data-bs-parent="#accordionPhase4Month5">
-              <div class="accordion-body">
-                <ul>
-                  <li>Identify opportunities to showcase AI as a competitive advantage</li>
-                  <li>Consider new pricing models leveraging AI efficiencies</li>
-                  <li>Develop metrics on customer benefits such as turnaround time and cost savings</li>
-                  <li>Identify new business opportunities enabled by AI</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mb-3">
-        <h3>Month 6: Sustainability & Governance</h3>
-        <div class="accordion" id="accordionPhase4Month6">
-          <!-- Governance Structure -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne10">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne10" aria-expanded="false" aria-controls="collapseOne10">
-                Governance Structure
-              </button>
-            </h2>
-            <div id="collapseOne10" class="accordion-collapse collapse" aria-labelledby="headingOne10" data-bs-parent="#accordionPhase4Month6">
-              <div class="accordion-body">
-                <ul>
-                  <li>Establish a permanent AI governance committee</li>
-                  <li>Formalize comprehensive policies for tool evaluation, data security, and ethics</li>
-                  <li>Implement policies for quality control and training standards</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Long-term Planning -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo10">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo10" aria-expanded="false" aria-controls="collapseTwo10">
-                Long-term Planning
-              </button>
-            </h2>
-            <div id="collapseTwo10" class="accordion-collapse collapse" aria-labelledby="headingTwo10" data-bs-parent="#accordionPhase4Month6">
-              <div class="accordion-body">
-                <ul>
-                  <li>Develop a long-term budget for AI tools and training</li>
-                  <li>Create an AI innovation roadmap for the next 12 months</li>
-                  <li>Implement a regular review cycle for AI initiatives</li>
-                  <li>Consider incentive programs to encourage adoption and innovation</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  const T = {
+    pl: {
+      docTitle: 'Mapa wdrożenia AI 2026',
+      skip: 'Przejdź do treści',
+      navLabel: 'Sekcje',
+      langLabel: 'Język',
+      progLabel: 'Postęp planu',
+      title: 'Mapa wdrożenia AI 2026',
+      lead: 'Pięć faz wdrożenia AI w organizacji: od właściciela i spisu systemów po agentów działających w produkcji pod nadzorem. Plan uwzględnia AI Act po nowelizacji z lipca 2026, polską ustawę o systemach sztucznej inteligencji i to, co w latach 2025–2026 odróżniało wdrożenia z mierzalnym efektem od wiecznych pilotaży. Zaznaczaj wykonane działania – postęp zapisuje się w tej przeglądarce.',
+      asOf: 'Stan wiedzy: 13 października 2026 · materiał edukacyjny, nie porada prawna',
+      navPlan: 'Plan', navLaw: 'Prawo', navAgents: 'Agenci', navMeasure: 'Pomiar', navSources: 'Źródła',
+      secChanged: 'Co się zmieniło od 2025 roku',
+      changedLead: 'Pierwsza wersja tej mapy (marzec 2025) zakładała, że AI to narzędzie dla pracowników. Dziś coraz więcej firm wdraża agentów, którzy sami wykonują działania, a regulacje zaczęły obowiązywać naprawdę.',
+      secLaw: 'Zegar regulacyjny: AI Act i polska ustawa',
+      lawLead: 'Digital Omnibus on AI (rozporządzenie (UE) 2026/1744) przesunął terminy dla systemów wysokiego ryzyka, ale nie zawiesił obowiązków, które już działają. Status liczy się względem dzisiejszej daty.',
+      thDate: 'Data', thWhat: 'Co obowiązuje', thStatus: 'Status', thSrc: 'Źródło',
+      stInForce: 'obowiązuje', stSoon: 'wkrótce', stLater: 'zaplanowane',
+      secPlan: 'Plan w skrócie',
+      planLead: 'Fazy częściowo się nakładają. Każda kończy się bramką decyzyjną: skalujemy, poprawiamy albo zatrzymujemy. Kliknij fazę, żeby przejść do jej listy działań.',
+      expandAll: 'Rozwiń wszystko', collapseAll: 'Zwiń wszystko',
+      reset: 'Wyczyść postęp', resetArmed: 'Na pewno? Kliknij ponownie',
+      done: 'wykonano',
+      gate: 'Bramka decyzyjna',
+      gateThen: 'Jeśli tak – dalej. Jeśli nie – jeszcze jeden cykl poprawek albo stop.',
+      secAgents: 'Agenci: autonomia i bezpieczeństwo',
+      agentsLead: 'Zasady dla każdego agenta, niezależnie od dostawcy. Nadzór rośnie razem z poziomem autonomii.',
+      thLevel: 'Poziom', thDoes: 'Co robi agent', thControls: 'Wymagane zabezpieczenia',
+      autonomyHead: 'Poziomy autonomii',
+      ruleOfTwo: 'Reguła dwóch',
+      toolsHead: 'Narzędzia, MCP i tożsamość',
+      secMeasure: 'Mierzenie efektów',
+      measureLead: 'Licz wynik biznesowy, nie liczbę promptów. Użycie jest wskaźnikiem wyprzedzającym, a nie celem.',
+      thArea: 'Obszar', thMetric: 'Miary',
+      secIndustry: 'Uwagi branżowe',
+      secPitfalls: 'Typowe błędy i jak ich uniknąć',
+      thSymptom: 'Objaw', thFix: 'Co zrobić',
+      secSources: 'Źródła',
+      sourcesLead: 'Przy każdym źródle podano datę publikacji.',
+      footNote: 'Mapa wdrożenia AI 2026 · aktualizacja wersji z marca 2025',
+      footKeys: 'Skróty:',
+      keyLang: 'język', keyExpand: 'rozwiń/zwiń', keyPhase: 'fazy',
+      aLang: 'Język: polski',
+      aProgress: (n, total) => `Wykonano ${n} z ${total} działań`,
+      aCollapsed: 'Zwinięto wszystkie karty',
+      aExpanded: 'Rozwinięto wszystkie karty',
+      aReset: 'Postęp wyczyszczony',
+      locale: 'pl-PL',
+    },
+    en: {
+      docTitle: 'AI Implementation Roadmap 2026',
+      skip: 'Skip to content',
+      navLabel: 'Sections',
+      langLabel: 'Language',
+      progLabel: 'Plan progress',
+      title: 'AI Implementation Roadmap 2026',
+      lead: 'Five phases for rolling out AI in an organisation: from an accountable owner and an inventory of systems to governed agents in production. It reflects the EU AI Act as amended in July 2026, Poland\'s AI systems act, and what separated deployments with measurable results from endless pilots in 2025–2026. Tick actions as you complete them – progress is saved in this browser.',
+      asOf: 'Current as of 13 October 2026 · educational material, not legal advice',
+      navPlan: 'Plan', navLaw: 'Regulation', navAgents: 'Agents', navMeasure: 'Measure', navSources: 'Sources',
+      secChanged: 'What changed since 2025',
+      changedLead: 'The first version of this roadmap (March 2025) treated AI as a tool for staff. Today more organisations deploy agents that take actions on their own, and regulation has started to bite.',
+      secLaw: 'Regulatory clock: EU AI Act and Polish law',
+      lawLead: 'The Digital Omnibus on AI (Regulation (EU) 2026/1744) moved the high-risk deadlines but did not pause the obligations already in force. Status is computed against today\'s date.',
+      thDate: 'Date', thWhat: 'What applies', thStatus: 'Status', thSrc: 'Source',
+      stInForce: 'in force', stSoon: 'soon', stLater: 'scheduled',
+      secPlan: 'Plan at a glance',
+      planLead: 'Phases overlap. Each ends with a decision gate: scale, fix or stop. Select a phase to jump to its actions.',
+      expandAll: 'Expand all', collapseAll: 'Collapse all',
+      reset: 'Clear progress', resetArmed: 'Sure? Click again',
+      done: 'done',
+      gate: 'Decision gate',
+      gateThen: 'If yes – move on. If not – one more fix cycle, or stop.',
+      secAgents: 'Agents: autonomy and security',
+      agentsLead: 'Rules for every agent, whatever the vendor. Oversight grows with the level of autonomy.',
+      thLevel: 'Level', thDoes: 'What the agent does', thControls: 'Required controls',
+      autonomyHead: 'Autonomy levels',
+      ruleOfTwo: 'The Rule of Two',
+      toolsHead: 'Tools, MCP and identity',
+      secMeasure: 'Measuring success',
+      measureLead: 'Count business outcomes, not prompts. Usage is a leading indicator, not the goal.',
+      thArea: 'Area', thMetric: 'Measures',
+      secIndustry: 'Industry notes',
+      secPitfalls: 'Common failure modes and fixes',
+      thSymptom: 'Symptom', thFix: 'What to do',
+      secSources: 'Sources',
+      sourcesLead: 'Each source shows its publication date.',
+      footNote: 'AI Implementation Roadmap 2026 · update of the March 2025 version',
+      footKeys: 'Shortcuts:',
+      keyLang: 'language', keyExpand: 'expand/collapse', keyPhase: 'phases',
+      aLang: 'Language: English',
+      aProgress: (n, total) => `${n} of ${total} actions done`,
+      aCollapsed: 'All cards collapsed',
+      aExpanded: 'All cards expanded',
+      aReset: 'Progress cleared',
+      locale: 'en-GB',
+    },
+  };
 
-    <!-- Ongoing Support & Sustainability -->
-    <div class="phase" id="ongoing">
-      <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-infinity me-2" viewBox="0 0 16 16">
-          <path d="M5.68 5.792 7.345 7.75 5.681 9.708a2.75 2.75 0 1 1 0-3.916ZM8 6.978 6.416 5.113l-.014-.015a3.75 3.75 0 1 0 0 5.304l.014-.015L8 8.522l1.584 1.865.014.015a3.75 3.75 0 1 0 0-5.304l-.014.015zm.656.772 1.663-1.958a2.75 2.75 0 1 1 0 3.916z"/>
-        </svg>
-        Ongoing Support & Sustainability
-      </h2>
-      <div class="mb-3">
-        <h3>Regular Activities</h3>
-        <div class="accordion" id="accordionOngoingActivities">
-          <!-- Routine Checkpoints -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne11">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne11" aria-expanded="false" aria-controls="collapseOne11">
-                Routine Checkpoints
-              </button>
-            </h2>
-            <div id="collapseOne11" class="accordion-collapse collapse" aria-labelledby="headingOne11" data-bs-parent="#accordionOngoingActivities">
-              <div class="accordion-body">
-                <ul>
-                  <li><strong>Bi-Weekly:</strong> AI champion check-ins, virtual support desk, prompt sharing, and quick training sessions</li>
-                  <li><strong>Monthly:</strong> Review usage metrics, update documentation, recognize innovative uses, and hold user group meetings</li>
-                </ul>
-              </div>
-            </div>
+  const SOURCES = [
+    { id: 'omnibus', title: 'Regulation (EU) 2026/1744 – Digital Omnibus on AI', org: 'EUR-Lex', date: '2026-07-24', url: 'https://eur-lex.europa.eu/eli/reg/2026/1744/oj/eng' },
+    { id: 'fpf', title: 'The AI Act implementation timeline: what changes under the AI Omnibus', org: 'Future of Privacy Forum', date: '2026-07', url: 'https://fpf.org/blog/the-ai-act-implementation-timeline-what-changes-under-the-ai-omnibus/' },
+    { id: 'whitecase', title: 'EU AI Omnibus enters into force, amending the AI Act', org: 'White & Case', date: '2026-08-04', url: 'https://www.whitecase.com/insight-alert/eu-ai-omnibus-enters-force-amending-ai-act' },
+    { id: 'plAct', title: 'Ustawa o systemach sztucznej inteligencji (Dz.U. 2026 poz. 1003)', org: 'ISAP Sejm RP', date: '2026-07-03', url: 'https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20260001003' },
+    { id: 'chambers', title: 'Poland\'s AI law is finally here: what changes for businesses', org: 'Chambers and Partners', date: '2026-10-05', url: 'https://chambers.com/articles/poland-s-ai-law-is-finally-here-what-changes-for-businesses' },
+    { id: 'mckinsey', title: 'The state of AI in 2026: on the road to ROI', org: 'McKinsey & Company', date: '2026-08-25', url: 'https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai' },
+    { id: 'mit', title: 'MIT report: 95% of generative AI pilots at companies are failing', org: 'Fortune (MIT NANDA, The GenAI Divide)', date: '2025-08-18', url: 'https://fortune.com/2025/08/18/mit-report-95-percent-generative-ai-pilots-at-companies-failing-cfo/' },
+    { id: 'gCancel', title: 'Gartner predicts over 40% of agentic AI projects will be canceled by end of 2027', org: 'Gartner', date: '2025-06-25', url: 'https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027' },
+    { id: 'gAutonomy', title: 'Applying uniform governance across AI agents will lead to enterprise AI agent failure', org: 'Gartner', date: '2026-05-26', url: 'https://www.gartner.com/en/newsroom/press-releases/2026-05-26-gartner-says-applying-uniform-governance-across-ai-agents-will-lead-to-enterprise-ai-agent-failure' },
+    { id: 'gSprawl', title: 'Six steps to manage AI agent sprawl', org: 'Gartner', date: '2026-04-28', url: 'https://www.gartner.com/en/newsroom/press-releases/2026-04-28-gartner-identifies-six-steps-to-manage-artificial-intelligence-agent-sprawl' },
+    { id: 'gInference', title: 'AI inference costs per agentic workflow will increase more than fivefold through 2028', org: 'Gartner', date: '2026-08-17', url: 'https://www.gartner.com/en/newsroom/press-releases/2026-08-17-gartner-predicts-ai-inference-costs-per-agentic-workflow-will-increase-more-than-fivefold-through-2028' },
+    { id: 'gSemantics', title: 'Lack of semantics causes inaccurate AI agents and wasted spending', org: 'Gartner', date: '2026-05-11', url: 'https://www.gartner.com/en/newsroom/press-releases/2026-05-11-gartner-says-lack-of-semantics-causes-inaccurate-artificial-intelligence-agents-and-wasted-spending' },
+    { id: 'evals', title: 'Demystifying evals for AI agents', org: 'Anthropic', date: '2026-01-09', url: 'https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents' },
+    { id: 'effective', title: 'Building effective agents', org: 'Anthropic', date: '2024-12-19', url: 'https://www.anthropic.com/engineering/building-effective-agents' },
+    { id: 'openaiGuide', title: 'A practical guide to building agents', org: 'OpenAI', date: '2025-04-17', url: 'https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf' },
+    { id: 'mcp', title: 'MCP specification 2026-07-28 release', org: 'Model Context Protocol', date: '2026-07-28', url: 'https://blog.modelcontextprotocol.io/posts/2026-07-28/' },
+    { id: 'owaspAgentic', title: 'OWASP Top 10 for Agentic Applications 2026', org: 'OWASP GenAI Security Project', date: '2025-12-09', url: 'https://genai.owasp.org/2025/12/09/owasp-top-10-for-agentic-applications-the-benchmark-for-agentic-security-in-the-age-of-autonomous-ai/' },
+    { id: 'owaspLlm', title: 'OWASP Top 10 for LLM Applications 2026', org: 'OWASP GenAI Security Project', date: '2026-08-03', url: 'https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/' },
+    { id: 'iso42001', title: 'ISO/IEC 42001:2023 – AI management systems', org: 'ISO', date: '2023-12', url: 'https://www.iso.org/standard/42001' },
+    { id: 'nist', title: 'AI Risk Management Framework and Generative AI Profile (NIST AI 600-1)', org: 'NIST', date: '2024-07-26', url: 'https://www.nist.gov/itl/ai-risk-management-framework' },
+    { id: 'finops', title: 'Token economics for SaaS and AI', org: 'FinOps Foundation', date: '2026-06', url: 'https://www.finops.org/wg/token-economics-saas/' },
+    { id: 'ibm', title: 'Cost of a Data Breach Report', org: 'IBM', date: '2026', url: 'https://www.ibm.com/reports/data-breach' },
+    { id: 'deprecation', title: 'Commitments on model deprecation and preservation', org: 'Anthropic', date: '2025-11-04', url: 'https://www.anthropic.com/research/deprecation-commitments' },
+    { id: 'ruleOfTwo', title: 'Agents Rule of Two: a practical approach to AI agent security', org: 'Meta AI', date: '2025-10-31', url: 'https://ai.meta.com/blog/practical-ai-agent-security/' },
+    { id: 'trifecta', title: 'The lethal trifecta for AI agents', org: 'Simon Willison', date: '2025-06-16', url: 'https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/' },
+  ];
+
+  const STATS = [
+    { tone: 'yellow', value: { pl: '37%', en: '37%' }, src: ['mckinsey'],
+      text: { pl: 'organizacji widzi jakikolwiek wpływ AI na EBIT – tyle samo co rok wcześniej. Tylko 6% to liderzy z wyraźnym zyskiem.',
+              en: 'of organisations see any EBIT impact from AI – flat on a year earlier. Only 6% are high performers with a clear gain.' } },
+    { tone: 'blue', value: { pl: '75% / 25%', en: '75% / 25%' }, src: ['mckinsey'],
+      text: { pl: 'liderów i pozostałych firm przebudowało procesy wokół AI, zamiast dokładać narzędzie do starych.',
+              en: 'of high performers vs other firms redesigned workflows around AI instead of bolting it onto old ones.' } },
+    { tone: 'green', value: { pl: '>40%', en: '>40%' }, src: ['gCancel'],
+      text: { pl: 'projektów agentowych zostanie przerwanych do końca 2027 r. według Gartnera: przez koszty, niejasną wartość i słabą kontrolę ryzyka.',
+              en: 'of agentic AI projects will be cancelled by end-2027, Gartner predicts: rising costs, unclear value, weak risk controls.' } },
+    { tone: 'ink', value: { pl: '2.12.2027', en: '2 Dec 2027' }, src: ['omnibus', 'fpf'],
+      text: { pl: 'nowy termin dla systemów wysokiego ryzyka (kadry, edukacja, kredyty) po nowelizacji AI Act. Przejrzystość z art. 50 obowiązuje już od sierpnia 2026.',
+              en: 'new deadline for high-risk systems (HR, education, credit) after the AI Act amendment. Art. 50 transparency has applied since August 2026.' } },
+  ];
+
+  const CLOCK = [
+    { date: '2025-02-02', src: ['fpf'],
+      what: { pl: 'Zakaz praktyk z art. 5 (m.in. scoring społeczny, rozpoznawanie emocji w pracy i w szkole) oraz obowiązek wspierania kompetencji AI personelu (art. 4, złagodzony przez Omnibus).',
+              en: 'Art. 5 prohibited practices (incl. social scoring, emotion recognition at work and in schools) and the duty to support staff AI literacy (Art. 4, softened by the Omnibus).' } },
+    { date: '2025-08-02', src: ['fpf'],
+      what: { pl: 'Obowiązki dostawców modeli AI ogólnego przeznaczenia (GPAI); kodeks praktyk GPAI z 10 lipca 2025.',
+              en: 'Obligations for general-purpose AI (GPAI) model providers; GPAI Code of Practice of 10 July 2025.' } },
+    { date: '2026-07-27', src: ['omnibus', 'whitecase'],
+      what: { pl: 'Wchodzi w życie Digital Omnibus on AI, który przesuwa terminy dla systemów wysokiego ryzyka.',
+              en: 'The Digital Omnibus on AI enters into force, moving the high-risk deadlines.' } },
+    { date: '2026-08-02', src: ['fpf'],
+      what: { pl: 'Przejrzystość z art. 50: chatbot informuje, że jest AI, deepfake musi być oznaczony. Urząd ds. AI może egzekwować obowiązki dostawców GPAI.',
+              en: 'Art. 50 transparency: chatbots must disclose they are AI and deepfakes must be labelled. The AI Office can enforce GPAI provider obligations.' } },
+    { date: '2026-08-11', src: ['plAct'],
+      what: { pl: 'Polska ustawa o systemach sztucznej inteligencji w mocy. Organ nadzoru: Komisja Rozwoju i Bezpieczeństwa Sztucznej Inteligencji (KRiBSI).',
+              en: 'Poland\'s act on AI systems in force. Supervisory authority: the Commission for AI Development and Safety (KRiBSI).' } },
+    { date: '2026-10-28', src: ['chambers'],
+      what: { pl: 'KRiBSI zaczyna kontrole, nakładanie kar i przyjmowanie skarg. Można też wystąpić o wiążącą opinię indywidualną albo wejść do piaskownicy regulacyjnej.',
+              en: 'KRiBSI starts inspections, fines and complaint handling. Organisations can also request a binding individual opinion or join the regulatory sandbox.' } },
+    { date: '2026-12-02', src: ['fpf'],
+      what: { pl: 'Zakaz generowania przez AI materiałów CSAM i intymnych obrazów bez zgody; maszynowo czytelne znakowanie treści generowanych (art. 50 ust. 2) dla systemów już na rynku.',
+              en: 'Ban on AI-generated CSAM and non-consensual intimate imagery; machine-readable marking of generated content (Art. 50(2)) for systems already on the market.' } },
+    { date: '2027-08-02', src: ['fpf'],
+      what: { pl: 'Modele GPAI wprowadzone na rynek przed sierpniem 2025 muszą spełnić wymogi.',
+              en: 'GPAI models placed on the market before August 2025 must comply.' } },
+    { date: '2027-12-02', src: ['omnibus', 'fpf'],
+      what: { pl: 'Systemy wysokiego ryzyka z załącznika III: rekrutacja i zarządzanie pracownikami, edukacja, ocena zdolności kredytowej, dostęp do usług podstawowych.',
+              en: 'Annex III high-risk systems: recruitment and workforce management, education, creditworthiness, access to essential services.' } },
+    { date: '2028-08-02', src: ['fpf'],
+      what: { pl: 'Systemy wysokiego ryzyka z załącznika I, wbudowane w produkty regulowane (np. maszyny, wyroby medyczne).',
+              en: 'Annex I high-risk systems built into regulated products (e.g. machinery, medical devices).' } },
+  ];
+
+  const PHASES = [
+    {
+      id: 'foundations', key: '1',
+      time: { pl: 'Tygodnie 0–4', en: 'Weeks 0–4' },
+      title: { pl: 'Fundamenty', en: 'Foundations' },
+      summary: { pl: 'Właściciel, zasady, spis systemów AI i szkolenia.', en: 'An owner, rules, an AI inventory and training.' },
+      intro: { pl: 'Zanim wybierzesz narzędzia, ustal, kto odpowiada za wynik, jakie AI już działa w firmie i na jakich zasadach. Programy bez efektów najczęściej pominęły ten krok i doklejały AI do niezmienionych procesów.',
+               en: 'Before choosing tools, settle who owns the result, what AI is already running in the organisation and under which rules. Programmes without results usually skipped this and bolted AI onto unchanged processes.' },
+      streams: [
+        { id: 'f-own', title: { pl: 'Odpowiedzialność i cele', en: 'Ownership and goals' }, actions: [
+          { id: 'f1', pl: 'Wyznacz członka zarządu odpowiedzialnego za wynik biznesowy AI, a nie za liczbę użytkowników.', en: 'Name an executive accountable for AI business results, not for user counts.', src: ['mckinsey'] },
+          { id: 'f2', pl: 'Powiąż cele AI z 2–3 wynikami biznesowymi (koszt, czas realizacji, przychód, ryzyko) i zmierz punkt wyjścia.', en: 'Tie AI goals to 2–3 business outcomes (cost, cycle time, revenue, risk) and measure the baseline.' },
+          { id: 'f3', pl: 'Zaplanuj budżet z kosztami utrzymania (tokeny, licencje, monitoring, migracje modeli), nie tylko pilotaż.', en: 'Budget for run costs (tokens, licences, monitoring, model migrations), not just the pilot.', src: ['finops'] },
+        ] },
+        { id: 'f-inv', title: { pl: 'Spis systemów i shadow AI', en: 'Inventory and shadow AI' }, actions: [
+          { id: 'f4', pl: 'Spisz każdy używany system AI: narzędzia dostawców, funkcje AI wbudowane w SaaS, rozwiązania własne i agentów.', en: 'Inventory every AI system in use: vendor tools, AI features inside SaaS, internal builds and agents.', src: ['gSprawl'] },
+          { id: 'f5', pl: 'Wykryj shadow AI (wtyczki, prywatne konta, nieznane klucze API). Zacznij od amnestii, nie od kar.', en: 'Discover shadow AI (extensions, personal accounts, unknown API keys). Start with an amnesty, not penalties.', src: ['ibm'] },
+          { id: 'f6', pl: 'Udostępnij zatwierdzone narzędzie na tyle dobre, żeby zastąpiło nieoficjalne. Samo blokowanie spycha użycie do podziemia.', en: 'Provide a sanctioned tool good enough to replace unofficial ones. Blocking alone drives use underground.', src: ['gSprawl'] },
+        ] },
+        { id: 'f-law', title: { pl: 'Polityka i AI Act', en: 'Policy and the AI Act' }, actions: [
+          { id: 'f7', pl: 'Opublikuj zasady korzystania z AI: zatwierdzone narzędzia, dane, których nie wolno wklejać, obowiązek weryfikacji wyników, zasady ujawniania.', en: 'Publish an AI acceptable-use policy: approved tools, data that must not be pasted, the duty to verify output, disclosure rules.' },
+          { id: 'f8', pl: 'Sklasyfikuj każdy system wg AI Act: praktyka zakazana, wysokie ryzyko (zał. III), obowiązki przejrzystości (art. 50), ryzyko minimalne.', en: 'Classify each system under the AI Act: prohibited, high-risk (Annex III), transparency duties (Art. 50), minimal risk.', src: ['fpf'] },
+          { id: 'f9', pl: 'Wyłącz praktyki zakazane – obowiązuje to od lutego 2025 (np. rozpoznawanie emocji pracowników).', en: 'Shut down prohibited practices – banned since February 2025 (e.g. emotion recognition of employees).', src: ['fpf'] },
+          { id: 'f10', pl: 'W Polsce: w sprawach granicznych rozważ wiążącą opinię indywidualną KRiBSI.', en: 'In Poland: for borderline cases consider a binding individual opinion from KRiBSI.', src: ['chambers'] },
+        ] },
+        { id: 'f-lit', title: { pl: 'Kompetencje AI', en: 'AI literacy' }, actions: [
+          { id: 'f11', pl: 'Przeprowadź szkolenia dopasowane do ról (art. 4): podstawy dla wszystkich, ryzyko i ROI dla menedżerów, ewaluacje i bezpieczeństwo dla zespołów technicznych.', en: 'Run role-based AI literacy (Art. 4): basics for everyone, risk and ROI for managers, evals and security for technical teams.', src: ['fpf'] },
+          { id: 'f12', pl: 'Prowadź rejestr szkoleń: kto, z czego i kiedy.', en: 'Keep a training record: who, on what, and when.' },
+          { id: 'f13', pl: 'Wyłoń ambasadorów AI (2–3 na dział) i zarezerwuj im 10–20% czasu pracy.', en: 'Recruit AI champions (2–3 per department) and reserve 10–20% of their time.' },
+        ] },
+      ],
+      gate: { pl: ['Jest imienny właściciel i budżet z kosztami utrzymania.', 'Spis systemów AI istnieje i ma właściciela.', 'Każdy system ma klasę ryzyka wg AI Act.', 'Polityka korzystania z AI jest opublikowana.'],
+              en: ['There is a named owner and a budget that includes run costs.', 'The AI inventory exists and has an owner.', 'Every system has an AI Act risk class.', 'The AI acceptable-use policy is published.'] },
+    },
+    {
+      id: 'portfolio', key: '2',
+      time: { pl: 'Tygodnie 3–6', en: 'Weeks 3–6' },
+      title: { pl: 'Portfel zastosowań i dane', en: 'Use cases and data' },
+      summary: { pl: 'Mniej, ale głębiej: proces, autonomia, dane, punkt wyjścia.', en: 'Fewer, deeper: workflow, autonomy, data, baseline.' },
+      intro: { pl: 'Wybierz mniej zastosowań i wejdź w nie głębiej. Firmy z wynikiem przebudowują cały proces, zamiast dokładać czat do starego. Najpewniejszy zwrot dają procesy zaplecza: finanse, zakupy, IT, obsługa zgłoszeń.',
+               en: 'Choose fewer use cases and go deeper. Organisations with results redesign the whole workflow instead of adding a chat window to the old one. Back-office processes give the most reliable return: finance, procurement, IT, ticket handling.' },
+      streams: [
+        { id: 'p-sel', title: { pl: 'Wybór od procesu', en: 'Workflow-first selection' }, actions: [
+          { id: 'p1', pl: 'Rozrysuj docelowy proces od początku do końca i przeprojektuj go. Nie doklejaj AI do obecnego.', en: 'Map the target workflow end to end and redesign it. Do not bolt AI onto the current one.', src: ['mckinsey'] },
+          { id: 'p2', pl: 'Oceń kandydatów: wartość, wykonalność, dostępność danych, klasa ryzyka i odwracalność błędów.', en: 'Score candidates on value, feasibility, data availability, risk class and reversibility of errors.' },
+          { id: 'p3', pl: 'Wybierz 2–3 zastosowania. Każde dostaje właściciela biznesowego i docelowy wskaźnik.', en: 'Select 2–3 use cases. Each gets a business owner and a target KPI.', src: ['mit'] },
+        ] },
+        { id: 'p-aut', title: { pl: 'Poziom autonomii', en: 'Autonomy level' }, actions: [
+          { id: 'p4', pl: 'Przypisz każdemu zastosowaniu poziom: obserwuje, doradza, działa za zgodą, działa samodzielnie.', en: 'Give each use case a level: observe, advise, act with approval, act autonomously.', src: ['gAutonomy'] },
+          { id: 'p5', pl: 'Zacznij poziom niżej, niż się wydaje potrzebne. Autonomię przyznawaj na podstawie wyników ewaluacji.', en: 'Start one level lower than seems necessary. Grant autonomy on the strength of eval results.' },
+          { id: 'p6', pl: 'Tam, gdzie się da, wybierz prosty przepływ o stałych krokach zamiast agenta, który sam planuje.', en: 'Where possible, choose a simple fixed-step workflow over an agent that plans for itself.', src: ['effective', 'openaiGuide'] },
+        ] },
+        { id: 'p-buy', title: { pl: 'Kupić, zbudować czy współpracować', en: 'Buy, build or partner' }, actions: [
+          { id: 'p7', pl: 'Dla typowych funkcji domyślnie kupuj lub współpracuj: rozwiązania od dostawców udawały się mniej więcej dwa razy częściej niż budowane w firmie.', en: 'For commodity capabilities default to buy or partner: vendor solutions succeeded roughly twice as often as internal builds.', src: ['mit'] },
+          { id: 'p8', pl: 'Buduj tam, gdzie proces jest Twoją przewagą. Przelicz to na nowo: agenci programistyczni obniżyli koszt budowy.', en: 'Build where the workflow is your edge. Re-run the numbers: coding agents have lowered the cost of building.', src: ['mckinsey'] },
+          { id: 'p9', pl: 'Sprawdź dostawcę: trenowanie na Twoich danych, lokalizacja danych, polityka wycofywania modeli, logi audytowe, możliwość wyjścia.', en: 'Check the vendor: training on your data, data residency, model deprecation policy, audit logs, exit options.', src: ['deprecation'] },
+        ] },
+        { id: 'p-data', title: { pl: 'Gotowość danych', en: 'Data readiness' }, actions: [
+          { id: 'p10', pl: 'Wskaż źródło prawdy i jego właściciela. Popraw uprawnienia przed indeksowaniem – RAG dziedziczy każde nadmierne udostępnienie.', en: 'Name the source of truth and its owner. Fix permissions before indexing – RAG inherits every overshare.' },
+          { id: 'p11', pl: 'Zdefiniuj pojęcia biznesowe (słownik, warstwa semantyczna), żeby agenci czytali dane tak samo jak ludzie.', en: 'Define business terms (glossary, semantic layer) so agents read data the way people do.', src: ['gSemantics'] },
+          { id: 'p12', pl: 'Ustal zasady aktualności i usuń nieaktualne dokumenty z baz wiedzy.', en: 'Set freshness rules and remove outdated documents from knowledge bases.' },
+          { id: 'p13', pl: 'Zmierz punkt wyjścia dla każdego zadania: czas, koszt, odsetek błędów.', en: 'Measure the baseline for each task: time, cost, error rate.' },
+        ] },
+      ],
+      gate: { pl: ['Każde zastosowanie ma właściciela, poziom autonomii i źródło danych.', 'Punkt wyjścia jest zmierzony.', 'Próg sukcesu pilotażu jest zapisany przed startem.'],
+              en: ['Every use case has an owner, an autonomy level and a data source.', 'The baseline is measured.', 'The pilot success threshold is written down before launch.'] },
+    },
+    {
+      id: 'pilot', key: '3',
+      time: { pl: 'Tygodnie 6–12', en: 'Weeks 6–12' },
+      title: { pl: 'Pilotaż z ewaluacją', en: 'Pilot with evals' },
+      summary: { pl: 'Eksperyment z progiem zaliczenia, a nie pokaz.', en: 'An experiment with a pass mark, not a demo.' },
+      intro: { pl: 'Pilotaż to eksperyment z progiem zaliczenia, a nie pokaz możliwości. Najpierw zbuduj zestaw testowy, potem rozwiązanie. Dzięki ewaluacjom zmiana modelu zajmuje dni, a nie tygodnie.',
+               en: 'A pilot is an experiment with a pass mark, not a showcase. Build the test set first, then the solution. With evals in place, switching models takes days instead of weeks.' },
+      streams: [
+        { id: 'e-eval', title: { pl: 'Najpierw ewaluacje', en: 'Evals first' }, actions: [
+          { id: 'e1', pl: 'Zbierz zestaw wzorcowy 20–50 prawdziwych zadań, w tym dawne porażki i przypadki brzegowe.', en: 'Build a golden set of 20–50 real tasks, including past failures and edge cases.', src: ['evals'] },
+          { id: 'e2', pl: 'Połącz oceniających: testy w kodzie, model-sędzia skalibrowany na ocenach ludzi i przegląd ekspercki.', en: 'Combine graders: code checks, an LLM judge calibrated against human ratings, and expert review.', src: ['evals'] },
+          { id: 'e3', pl: 'Oceniaj wynik, nie tylko przebieg rozmowy. Uruchamiaj zadania kilka razy, bo odpowiedzi się różnią.', en: 'Grade the outcome, not just the transcript. Run each task several times, because outputs vary.', src: ['evals'] },
+          { id: 'e4', pl: 'Trzymaj zestaw testowy i prompty w repozytorium z wersjonowaniem.', en: 'Keep the test set and prompts under version control.' },
+        ] },
+        { id: 'e-guard', title: { pl: 'Zabezpieczenia i nadzór', en: 'Guardrails and oversight' }, actions: [
+          { id: 'e5', pl: 'Ułóż zabezpieczenia warstwami: filtr wejścia, walidacja wyjścia, maskowanie danych osobowych, lista dozwolonych narzędzi.', en: 'Layer guardrails: input filtering, output validation, PII masking, a tool allowlist.', src: ['openaiGuide'] },
+          { id: 'e6', pl: 'Wymagaj zgody człowieka na każde nieodwracalne lub zewnętrzne działanie (płatność, e-mail, zmiana rekordu).', en: 'Require human approval for every irreversible or external action (payment, email, record change).', src: ['openaiGuide'] },
+          { id: 'e7', pl: 'Przetestuj rozwiązanie wg OWASP Top 10 dla LLM i dla agentów, zwłaszcza pod kątem wstrzykiwania promptów.', en: 'Test against the OWASP Top 10 for LLM and for agentic applications, especially prompt injection.', src: ['owaspLlm', 'owaspAgentic'] },
+          { id: 'e8', pl: 'Spełnij art. 50 tam, gdzie dotyczy: użytkownik wie, że rozmawia z AI, a treści generowane są oznaczone.', en: 'Meet Art. 50 where it applies: users know they are talking to AI and generated content is labelled.', src: ['fpf'] },
+        ] },
+        { id: 'e-run', title: { pl: 'Prowadzenie pilotażu', en: 'Running the pilot' }, actions: [
+          { id: 'e9', pl: 'Zacznij od danych niewrażliwych i małej grupy, potem przejdź do prawdziwej pracy pod nadzorem.', en: 'Start with non-sensitive data and a small group, then move to real work under review.' },
+          { id: 'e10', pl: 'Zapisuj każde uruchomienie: wejście, wynik, wywołania narzędzi, koszt i ocenę recenzenta.', en: 'Log every run: input, output, tool calls, cost and the reviewer\'s verdict.' },
+          { id: 'e11', pl: 'Raz w tygodniu przeglądaj wyniki z ekspertami. Każdy nowy błąd zamieniaj w przypadek testowy.', en: 'Review results weekly with experts. Turn every new failure into a test case.', src: ['evals'] },
+        ] },
+        { id: 'e-cost', title: { pl: 'Ekonomika', en: 'Unit economics' }, actions: [
+          { id: 'e12', pl: 'Licz koszt udanego zadania (z czasem weryfikacji przez człowieka), a nie koszt pojedynczego wywołania.', en: 'Measure cost per successful task (including human review time), not cost per call.', src: ['finops'] },
+          { id: 'e13', pl: 'Porównaj klasy modeli i wybierz najtańszy, który przechodzi próg ewaluacji.', en: 'Compare model tiers and pick the cheapest one that passes the eval threshold.', src: ['gInference'] },
+          { id: 'e14', pl: 'Przelicz koszty na pełny wolumen: przepływy agentowe zużywają wielokrotnie więcej tokenów niż czat.', en: 'Project costs at full volume: agentic workflows use many times more tokens than chat.', src: ['gInference'] },
+        ] },
+      ],
+      gate: { pl: ['Próg ewaluacji osiągnięty w kilku przebiegach.', 'Wskaźnik biznesowy lepszy od punktu wyjścia.', 'Koszt udanego zadania mieści się w budżecie.', 'Brak otwartych krytycznych uwag bezpieczeństwa.'],
+              en: ['Eval threshold met across several runs.', 'The business KPI beats the baseline.', 'Cost per successful task is within budget.', 'No open critical security findings.'] },
+    },
+    {
+      id: 'scale', key: '4',
+      time: { pl: 'Miesiące 3–6', en: 'Months 3–6' },
+      title: { pl: 'Produkcja i skalowanie', en: 'Production and scale' },
+      summary: { pl: 'Wspólna platforma, tożsamość agentów, zmiana w zespołach.', en: 'Shared platform, agent identity, team change.' },
+      intro: { pl: 'Przejście z pilotażu do produkcji to miejsce, w którym utyka większość programów. Zbuduj wspólne mechanizmy kontroli raz, a kolejne zastosowania podłączaj do nich.',
+               en: 'The move from pilot to production is where most programmes stall. Build the shared controls once, then plug each new use case into them.' },
+      streams: [
+        { id: 's-plat', title: { pl: 'Platforma', en: 'Platform' }, actions: [
+          { id: 's1', pl: 'Przepuść cały ruch do modeli przez bramę AI (proxy): klucze, przypisanie kosztów, routing modeli, limity.', en: 'Route all model traffic through an AI gateway (proxy): keys, cost attribution, model routing, rate limits.', src: ['finops'] },
+          { id: 's2', pl: 'Dodaj śledzenie i monitoring: jakość, opóźnienia, koszt, dryf i błędy dla każdego zastosowania.', en: 'Add tracing and monitoring: quality, latency, cost, drift and errors per use case.' },
+          { id: 's3', pl: 'Miej plan awaryjny: drugi dostawca albo model open-weight uruchamiany u siebie dla krytycznych procesów.', en: 'Keep a fallback: a second provider or a self-hosted open-weight model for critical processes.' },
+        ] },
+        { id: 's-id', title: { pl: 'Tożsamość agentów i narzędzia', en: 'Agent identity and tools' }, actions: [
+          { id: 's4', pl: 'Prowadź centralny rejestr agentów: właściciel, cel, poziom autonomii, narzędzia, dostęp do danych.', en: 'Keep a central agent registry: owner, purpose, autonomy level, tools, data access.', src: ['gSprawl'] },
+          { id: 's5', pl: 'Daj każdemu agentowi własną tożsamość i krótko żyjące uprawnienia o minimalnym zakresie.', en: 'Give every agent its own identity and short-lived, least-privilege credentials.', src: ['gSprawl', 'ibm'] },
+          { id: 's6', pl: 'Dopuszczaj tylko zatwierdzone serwery MCP i konektory, za bramą, która widzi wywoływane narzędzia.', en: 'Allow only approved MCP servers and connectors, behind a gateway that sees which tools are called.', src: ['mcp'] },
+          { id: 's7', pl: 'Stosuj regułę dwóch: bez zgody człowieka agent łączy najwyżej dwie z trzech cech (niezaufane treści, wrażliwe dane, działanie na zewnątrz).', en: 'Apply the Rule of Two: without human approval an agent combines at most two of three traits (untrusted input, sensitive data, external action).', src: ['ruleOfTwo'] },
+        ] },
+        { id: 's-roll', title: { pl: 'Wdrożenie i zmiana', en: 'Rollout and change' }, actions: [
+          { id: 's8', pl: 'Wdrażaj dział po dziale, z ambasadorami, szkoleniami dla konkretnych ról i dyżurami wsparcia.', en: 'Roll out department by department, with champions, role-specific training and support office hours.' },
+          { id: 's9', pl: 'Aktualizuj opisy stanowisk i procedury razem z narzędziem, nie po fakcie.', en: 'Update job descriptions and procedures together with the tool, not afterwards.', src: ['mckinsey'] },
+          { id: 's10', pl: 'Pokazuj sukcesy z liczbami i pozwól bezpiecznie zgłaszać porażki.', en: 'Share wins with numbers and make it safe to report failures.' },
+        ] },
+        { id: 's-comp', title: { pl: 'Zgodność w produkcji', en: 'Compliance in production' }, actions: [
+          { id: 's11', pl: 'Dla każdego systemu prowadź dokumentację techniczną, logi i procedurę nadzoru człowieka.', en: 'Keep technical documentation, logs and a human-oversight procedure for every system.' },
+          { id: 's12', pl: 'Systemy wysokiego ryzyka z zał. III: buduj teraz system zarządzania jakością, zarządzanie ryzykiem i ocenę zgodności. Termin: 2 grudnia 2027.', en: 'Annex III high-risk systems: build the quality management system, risk management and conformity assessment now. Deadline: 2 December 2027.', src: ['omnibus', 'fpf'] },
+          { id: 's13', pl: 'Przeprowadź DPIA tam, gdzie przetwarzasz dane osobowe (RODO), i ocenę wpływu AI.', en: 'Run a DPIA where personal data is processed (GDPR), plus an AI impact assessment.' },
+        ] },
+      ],
+      gate: { pl: ['Działają monitoring i możliwość wycofania zmian.', 'Każdy agent jest w rejestrze i ma właściciela.', 'Dokumentacja i procedura nadzoru są gotowe.', 'Zespoły przeszły szkolenie dla swoich ról.'],
+              en: ['Monitoring and rollback are in place.', 'Every agent is registered and has an owner.', 'Documentation and the oversight procedure are ready.', 'Teams have completed role-specific training.'] },
+    },
+    {
+      id: 'operate', key: '5',
+      time: { pl: 'Stale', en: 'Ongoing' },
+      title: { pl: 'Utrzymanie i nadzór', en: 'Operate and govern' },
+      summary: { pl: 'Cykl życia modeli, bezpieczeństwo, przegląd portfela.', en: 'Model lifecycle, security, portfolio review.' },
+      intro: { pl: 'Systemy AI zmieniają się pod Tobą: dostawcy wycofują modele, dane się starzeją, przepisy się przesuwają. Traktuj AI jak linię produktów, którą trzeba utrzymywać.',
+               en: 'AI systems change underneath you: vendors retire models, data drifts, regulation moves. Treat AI as a product line that needs maintenance.' },
+      streams: [
+        { id: 'o-gov', title: { pl: 'System zarządzania', en: 'Management system' }, actions: [
+          { id: 'o1', pl: 'Oprzyj nadzór na ISO/IEC 42001, a praktykę zarządzania ryzykiem na NIST AI RMF i jego profilu dla GenAI.', en: 'Base governance on ISO/IEC 42001, and risk practice on the NIST AI RMF and its GenAI profile.', src: ['iso42001', 'nist'] },
+          { id: 'o2', pl: 'Stały komitet AI (biznes, IT, bezpieczeństwo, prawo, HR) spotyka się co miesiąc i zatwierdza nowe zastosowania oraz podniesienie autonomii.', en: 'A standing AI committee (business, IT, security, legal, HR) meets monthly and approves new use cases and autonomy upgrades.' },
+          { id: 'o3', pl: 'Co kwartał przeglądaj spis systemów i wyłączaj to, co nie daje efektu.', en: 'Review the inventory quarterly and retire what is not delivering.', src: ['gAutonomy'] },
+        ] },
+        { id: 'o-life', title: { pl: 'Cykl życia modeli', en: 'Model lifecycle' }, actions: [
+          { id: 'o4', pl: 'Śledź kalendarze wycofywania modeli u dostawców i zaplanuj budżet na migracje.', en: 'Track vendor model deprecation calendars and budget for migrations.', src: ['deprecation'] },
+          { id: 'o5', pl: 'Uruchamiaj testy regresji przy każdej zmianie modelu, promptu lub źródła danych, przed publikacją.', en: 'Run regression evals on every model, prompt or data-source change, before release.', src: ['evals'] },
+          { id: 'o6', pl: 'Regularnie przeglądaj dobór modeli do zadań, bo ceny i możliwości szybko się zmieniają.', en: 'Revisit which model serves which task regularly, as prices and capabilities change fast.', src: ['gInference'] },
+        ] },
+        { id: 'o-sec', title: { pl: 'Bezpieczeństwo i incydenty', en: 'Security and incidents' }, actions: [
+          { id: 'o7', pl: 'Testuj ataki stale (red teaming) i dopisuj nowe wzorce do zestawu testowego.', en: 'Red-team continuously and add new attack patterns to the test set.', src: ['owaspAgentic'] },
+          { id: 'o8', pl: 'Przygotuj procedurę incydentu AI: wyłącznik dla każdego agenta, wycofanie zmian, obowiązki zgłoszeniowe.', en: 'Prepare an AI incident playbook: a kill switch per agent, rollback, reporting duties.' },
+          { id: 'o9', pl: 'Pilnuj łańcucha dostaw AI: pakiety, pliki modeli, serwery MCP, wersje SDK.', en: 'Watch the AI supply chain: packages, model files, MCP servers, SDK versions.', src: ['owaspAgentic'] },
+        ] },
+        { id: 'o-val', title: { pl: 'Mierzenie wartości', en: 'Value tracking' }, actions: [
+          { id: 'o10', pl: 'Co kwartał raportuj zarządowi wyniki: wpływ na EBIT, czas realizacji, jakość, ryzyko.', en: 'Report outcomes to the board quarterly: EBIT impact, cycle time, quality, risk.', src: ['mckinsey'] },
+          { id: 'o11', pl: 'Śledź koszt udanego zadania i łączny koszt utrzymania każdego zastosowania.', en: 'Track cost per successful task and total run cost per use case.', src: ['finops'] },
+          { id: 'o12', pl: 'Odświeżaj szkolenia co roku i przy każdej większej zmianie narzędzi.', en: 'Refresh training yearly and with every major tool change.' },
+        ] },
+      ],
+      gate: { pl: ['Co kwartał każde zastosowanie dostaje decyzję: skalujemy, poprawiamy albo wyłączamy.', 'Podniesienie autonomii wymaga wyników ewaluacji i zgody komitetu.'],
+              en: ['Every quarter each use case gets a decision: scale, fix or retire.', 'Any autonomy upgrade requires eval results and committee approval.'] },
+    },
+  ];
+
+  const AUTONOMY = [
+    { level: { pl: 'Obserwuje', en: 'Observe' },
+      does: { pl: 'Czyta dane i raportuje; niczego nie zmienia.', en: 'Reads data and reports; changes nothing.' },
+      controls: { pl: 'Logowanie, przegląd dostępu do danych.', en: 'Logging, data access review.' } },
+    { level: { pl: 'Doradza', en: 'Advise' },
+      does: { pl: 'Proponuje działanie; decyzję i wykonanie zostawia człowiekowi.', en: 'Proposes an action; a person decides and executes.' },
+      controls: { pl: 'Ewaluacje jakości, cytowanie źródeł, wskazany recenzent.', en: 'Quality evals, source citations, a named reviewer.' } },
+    { level: { pl: 'Działa za zgodą', en: 'Act with approval' },
+      does: { pl: 'Wykonuje działanie po akceptacji człowieka.', en: 'Executes an action after a person approves it.' },
+      controls: { pl: 'Zgoda na każde działanie, ślad audytowy, wąskie uprawnienia.', en: 'Per-action approval, audit trail, narrow credentials.' } },
+    { level: { pl: 'Działa samodzielnie', en: 'Act autonomously' },
+      does: { pl: 'Działa sam w ustalonych granicach.', en: 'Acts alone within set limits.' },
+      controls: { pl: 'Bezpieczniki (limity kosztów i liczby działań), wycofanie zmian, imienny właściciel, stały monitoring.', en: 'Circuit breakers (spend and action limits), rollback, a named owner, continuous monitoring.' } },
+  ];
+
+  const RULE_OF_TWO = {
+    intro: { pl: 'Bez zgody człowieka agent może łączyć najwyżej dwie z trzech cech:', en: 'Without human approval an agent may combine at most two of three traits:' },
+    rows: [
+      { pl: 'Przetwarza niezaufane treści: e-maile, strony WWW, dokumenty z zewnątrz.', en: 'Processes untrusted content: emails, web pages, outside documents.' },
+      { pl: 'Ma dostęp do danych wrażliwych lub systemów wewnętrznych.', en: 'Has access to sensitive data or internal systems.' },
+      { pl: 'Może działać na zewnątrz: wysyłać, publikować, płacić, zmieniać dane.', en: 'Can act externally: send, publish, pay, change data.' },
+    ],
+    foot: { pl: 'Wszystkie trzy naraz to tzw. śmiertelna trójca: wstrzyknięty prompt może wtedy wyprowadzić dane na zewnątrz.', en: 'All three at once is the so-called lethal trifecta: an injected prompt can then exfiltrate data.' },
+    src: ['ruleOfTwo', 'trifecta'],
+  };
+
+  const TOOL_RULES = [
+    { pl: 'Dopuszczaj tylko zatwierdzone serwery MCP i konektory. Nowy serwer traktuj jak nowego dostawcę: przegląd, właściciel, wersja.', en: 'Allow only approved MCP servers and connectors. Treat a new server like a new supplier: review, owner, version.', src: ['mcp'] },
+    { pl: 'Każdy agent ma własną tożsamość i krótko żyjące tokeny o minimalnym zakresie. Żadnych współdzielonych kluczy.', en: 'Every agent has its own identity and short-lived, least-privilege tokens. No shared keys.', src: ['gSprawl'] },
+    { pl: 'Testuj wg OWASP Top 10 dla agentów: przejęcie celu, nadużycie narzędzi, nadużycie tożsamości i uprawnień, zatrucie pamięci.', en: 'Test against the OWASP agentic Top 10: goal hijack, tool misuse, identity and privilege abuse, memory poisoning.', src: ['owaspAgentic'] },
+    { pl: 'Zapisuj pełny ślad każdego uruchomienia: polecenie, wywołania narzędzi, wynik, koszt.', en: 'Log a full trace of every run: instruction, tool calls, result, cost.' },
+    { pl: 'Jednakowe zasady dla wszystkich agentów prowadzą do porażek – dopasuj nadzór do poziomu autonomii.', en: 'Uniform rules for all agents lead to failure – match oversight to the autonomy level.', src: ['gAutonomy'] },
+  ];
+
+  const KPIS = [
+    { area: { pl: 'Wynik biznesowy', en: 'Business outcome' }, metric: { pl: 'Wpływ na EBIT, koszt jednostkowy procesu, przychód z nowych usług.', en: 'EBIT impact, unit cost of the process, revenue from new services.' } },
+    { area: { pl: 'Szybkość', en: 'Speed' }, metric: { pl: 'Czas realizacji, przepustowość, czas odpowiedzi dla klienta.', en: 'Cycle time, throughput, customer response time.' } },
+    { area: { pl: 'Jakość', en: 'Quality' }, metric: { pl: 'Odsetek błędów i poprawek, eskalacje do człowieka, wynik ewaluacji.', en: 'Error and rework rate, escalations to a person, eval pass rate.' } },
+    { area: { pl: 'Ekonomika', en: 'Economics' }, metric: { pl: 'Koszt udanego zadania (z czasem weryfikacji), koszt utrzymania wobec budżetu.', en: 'Cost per successful task (incl. review time), run cost against budget.' } },
+    { area: { pl: 'Ryzyko i zgodność', en: 'Risk and compliance' }, metric: { pl: 'Incydenty, naruszenia polityki, wykryte shadow AI, odsetek sklasyfikowanych systemów.', en: 'Incidents, policy violations, shadow AI found, share of systems classified.' } },
+    { area: { pl: 'Użycie (pomocniczo)', en: 'Usage (secondary)' }, metric: { pl: 'Aktywne użycie w przebudowanych procesach – sygnał wyprzedzający, nie cel.', en: 'Active use within redesigned workflows – a leading signal, not a goal.' } },
+  ];
+  const KPI_NOTE = { pl: 'Liderzy w badaniu McKinsey dwa razy częściej mają zaangażowane kierownictwo i zdefiniowany sposób mierzenia efektów.', en: 'High performers in the McKinsey survey are twice as likely to have committed senior leaders and a defined way to measure impact.', src: ['mckinsey'] };
+
+  const INDUSTRIES = [
+    { title: { pl: 'Finanse', en: 'Financial services' }, text: { pl: 'Ocena zdolności kredytowej osób fizycznych to system wysokiego ryzyka. Zacznij od analizy dokumentów, compliance i obsługi klienta. Dostawców AI obejmij zarządzaniem ryzykiem ICT według DORA.', en: 'Creditworthiness assessment of individuals is high-risk. Start with document analysis, compliance and customer service. Bring AI vendors under DORA ICT risk management.' } },
+    { title: { pl: 'Ochrona zdrowia', en: 'Healthcare' }, text: { pl: 'Zacznij od administracji: dokumentacja, rejestracja, rozliczenia. AI diagnostyczna to zwykle wyrób medyczny (zał. I, termin 2 sierpnia 2028). Dane o zdrowiu to kategoria szczególna RODO; w USA dochodzi HIPAA.', en: 'Start with admin: documentation, scheduling, billing. Diagnostic AI is usually a medical device (Annex I, deadline 2 August 2028). Health data is a GDPR special category; in the US, HIPAA applies too.' } },
+    { title: { pl: 'Edukacja i sektor publiczny', en: 'Education and public sector' }, text: { pl: 'Ocenianie, rekrutacja na studia i dostęp do świadczeń publicznych to obszary wysokiego ryzyka. Uczeń i obywatel muszą wiedzieć, że rozmawiają z AI (art. 50).', en: 'Grading, admissions and access to public benefits are high-risk areas. Students and citizens must know they are talking to AI (Art. 50).' } },
+    { title: { pl: 'Kadry (każda branża)', en: 'HR (every sector)' }, text: { pl: 'Rekrutacja, ocena i zwalnianie z pomocą AI to wysokie ryzyko od 2 grudnia 2027. Rozpoznawanie emocji pracowników jest zakazane od lutego 2025.', en: 'AI in hiring, appraisal and dismissal is high-risk from 2 December 2027. Recognising employees\' emotions has been banned since February 2025.' } },
+    { title: { pl: 'Produkcja', en: 'Manufacturing' }, text: { pl: 'Utrzymanie predykcyjne, kontrola jakości, planowanie. AI jako element bezpieczeństwa maszyn podlega zał. I (sierpień 2028). Uporządkuj znaczenie danych z czujników i MES, zanim podłączysz agentów.', en: 'Predictive maintenance, quality control, planning. AI as a machinery safety component falls under Annex I (August 2028). Sort out the meaning of sensor and MES data before connecting agents.' } },
+    { title: { pl: 'Handel', en: 'Retail' }, text: { pl: 'Agent obsługi klienta musi przedstawiać się jako AI. Przy prognozach popytu i dynamicznych cenach mierz wpływ na marżę i dostępność towaru, nie liczbę rozmów.', en: 'Customer service agents must identify as AI. For demand forecasting and dynamic pricing measure the effect on margin and availability, not the number of conversations.' } },
+  ];
+
+  const PITFALLS = [
+    { symptom: { pl: 'Wieczny pilotaż: pokazy nigdy nie trafiają do produkcji.', en: 'Pilot purgatory: demos never reach production.' }, fix: { pl: 'Kryteria bramki i właściciel produkcji od pierwszego dnia.', en: 'Gate criteria and a production owner from day one.' } },
+    { symptom: { pl: 'AI doklejona do niezmienionego procesu.', en: 'AI bolted onto an unchanged process.' }, fix: { pl: 'Przeprojektuj proces, potem dobierz narzędzie.', en: 'Redesign the workflow, then choose the tool.' } },
+    { symptom: { pl: 'Raport mówi o liczbie użytkowników, nie o wyniku.', en: 'Reports count users, not results.' }, fix: { pl: 'Wskaźniki wyniku i punkt wyjścia przed startem.', en: 'Outcome KPIs and a baseline before launch.' } },
+    { symptom: { pl: 'Agent z szerokimi uprawnieniami i wspólnym kluczem.', en: 'An agent with broad permissions and a shared key.' }, fix: { pl: 'Własna tożsamość, minimalne uprawnienia, reguła dwóch.', en: 'Own identity, least privilege, Rule of Two.' } },
+    { symptom: { pl: 'Po zmianie modelu jakość cicho spada.', en: 'Quality drops silently after a model change.' }, fix: { pl: 'Testy regresji przed każdą zmianą.', en: 'Regression evals before every change.' } },
+    { symptom: { pl: 'Koszty rosną szybciej niż wolumen.', en: 'Costs grow faster than volume.' }, fix: { pl: 'Koszt udanego zadania, routing do tańszych modeli, brama AI.', en: 'Cost per successful task, routing to cheaper models, an AI gateway.' } },
+    { symptom: { pl: 'Pracownicy używają prywatnych kont AI.', en: 'Staff use personal AI accounts.' }, fix: { pl: 'Lepsze narzędzie oficjalne, wykrywanie i amnestia.', en: 'A better official tool, discovery and an amnesty.' } },
+    { symptom: { pl: 'Zgodność sprawdzana na końcu.', en: 'Compliance checked at the end.' }, fix: { pl: 'Klasyfikacja wg AI Act już przy spisie systemów.', en: 'AI Act classification at inventory time.' } },
+  ];
+
+  // ─── State ───
+  const state = {
+    lang: 'pl',
+    done: new Set(),
+    collapsed: new Set(),
+    resetArmed: false,
+  };
+  let resetTimer = null;
+  let navObserver = null;
+
+  // ─── DOM refs ───
+  const html = document.documentElement;
+  const pageHead = document.getElementById('top');
+  const mainEl = document.getElementById('main');
+  const navEl = document.getElementById('nav');
+  const navWrap = document.getElementById('navWrap');
+  const footEl = document.getElementById('foot');
+  const liveEl = document.getElementById('live');
+  const skipEl = document.querySelector('[data-t="skip"]');
+  const langSeg = document.getElementById('langSeg');
+  const headProg = document.getElementById('headProg');
+  const headProgFill = document.getElementById('headProgFill');
+  const headProgText = document.getElementById('headProgText');
+
+  // ─── Helpers ───
+  const t = (key, ...args) => {
+    const v = T[state.lang][key];
+    return typeof v === 'function' ? v(...args) : v;
+  };
+  const L = obj => obj[state.lang];
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const srcNum = id => SOURCES.findIndex(s => s.id === id) + 1;
+  const refs = ids => !ids || !ids.length ? '' :
+    `<span class="refs">${ids.map(id => `<a href="#src-${srcNum(id)}" title="${esc(SOURCES[srcNum(id) - 1].org)}">[${srcNum(id)}]</a>`).join('')}</span>`;
+  const allActions = () => PHASES.flatMap(p => p.streams.flatMap(s => s.actions));
+  const phaseActions = p => p.streams.flatMap(s => s.actions);
+  const countDone = list => list.filter(a => state.done.has(a.id)).length;
+  const pct = (n, total) => total ? Math.round(n / total * 100) : 0;
+  const fmtDate = iso => new Intl.DateTimeFormat(t('locale'), { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso + 'T12:00:00'));
+  const localIso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const daysUntil = iso => Math.round((new Date(iso + 'T12:00:00') - new Date(localIso(new Date()) + 'T12:00:00')) / 86400000);
+  const clockStatus = iso => {
+    const d = daysUntil(iso);
+    if (d <= 0) return 'inforce';
+    return d <= SOON_DAYS ? 'soon' : 'later';
+  };
+  const announce = msg => { liveEl.textContent = ''; requestAnimationFrame(() => { liveEl.textContent = msg; }); };
+  const store = {
+    get(key) { try { return localStorage.getItem(key); } catch { return null; } },
+    set(key, v) { try { localStorage.setItem(key, v); } catch { /* storage unavailable */ } },
+  };
+  const saveDone = () => store.set(STORAGE_KEYS.done, JSON.stringify([...state.done]));
+  const secHead = title => `<div class="sec-head"><h2>${esc(title)}</h2></div>`;
+
+  // ─── Render ───
+  function renderChrome() {
+    html.lang = state.lang;
+    html.dataset.lang = state.lang;
+    document.title = t('docTitle');
+    skipEl.textContent = t('skip');
+    navWrap.setAttribute('aria-label', t('navLabel'));
+    langSeg.setAttribute('aria-label', t('langLabel'));
+    headProg.setAttribute('aria-label', t('progLabel'));
+    langSeg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.langBtn === state.lang)));
+    const navItems = [['plan', 'navPlan'], ['law', 'navLaw'], ['agents', 'navAgents'], ['measure', 'navMeasure'], ['sources', 'navSources']];
+    navEl.innerHTML = navItems.map(([id, key]) => `<li><a href="#${id}" data-nav="${id}">${esc(t(key))}</a></li>`).join('');
+    pageHead.innerHTML = `
+      <h1 class="app-title">${esc(t('title'))}</h1>
+      <p class="edu-lead">${esc(t('lead'))}</p>
+      <p class="asof">${esc(t('asOf'))}</p>`;
+    footEl.innerHTML = `
+      <span>${esc(t('footNote'))} · <a href="https://github.com/workszop/ai_roadmap">GitHub</a></span>
+      <span>${esc(t('footKeys'))} <kbd>L</kbd> ${esc(t('keyLang'))} · <kbd>E</kbd> ${esc(t('keyExpand'))} · <kbd>1</kbd>–<kbd>5</kbd> ${esc(t('keyPhase'))}</span>`;
+  }
+
+  function renderChanged() {
+    return `<section class="sec" id="changed"><div class="wrap">
+      ${secHead(t('secChanged'))}
+      <p class="edu-body-lg sec-lead">${esc(t('changedLead'))}</p>
+      <div class="stats">${STATS.map(s => `
+        <div class="stat stat-${s.tone} edu-block">
+          <div class="stat-value">${esc(L(s.value))}</div>
+          <p>${esc(L(s.text))}</p>
+          ${refs(s.src)}
+        </div>`).join('')}
+      </div>
+    </div></section>`;
+  }
+
+  function renderLaw() {
+    const chip = st => ({
+      inforce: `<span class="edu-chip chip-green">${esc(t('stInForce'))}</span>`,
+      soon: `<span class="edu-chip chip-red">${esc(t('stSoon'))}</span>`,
+      later: `<span class="edu-chip chip-stone">${esc(t('stLater'))}</span>`,
+    }[st]);
+    return `<section class="sec" id="law" data-nav="law"><div class="wrap">
+      ${secHead(t('secLaw'))}
+      <p class="edu-body-lg sec-lead">${esc(t('lawLead'))}</p>
+      <div class="card table-card"><div class="card-body">
+        <table>
+          <thead><tr><th>${esc(t('thDate'))}</th><th>${esc(t('thWhat'))}</th><th>${esc(t('thStatus'))}</th><th>${esc(t('thSrc'))}</th></tr></thead>
+          <tbody>${CLOCK.map(r => {
+            const st = clockStatus(r.date);
+            return `<tr data-status="${st}"><td class="date">${esc(fmtDate(r.date))}</td><td>${esc(L(r.what))}</td><td>${chip(st)}</td><td>${refs(r.src)}</td></tr>`;
+          }).join('')}</tbody>
+        </table>
+      </div></div>
+    </div></section>`;
+  }
+
+  function renderOverview() {
+    return `<section class="sec" id="plan" data-nav="plan"><div class="wrap">
+      ${secHead(t('secPlan'))}
+      <p class="edu-body-lg sec-lead">${esc(t('planLead'))}</p>
+      <div class="overview">${PHASES.map(p => `
+        <a class="card ov" href="#${p.id}" data-ov="${p.id}">
+          <div class="card-head"><span class="edu-chip chip-yellow">${esc(L(p.time))}</span><span class="count" data-count="${p.id}"></span></div>
+          <div class="card-body">
+            <p class="ov-title">${esc(L(p.title))}</p>
+            <p class="ov-text">${esc(L(p.summary))}</p>
+            <div class="ov-bar" aria-hidden="true"><span data-bar="${p.id}"></span></div>
           </div>
-          <!-- Strategic Reviews -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo11">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo11" aria-expanded="false" aria-controls="collapseTwo11">
-                Strategic Reviews
-              </button>
-            </h2>
-            <div id="collapseTwo11" class="accordion-collapse collapse" aria-labelledby="headingTwo11" data-bs-parent="#accordionOngoingActivities">
-              <div class="accordion-body">
-                <ul>
-                  <li><strong>Quarterly:</strong> Evaluate ROI, review new tools, update training materials, conduct refresher sessions, and share success stories</li>
-                  <li><strong>Annual:</strong> Conduct a comprehensive review, benchmark against industry standards, update governance policies, plan strategically, report to leadership, and plan the budget</li>
-                </ul>
-              </div>
-            </div>
+        </a>`).join('')}
+      </div>
+      <div class="controls">
+        <div class="big-prog"><span class="prog-track" aria-hidden="true"><span class="prog-fill" id="bigProgFill"></span></span><span id="bigProgText"></span></div>
+        <span class="spacer"></span>
+        <button type="button" class="btn-ghost" id="toggleAll"></button>
+        <button type="button" class="btn-ghost" id="resetBtn">${esc(t('reset'))}</button>
+      </div>
+    </div></section>`;
+  }
+
+  function renderPhase(p) {
+    const actions = phaseActions(p);
+    return `<section class="sec phase" id="${p.id}" data-nav="plan" data-phase="${p.id}" data-total="${actions.length}">
+      <div class="wrap">
+      ${secHead(L(p.title))}
+      <div class="sec-meta"><span class="edu-chip chip-yellow">${esc(L(p.time))}</span><span class="count" data-count="${p.id}"></span></div>
+      <p class="edu-body-lg sec-lead">${esc(L(p.intro))}</p>
+      <div class="grid-2">${p.streams.map(s => `
+        <details class="card stream" data-stream="${s.id}" ${state.collapsed.has(s.id) ? '' : 'open'}>
+          <summary class="card-head">
+            <h3>${esc(L(s.title))}</h3>
+            <span class="head-right"><span class="count" data-scount="${s.id}"></span>${CHEVRON}</span>
+          </summary>
+          <div class="card-body">
+            <ul class="checklist">${s.actions.map(a => `
+              <li>
+                <label class="check"><input type="checkbox" data-action="${a.id}" ${state.done.has(a.id) ? 'checked' : ''}><span class="box" aria-hidden="true"></span><span class="txt">${esc(a[state.lang])}</span></label>
+                ${refs(a.src)}
+              </li>`).join('')}
+            </ul>
           </div>
+        </details>`).join('')}
+      </div>
+      <div class="gate edu-block" data-gate="${p.id}">
+        <div><p class="edu-overline">${esc(t('gate'))}</p><h3>${esc(L(p.title))}</h3></div>
+        <div><ul>${L(p.gate).map(g => `<li>${esc(g)}</li>`).join('')}</ul><p class="then">${esc(t('gateThen'))}</p></div>
+      </div>
+      </div>
+    </section>`;
+  }
+
+  function renderAgents() {
+    return `<section class="sec" id="agents" data-nav="agents"><div class="wrap">
+      ${secHead(t('secAgents'))}
+      <p class="edu-body-lg sec-lead">${esc(t('agentsLead'))}</p>
+      <div class="card table-card">
+        <div class="card-head"><h3>${esc(t('autonomyHead'))}</h3>${refs(['gAutonomy'])}</div>
+        <div class="card-body"><table>
+          <thead><tr><th>${esc(t('thLevel'))}</th><th>${esc(t('thDoes'))}</th><th>${esc(t('thControls'))}</th></tr></thead>
+          <tbody>${AUTONOMY.map(r => `<tr><td>${esc(L(r.level))}</td><td>${esc(L(r.does))}</td><td>${esc(L(r.controls))}</td></tr>`).join('')}</tbody>
+        </table></div>
+      </div>
+      <div class="grid-2 mt">
+        <div class="panel-dark">
+          <p class="edu-overline">Rule of Two</p>
+          <h3>${esc(t('ruleOfTwo'))}</h3>
+          <p>${esc(L(RULE_OF_TWO.intro))}</p>
+          ${RULE_OF_TWO.rows.map((r, i) => `<div class="pd-row"><b>${'ABC'[i]}</b><span>${esc(L(r))}</span></div>`).join('')}
+          <p class="pd-foot">${esc(L(RULE_OF_TWO.foot))} ${refs(RULE_OF_TWO.src)}</p>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>${esc(t('toolsHead'))}</h3></div>
+          <div class="card-body"><ul class="plain">${TOOL_RULES.map(r => `<li>${esc(L(r))} ${refs(r.src)}</li>`).join('')}</ul></div>
         </div>
       </div>
-    </div>
+    </div></section>`;
+  }
 
-    <!-- Common Implementation Challenges & Solutions -->
-    <div class="phase" id="challenges">
-      <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle me-2" viewBox="0 0 16 16">
-          <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
-          <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
-        </svg>
-        Common Implementation Challenges & Solutions
-      </h2>
-      <div class="accordion" id="accordionChallenges">
-        <!-- People & Process Challenges -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingOne12">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne12" aria-expanded="false" aria-controls="collapseOne12">
-              People & Process Challenges
-            </button>
-          </h2>
-          <div id="collapseOne12" class="accordion-collapse collapse" aria-labelledby="headingOne12" data-bs-parent="#accordionChallenges">
-            <div class="accordion-body">
-              <ul>
-                <li><strong>Inconsistent Adoption:</strong> Pair resistant staff with enthusiastic champions, showcase concrete examples, gamify training, provide targeted support, and create quick wins</li>
-                <li><strong>Quality Concerns:</strong> Implement role-appropriate review protocols, develop quality benchmarks, create specialized QA teams, document lessons from errors, and use automated quality checks</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!-- Technical & Compliance Challenges -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingTwo12">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo12" aria-expanded="false" aria-controls="collapseTwo12">
-              Technical & Compliance Challenges
-            </button>
-          </h2>
-          <div id="collapseTwo12" class="accordion-collapse collapse" aria-labelledby="headingTwo12" data-bs-parent="#accordionChallenges">
-            <div class="accordion-body">
-              <ul>
-                <li><strong>Data Security and Privacy:</strong> Vet AI tools for security compliance, establish clear data handling policies, implement technical safeguards, conduct regular audits, and communicate transparently</li>
-                <li><strong>Ethical Considerations:</strong> Consult ethics and compliance teams, establish clear attribution guidelines, develop disclosure templates, and create escalation paths for concerns</li>
-                <li><strong>Integration with Legacy Systems:</strong> Map required integrations early, involve IT stakeholders, develop necessary APIs, test thoroughly, and create contingency plans</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+  function renderMeasure() {
+    return `<section class="sec" id="measure" data-nav="measure"><div class="wrap">
+      ${secHead(t('secMeasure'))}
+      <p class="edu-body-lg sec-lead">${esc(t('measureLead'))}</p>
+      <div class="card table-card"><div class="card-body"><table>
+        <thead><tr><th>${esc(t('thArea'))}</th><th>${esc(t('thMetric'))}</th></tr></thead>
+        <tbody>${KPIS.map(k => `<tr><td>${esc(L(k.area))}</td><td>${esc(L(k.metric))}</td></tr>`).join('')}</tbody>
+      </table></div></div>
+      <div class="callout edu-block"><p>${esc(L(KPI_NOTE))} ${refs(KPI_NOTE.src)}</p></div>
+    </div></section>`;
+  }
+
+  function renderIndustries() {
+    return `<section class="sec" id="industries" data-nav="measure"><div class="wrap">
+      ${secHead(t('secIndustry'))}
+      <div class="grid-3">${INDUSTRIES.map(i => `
+        <div class="card"><div class="card-head"><h3>${esc(L(i.title))}</h3></div><div class="card-body"><p class="edu-small">${esc(L(i.text))}</p></div></div>`).join('')}
       </div>
-    </div>
+    </div></section>`;
+  }
 
-    <!-- Industry-Specific Guidance -->
-    <div class="phase" id="industry">
-      <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-building me-2" viewBox="0 0 16 16">
-          <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
-          <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>
-        </svg>
-        Industry-Specific Implementation Guidance
-      </h2>
-      <div class="accordion" id="accordionIndustry">
-        <!-- Financial & Healthcare -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingOne13">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne13" aria-expanded="false" aria-controls="collapseOne13">
-              Financial Services & Healthcare
-            </button>
-          </h2>
-          <div id="collapseOne13" class="accordion-collapse collapse" aria-labelledby="headingOne13" data-bs-parent="#accordionIndustry">
-            <div class="accordion-body">
-              <ul>
-                <li><strong>Financial Services:</strong> Focus on document review, risk assessment, and compliance monitoring; implement additional security and develop audit trails</li>
-                <li><strong>Healthcare:</strong> Prioritize non-diagnostic administrative applications, ensure HIPAA compliance, and clearly delineate administrative versus clinical use</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!-- Manufacturing & Retail -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingTwo13">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo13" aria-expanded="false" aria-controls="collapseTwo13">
-              Manufacturing & Retail
-            </button>
-          </h2>
-          <div id="collapseTwo13" class="accordion-collapse collapse" aria-labelledby="headingTwo13" data-bs-parent="#accordionIndustry">
-            <div class="accordion-body">
-              <ul>
-                <li><strong>Manufacturing:</strong> Emphasize quality control, predictive maintenance, and inventory optimization; integrate with IoT and build visualization tools</li>
-                <li><strong>Retail:</strong> Concentrate on customer service, inventory management, and demand forecasting; develop quality frameworks and marketing optimization tools</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  function renderPitfalls() {
+    return `<section class="sec" id="pitfalls" data-nav="measure"><div class="wrap">
+      ${secHead(t('secPitfalls'))}
+      <div class="card table-card"><div class="card-body"><table>
+        <thead><tr><th>${esc(t('thSymptom'))}</th><th>${esc(t('thFix'))}</th></tr></thead>
+        <tbody>${PITFALLS.map(r => `<tr><td>${esc(L(r.symptom))}</td><td>${esc(L(r.fix))}</td></tr>`).join('')}</tbody>
+      </table></div></div>
+    </div></section>`;
+  }
 
-    <!-- Measuring Success -->
-    <div class="phase" id="success">
-      <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-graph-up me-2" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
-        </svg>
-        Measuring Success
-      </h2>
-      <div class="mb-3">
-        <h3>Key Performance Indicators</h3>
-        <div class="accordion" id="accordionSuccess">
-          <!-- Operational Metrics -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne14">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne14" aria-expanded="false" aria-controls="collapseOne14">
-                Operational Metrics
-              </button>
-            </h2>
-            <div id="collapseOne14" class="accordion-collapse collapse" aria-labelledby="headingOne14" data-bs-parent="#accordionSuccess">
-              <div class="accordion-body">
-                <ul>
-                  <li>Efficiency: Time per process, labor hours saved, and throughput improvements</li>
-                  <li>Quality: Error rates, customer satisfaction, and rework requirements</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Strategic Metrics -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo14">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo14" aria-expanded="false" aria-controls="collapseTwo14">
-                Strategic Metrics
-              </button>
-            </h2>
-            <div id="collapseTwo14" class="accordion-collapse collapse" aria-labelledby="headingTwo14" data-bs-parent="#accordionSuccess">
-              <div class="accordion-body">
-                <ul>
-                  <li>Business Impact: Cost savings, revenue growth, and customer retention</li>
-                  <li>Innovation: New use cases, adoption rates, and cross-functional applications</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  function renderSources() {
+    return `<section class="sec" id="sources" data-nav="sources"><div class="wrap">
+      ${secHead(t('secSources'))}
+      <p class="sec-lead edu-small">${esc(t('sourcesLead'))}</p>
+      <ol class="sources">${SOURCES.map((s, i) => `
+        <li id="src-${i + 1}"><a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a><br><span class="src-meta">${esc(s.org)} · ${esc(s.date)}</span></li>`).join('')}
+      </ol>
+    </div></section>`;
+  }
 
-    <!-- Conclusion -->
-    <div class="phase" id="conclusion">
-      <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-circle me-2" viewBox="0 0 16 16">
-          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-          <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
-        </svg>
-        Conclusion
-      </h2>
-      <div class="mb-3">
-        <div class="accordion" id="accordionConclusion">
-          <!-- Key Takeaways -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne15">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne15" aria-expanded="false" aria-controls="collapseOne15">
-                Key Takeaways
-              </button>
-            </h2>
-            <div id="collapseOne15" class="accordion-collapse collapse" aria-labelledby="headingOne15" data-bs-parent="#accordionConclusion">
-              <div class="accordion-body">
-                <p>Implementing AI in your organization is a journey that requires careful planning, strategic execution, and ongoing support. By following this roadmap, you can transform the way your organization works, delivering significant value through enhanced efficiency, improved quality, and new capabilities.</p>
-              </div>
-            </div>
-          </div>
-          <!-- Final Thoughts -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo15">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo15" aria-expanded="false" aria-controls="collapseTwo15">
-                Final Thoughts
-              </button>
-            </h2>
-            <div id="collapseTwo15" class="accordion-collapse collapse" aria-labelledby="headingTwo15" data-bs-parent="#accordionConclusion">
-              <div class="accordion-body">
-                <p>Remember that successful AI implementation balances technical requirements with human factors like change management, training, and ethical considerations. Start small, measure consistently, and scale thoughtfully to achieve sustainable success with AI in your organization.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  function renderMain() {
+    mainEl.innerHTML = [
+      renderChanged(), renderLaw(), renderOverview(),
+      ...PHASES.map(renderPhase),
+      renderAgents(), renderMeasure(), renderIndustries(), renderPitfalls(), renderSources(),
+    ].join('');
+    updateProgress();
+    updateToggleLabel();
+    observeNav();
+  }
 
-  <!-- Footer -->
-  <footer class="footer py-4 mt-5">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-md-6 text-center text-md-start">
-          <p class="mb-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-robot me-2" viewBox="0 0 16 16">
-              <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.6 26.6 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.93.93 0 0 1-.765.935c-.845.147-2.34.346-4.235.346s-3.39-.2-4.235-.346A.93.93 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a24.8 24.8 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135"/>
-              <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5"/>
-            </svg>
-            © 2025 AI Implementation Roadmap
-          </p>
-        </div>
-        <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
-          <a href="#" class="text-white text-decoration-none me-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
-            </svg>
-            Back to top
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>
+  function updateProgress() {
+    const all = allActions();
+    const n = countDone(all);
+    const p = pct(n, all.length);
+    document.body.dataset.done = n;
+    document.body.dataset.total = all.length;
+    headProgFill.style.width = p + '%';
+    headProgText.textContent = `${n}/${all.length}`;
+    headProg.setAttribute('aria-valuenow', p);
+    headProg.setAttribute('aria-valuetext', t('aProgress', n, all.length));
+    const big = document.getElementById('bigProgFill');
+    if (big) {
+      big.style.width = p + '%';
+      document.getElementById('bigProgText').textContent = `${n}/${all.length} ${t('done')} · ${p}%`;
+    }
+    PHASES.forEach(ph => {
+      const list = phaseActions(ph);
+      const d = countDone(list);
+      document.querySelectorAll(`[data-count="${ph.id}"]`).forEach(el => { el.textContent = `${d}/${list.length}`; });
+      const bar = document.querySelector(`[data-bar="${ph.id}"]`);
+      if (bar) bar.style.width = pct(d, list.length) + '%';
+      const sec = document.getElementById(ph.id);
+      if (sec) sec.dataset.done = d;
+      ph.streams.forEach(s => {
+        const el = document.querySelector(`[data-scount="${s.id}"]`);
+        if (el) el.textContent = `${countDone(s.actions)}/${s.actions.length}`;
+      });
+    });
+  }
 
-  <!-- Bootstrap JS Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  function allCollapsed() {
+    return PHASES.every(p => p.streams.every(s => state.collapsed.has(s.id)));
+  }
+
+  function updateToggleLabel() {
+    const btn = document.getElementById('toggleAll');
+    if (btn) btn.textContent = allCollapsed() ? t('expandAll') : t('collapseAll');
+    document.body.dataset.collapsed = state.collapsed.size;
+  }
+
+  function setActiveNav(id) {
+    navEl.querySelectorAll('a').forEach(a => {
+      const on = a.dataset.nav === id;
+      a.classList.toggle('active', on);
+      if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+  }
+
+  function observeNav() {
+    if (navObserver) navObserver.disconnect();
+    navObserver = new IntersectionObserver(entries => {
+      const visible = entries.filter(e => e.isIntersecting);
+      if (visible.length) setActiveNav(visible[0].target.dataset.nav);
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    mainEl.querySelectorAll('.sec').forEach(s => navObserver.observe(s));
+  }
+
+  // ─── Actions ───
+  function setLang(lang) {
+    if (!LANGS.includes(lang) || lang === state.lang) return;
+    const anchor = [...mainEl.querySelectorAll('.sec')].find(s => s.getBoundingClientRect().bottom > 100);
+    const keepPlace = anchor && window.scrollY > 0;
+    state.lang = lang;
+    store.set(STORAGE_KEYS.lang, lang);
+    renderChrome();
+    renderMain();
+    if (keepPlace) document.getElementById(anchor.id).scrollIntoView({ behavior: 'instant' });
+    announce(t('aLang'));
+  }
+
+  function toggleAll() {
+    const collapse = !allCollapsed();
+    state.collapsed = collapse ? new Set(PHASES.flatMap(p => p.streams.map(s => s.id))) : new Set();
+    mainEl.querySelectorAll('details.stream').forEach(d => { d.open = !collapse; });
+    updateToggleLabel();
+    announce(collapse ? t('aCollapsed') : t('aExpanded'));
+  }
+
+  function jumpToPhase(key) {
+    const p = PHASES.find(ph => ph.key === key);
+    if (!p) return;
+    const sec = document.getElementById(p.id);
+    sec.scrollIntoView();
+    const first = sec.querySelector('summary');
+    if (first) first.focus({ preventScroll: true });
+  }
+
+  function handleReset(btn) {
+    if (!state.resetArmed) {
+      state.resetArmed = true;
+      btn.classList.add('armed');
+      btn.textContent = t('resetArmed');
+      resetTimer = setTimeout(() => disarmReset(btn), RESET_ARM_MS);
+      return;
+    }
+    clearTimeout(resetTimer);
+    state.done.clear();
+    saveDone();
+    mainEl.querySelectorAll('input[data-action]').forEach(i => { i.checked = false; });
+    disarmReset(btn);
+    updateProgress();
+    announce(t('aReset'));
+  }
+
+  function disarmReset(btn) {
+    state.resetArmed = false;
+    btn.classList.remove('armed');
+    btn.textContent = t('reset');
+  }
+
+  // ─── Verification probe ───
+  // Invariants on data + DOM. Run window.ROADMAP_CHECK() from DevTools or a headless probe.
+  function ROADMAP_CHECK() {
+    const errors = [];
+    const data = { STATS, CLOCK, PHASES, AUTONOMY, RULE_OF_TWO, TOOL_RULES, KPIS, KPI_NOTE, INDUSTRIES, PITFALLS, SOURCES };
+    const walk = (node, path) => {
+      if (Array.isArray(node)) return node.forEach((n, i) => walk(n, `${path}[${i}]`));
+      if (node && typeof node === 'object') {
+        if ('pl' in node || 'en' in node) {
+          LANGS.forEach(l => {
+            const v = node[l];
+            const vals = Array.isArray(v) ? v : [v];
+            if (!v || vals.some(x => typeof x !== 'string' || !x.trim())) errors.push(`missing ${l} at ${path}`);
+          });
+          if (Array.isArray(node.pl) && Array.isArray(node.en) && node.pl.length !== node.en.length) errors.push(`pl/en length mismatch at ${path}`);
+        }
+        Object.entries(node).forEach(([k, v]) => walk(v, `${path}.${k}`));
+      } else if (typeof node === 'string' && node.includes('\u2014')) {
+        errors.push(`em-dash at ${path}`);
+      }
+    };
+    walk(data, '$');
+    LANGS.forEach(l => Object.entries(T[l]).forEach(([k, v]) => { if (typeof v === 'string' && v.includes('\u2014')) errors.push(`em-dash in T.${l}.${k}`); }));
+    const tKeys = LANGS.map(l => Object.keys(T[l]).sort().join());
+    if (tKeys[0] !== tKeys[1]) errors.push('T.pl and T.en keys differ');
+    const ids = allActions().map(a => a.id);
+    if (new Set(ids).size !== ids.length) errors.push('duplicate action ids');
+    const srcIds = new Set(SOURCES.map(s => s.id));
+    const usedSrc = new Set();
+    const collectSrc = node => {
+      if (Array.isArray(node)) return node.forEach(collectSrc);
+      if (node && typeof node === 'object') {
+        if (Array.isArray(node.src)) node.src.forEach(id => { usedSrc.add(id); if (!srcIds.has(id)) errors.push(`unknown source ${id}`); });
+        Object.values(node).forEach(collectSrc);
+      }
+    };
+    collectSrc(data);
+    usedSrc.add('gAutonomy'); // cited in the autonomy table head
+    SOURCES.forEach(s => {
+      if (!usedSrc.has(s.id)) errors.push(`unused source ${s.id}`);
+      if (!/^https:\/\//.test(s.url)) errors.push(`non-https source ${s.id}`);
+    });
+    const boxes = document.querySelectorAll('input[data-action]').length;
+    if (boxes !== ids.length) errors.push(`checkbox count ${boxes} != actions ${ids.length}`);
+    if (String(ids.length) !== document.body.dataset.total) errors.push('body[data-total] out of sync');
+    if (String(countDone(allActions())) !== document.body.dataset.done) errors.push('body[data-done] out of sync');
+    if (document.querySelectorAll('.sources li').length !== SOURCES.length) errors.push('source list out of sync');
+    if (document.querySelectorAll('section.phase').length !== PHASES.length) errors.push('phase sections out of sync');
+    if (html.lang !== state.lang || html.dataset.lang !== state.lang) errors.push('html[lang] out of sync');
+    return { ok: errors.length === 0, errors, actions: ids.length, done: state.done.size, sources: SOURCES.length, lang: state.lang };
+  }
+  window.ROADMAP_CHECK = ROADMAP_CHECK;
+
+  // ─── Listeners ───
+  langSeg.addEventListener('click', e => {
+    const b = e.target.closest('[data-lang-btn]');
+    if (b) setLang(b.dataset.langBtn);
+  });
+
+  mainEl.addEventListener('change', e => {
+    const box = e.target.closest('input[data-action]');
+    if (!box) return;
+    if (box.checked) state.done.add(box.dataset.action); else state.done.delete(box.dataset.action);
+    saveDone();
+    updateProgress();
+    announce(t('aProgress', state.done.size, allActions().length));
+  });
+
+  mainEl.addEventListener('toggle', e => {
+    const d = e.target;
+    if (!d.matches || !d.matches('details.stream')) return;
+    if (d.open) state.collapsed.delete(d.dataset.stream); else state.collapsed.add(d.dataset.stream);
+    updateToggleLabel();
+  }, true);
+
+  mainEl.addEventListener('click', e => {
+    if (e.target.closest('#toggleAll')) toggleAll();
+    const r = e.target.closest('#resetBtn');
+    if (r) handleReset(r);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const tgt = e.target;
+    if (tgt.isContentEditable || tgt.matches('textarea, select, input:not([type="checkbox"])')) return;
+    const k = e.key.toLowerCase();
+    if (k === 'l') setLang(state.lang === 'pl' ? 'en' : 'pl');
+    else if (k === 'e') toggleAll();
+    else if (/^[1-5]$/.test(k)) jumpToPhase(k);
+  });
+
+  // ─── Init ───
+  (function init() {
+    const savedLang = store.get(STORAGE_KEYS.lang);
+    if (LANGS.includes(savedLang)) state.lang = savedLang;
+    try {
+      const saved = JSON.parse(store.get(STORAGE_KEYS.done) || '[]');
+      const valid = new Set(allActions().map(a => a.id));
+      if (Array.isArray(saved)) saved.filter(id => valid.has(id)).forEach(id => state.done.add(id));
+    } catch { /* corrupt storage: start empty */ }
+    renderChrome();
+    renderMain();
+    const check = ROADMAP_CHECK();
+    if (!check.ok) console.warn('[roadmap] invariant errors', check.errors);
+
+    // ─── Reveal ───
+    Promise.race([
+      Promise.all(BRAND_FONTS.map(f => document.fonts.load(f).catch(() => null))),
+      new Promise(r => setTimeout(r, FONT_WAIT_MS)),
+    ]).then(() => {
+      html.classList.add('app-ready');
+      if (location.hash) { const el = document.getElementById(location.hash.slice(1)); if (el) el.scrollIntoView(); }
+    });
+  })();
+  </script>
 </body>
 </html>
