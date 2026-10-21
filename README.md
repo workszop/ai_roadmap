@@ -6,9 +6,8 @@ Live: https://workszop.github.io/ai_roadmap/
 
 ## What it covers
 
-- **Starting point** – adoption and ROI data (McKinsey State of AI 2026, Gartner, MIT NANDA).
-- **Regulatory clock** – vertical timeline of EU AI Act dates as amended by the Digital Omnibus (Regulation (EU) 2026/1744) and Poland's act on AI systems (KRiBSI), with a "today" marker. Status is computed against today's date.
 - **Five phases with decision gates** – a phase timeline, then Foundations, Use cases and data, Pilot with evals, Production and scale, Operate and govern. Each phase has its own colour; 65 tickable actions with sources; gate cards with scale / fix / stop outcomes.
+- **Regulatory clock** – vertical timeline of EU AI Act dates as amended by the Digital Omnibus (Regulation (EU) 2026/1744) and Poland's act on AI systems (KRiBSI), with a "today" marker. Status is computed against today's date.
 - **Agents** – a four-step autonomy ladder, the Rule of Two, MCP / tool and identity rules.
 - **Measuring success, industry notes, failure modes, sources.**
 

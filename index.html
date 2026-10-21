@@ -160,16 +160,6 @@
     .count { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); white-space: nowrap; }
 
     /* ─── Stat blocks ─── */
-    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-    .stat { border-radius: var(--r-lg); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; }
-    .stat-yellow { background: var(--yellow-soft); color: var(--yellow-ink); }
-    .stat-blue   { background: var(--blue-soft);   color: var(--blue-ink); }
-    .stat-green  { background: var(--green-soft);  color: var(--green-ink); }
-    .stat-ink    { background: var(--ink);         color: var(--paper); }
-    .stat-value { font-family: var(--font-display); font-weight: 700; font-size: var(--stat-value); line-height: 1.05; letter-spacing: -.02em; }
-    .stat-ink .stat-value { color: var(--yellow); }
-    .stat p { margin: 0; font-size: 15px; line-height: 1.5; flex: 1; }
-    .stat .refs, .stat .refs a { color: inherit; }
 
     /* ─── Cards ─── */
     .card { background: var(--surface); border: 1px solid var(--line-2); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden; display: flex; flex-direction: column; }
@@ -351,7 +341,7 @@
     }
     @media (max-width: 900px) { .nav { display: none; } }
     @media (max-width: 768px) {
-      :root { --gutter: 16px; --stat-value: 32px; }
+      :root { --gutter: 16px; }
       .edu-logo { width: 48px; height: 48px; }
       .edu-header-inner { padding: 6px var(--gutter); }
       .head-tools .prog-track { display: none; }
@@ -441,8 +431,6 @@
       lead: 'Pięć faz wdrożenia AI w organizacji: od właściciela i spisu systemów po agentów działających w produkcji pod nadzorem. Plan uwzględnia AI Act po nowelizacji z lipca 2026, polską ustawę o systemach sztucznej inteligencji i to, co odróżnia wdrożenia z mierzalnym efektem od wiecznych pilotaży. Zaznaczaj wykonane działania – postęp zapisuje się w tej przeglądarce.',
       asOf: 'Stan wiedzy: 13 października 2026 · materiał edukacyjny, nie porada prawna',
       navPlan: 'Plan', navLaw: 'Prawo', navAgents: 'Agenci', navMeasure: 'Pomiar', navSources: 'Źródła',
-      secChanged: 'Punkt wyjścia',
-      changedLead: 'Firmy wdrażają agentów, którzy sami wykonują działania, a regulacje obowiązują naprawdę. Cztery liczby, które wyznaczają skalę zadania.',
       secLaw: 'Zegar regulacyjny: AI Act i polska ustawa',
       lawLead: 'Digital Omnibus on AI (rozporządzenie (UE) 2026/1744) przesunął terminy dla systemów wysokiego ryzyka, ale nie zawiesił obowiązków, które już działają. Status liczy się względem dzisiejszej daty.',
       thDate: 'Data', thWhat: 'Co obowiązuje', thStatus: 'Status', thSrc: 'Źródło',
@@ -493,8 +481,6 @@
       lead: 'Five phases for rolling out AI in an organisation: from an accountable owner and an inventory of systems to governed agents in production. It reflects the EU AI Act as amended in July 2026, Poland\'s AI systems act, and what separates deployments with measurable results from endless pilots. Tick actions as you complete them – progress is saved in this browser.',
       asOf: 'Current as of 13 October 2026 · educational material, not legal advice',
       navPlan: 'Plan', navLaw: 'Regulation', navAgents: 'Agents', navMeasure: 'Measure', navSources: 'Sources',
-      secChanged: 'Starting point',
-      changedLead: 'Organisations deploy agents that take actions on their own, and regulation is in force. Four numbers that set the scale of the task.',
       secLaw: 'Regulatory clock: EU AI Act and Polish law',
       lawLead: 'The Digital Omnibus on AI (Regulation (EU) 2026/1744) moved the high-risk deadlines but did not pause the obligations already in force. Status is computed against today\'s date.',
       thDate: 'Date', thWhat: 'What applies', thStatus: 'Status', thSrc: 'Source',
@@ -565,20 +551,6 @@
     { id: 'trifecta', title: 'The lethal trifecta for AI agents', org: 'Simon Willison', date: '2025-06-16', url: 'https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/' },
   ];
 
-  const STATS = [
-    { tone: 'yellow', value: { pl: '37%', en: '37%' }, src: ['mckinsey'],
-      text: { pl: 'organizacji widzi jakikolwiek wpływ AI na EBIT. Tylko 6% to liderzy z wyraźnym zyskiem.',
-              en: 'of organisations see any EBIT impact from AI. Only 6% are high performers with a clear gain.' } },
-    { tone: 'blue', value: { pl: '75% / 25%', en: '75% / 25%' }, src: ['mckinsey'],
-      text: { pl: 'liderów i pozostałych firm przebudowało procesy wokół AI, zamiast dokładać narzędzie do starych.',
-              en: 'of high performers vs other firms redesigned workflows around AI instead of bolting it onto old ones.' } },
-    { tone: 'green', value: { pl: '>40%', en: '>40%' }, src: ['gCancel'],
-      text: { pl: 'projektów agentowych zostanie przerwanych do końca 2027 r. według Gartnera: przez koszty, niejasną wartość i słabą kontrolę ryzyka.',
-              en: 'of agentic AI projects will be cancelled by end-2027, Gartner predicts: rising costs, unclear value, weak risk controls.' } },
-    { tone: 'ink', value: { pl: '2.12.2027', en: '2 Dec 2027' }, src: ['omnibus', 'fpf'],
-      text: { pl: 'nowy termin dla systemów wysokiego ryzyka (kadry, edukacja, kredyty) po nowelizacji AI Act. Przejrzystość z art. 50 obowiązuje już od sierpnia 2026.',
-              en: 'new deadline for high-risk systems (HR, education, credit) after the AI Act amendment. Art. 50 transparency has applied since August 2026.' } },
-  ];
 
   const CLOCK = [
     { date: '2025-02-02', src: ['fpf'],
@@ -835,12 +807,12 @@
   ];
 
   const PITFALLS = [
-    { symptom: { pl: 'Wieczny pilotaż: pokazy nigdy nie trafiają do produkcji.', en: 'Pilot purgatory: demos never reach production.' }, fix: { pl: 'Kryteria bramki i właściciel produkcji od pierwszego dnia.', en: 'Gate criteria and a production owner from day one.' } },
+    { symptom: { pl: 'Wieczny pilotaż: pokazy nigdy nie trafiają do produkcji.', en: 'Pilot purgatory: demos never reach production.' }, fix: { pl: 'Kryteria bramki i właściciel produkcji od pierwszego dnia.', en: 'Gate criteria and a production owner from day one.' }, src: ['gCancel'] },
     { symptom: { pl: 'AI doklejona do niezmienionego procesu.', en: 'AI bolted onto an unchanged process.' }, fix: { pl: 'Przeprojektuj proces, potem dobierz narzędzie.', en: 'Redesign the workflow, then choose the tool.' } },
     { symptom: { pl: 'Raport mówi o liczbie użytkowników, nie o wyniku.', en: 'Reports count users, not results.' }, fix: { pl: 'Wskaźniki wyniku i punkt wyjścia przed startem.', en: 'Outcome KPIs and a baseline before launch.' } },
     { symptom: { pl: 'Agent z szerokimi uprawnieniami i wspólnym kluczem.', en: 'An agent with broad permissions and a shared key.' }, fix: { pl: 'Własna tożsamość, minimalne uprawnienia, reguła dwóch.', en: 'Own identity, least privilege, Rule of Two.' } },
     { symptom: { pl: 'Po zmianie modelu jakość cicho spada.', en: 'Quality drops silently after a model change.' }, fix: { pl: 'Testy regresji przed każdą zmianą.', en: 'Regression evals before every change.' } },
-    { symptom: { pl: 'Koszty rosną szybciej niż wolumen.', en: 'Costs grow faster than volume.' }, fix: { pl: 'Koszt udanego zadania, routing do tańszych modeli, brama AI.', en: 'Cost per successful task, routing to cheaper models, an AI gateway.' } },
+    { symptom: { pl: 'Koszty rosną szybciej niż wolumen.', en: 'Costs grow faster than volume.' }, fix: { pl: 'Koszt udanego zadania, routing do tańszych modeli, brama AI.', en: 'Cost per successful task, routing to cheaper models, an AI gateway.' }, src: ['gCancel'] },
     { symptom: { pl: 'Pracownicy używają prywatnych kont AI.', en: 'Staff use personal AI accounts.' }, fix: { pl: 'Lepsze narzędzie oficjalne, wykrywanie i amnestia.', en: 'A better official tool, discovery and an amnesty.' } },
     { symptom: { pl: 'Zgodność sprawdzana na końcu.', en: 'Compliance checked at the end.' }, fix: { pl: 'Klasyfikacja wg AI Act już przy spisie systemów.', en: 'AI Act classification at inventory time.' } },
   ];
@@ -924,19 +896,6 @@
       <span>${esc(t('footKeys'))} <kbd>L</kbd> ${esc(t('keyLang'))} · <kbd>E</kbd> ${esc(t('keyExpand'))} · <kbd>1</kbd>–<kbd>5</kbd> ${esc(t('keyPhase'))}</span>`;
   }
 
-  function renderChanged() {
-    return `<section class="sec" id="start"><div class="wrap">
-      ${secHead(t('secChanged'), 'sparkles')}
-      <p class="edu-body-lg sec-lead">${esc(t('changedLead'))}</p>
-      <div class="stats">${STATS.map(s => `
-        <div class="stat stat-${s.tone} edu-block">
-          <div class="stat-value">${esc(L(s.value))}</div>
-          <p>${esc(L(s.text))}</p>
-          ${refs(s.src)}
-        </div>`).join('')}
-      </div>
-    </div></section>`;
-  }
 
   function renderLaw() {
     const chip = st => ({
@@ -1112,7 +1071,7 @@
       <div class="grid-2">${PITFALLS.map(r => `
         <div class="card pit">
           <div class="card-head"><span class="tile-h">${badge('triangle-alert', 'red')}<h3>${esc(L(r.symptom))}</h3></span></div>
-          <div class="card-body pit-fix">${badge('circle-check', 'green')}<p>${esc(L(r.fix))}</p></div>
+          <div class="card-body pit-fix">${badge('circle-check', 'green')}<p>${esc(L(r.fix))} ${refs(r.src)}</p></div>
         </div>`).join('')}
       </div>
     </div></section>`;
@@ -1130,9 +1089,9 @@
 
   function renderMain() {
     mainEl.innerHTML = [
-      renderChanged(), renderLaw(), renderOverview(),
+      renderOverview(),
       ...PHASES.map(renderPhase),
-      renderAgents(), renderMeasure(), renderIndustries(), renderPitfalls(), renderSources(),
+      renderLaw(), renderAgents(), renderMeasure(), renderIndustries(), renderPitfalls(), renderSources(),
     ].join('');
     updateProgress();
     updateToggleLabel();
@@ -1253,7 +1212,7 @@
   // Invariants on data + DOM. Run window.ROADMAP_CHECK() from DevTools or a headless probe.
   function ROADMAP_CHECK() {
     const errors = [];
-    const data = { STATS, CLOCK, PHASES, AUTONOMY, RULE_OF_TWO, TOOL_RULES, KPIS, KPI_NOTE, INDUSTRIES, PITFALLS, SOURCES };
+    const data = { CLOCK, PHASES, AUTONOMY, RULE_OF_TWO, TOOL_RULES, KPIS, KPI_NOTE, INDUSTRIES, PITFALLS, SOURCES };
     const walk = (node, path) => {
       if (Array.isArray(node)) return node.forEach((n, i) => walk(n, `${path}[${i}]`));
       if (node && typeof node === 'object') {
