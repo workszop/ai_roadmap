@@ -438,11 +438,11 @@
       langLabel: 'Język',
       progLabel: 'Postęp planu',
       title: 'Mapa wdrożenia AI 2026',
-      lead: 'Pięć faz wdrożenia AI w organizacji: od właściciela i spisu systemów po agentów działających w produkcji pod nadzorem. Plan uwzględnia AI Act po nowelizacji z lipca 2026, polską ustawę o systemach sztucznej inteligencji i to, co w latach 2025–2026 odróżniało wdrożenia z mierzalnym efektem od wiecznych pilotaży. Zaznaczaj wykonane działania – postęp zapisuje się w tej przeglądarce.',
+      lead: 'Pięć faz wdrożenia AI w organizacji: od właściciela i spisu systemów po agentów działających w produkcji pod nadzorem. Plan uwzględnia AI Act po nowelizacji z lipca 2026, polską ustawę o systemach sztucznej inteligencji i to, co odróżnia wdrożenia z mierzalnym efektem od wiecznych pilotaży. Zaznaczaj wykonane działania – postęp zapisuje się w tej przeglądarce.',
       asOf: 'Stan wiedzy: 13 października 2026 · materiał edukacyjny, nie porada prawna',
       navPlan: 'Plan', navLaw: 'Prawo', navAgents: 'Agenci', navMeasure: 'Pomiar', navSources: 'Źródła',
-      secChanged: 'Co się zmieniło od 2025 roku',
-      changedLead: 'Pierwsza wersja tej mapy (marzec 2025) zakładała, że AI to narzędzie dla pracowników. Dziś coraz więcej firm wdraża agentów, którzy sami wykonują działania, a regulacje zaczęły obowiązywać naprawdę.',
+      secChanged: 'Punkt wyjścia',
+      changedLead: 'Firmy wdrażają agentów, którzy sami wykonują działania, a regulacje obowiązują naprawdę. Cztery liczby, które wyznaczają skalę zadania.',
       secLaw: 'Zegar regulacyjny: AI Act i polska ustawa',
       lawLead: 'Digital Omnibus on AI (rozporządzenie (UE) 2026/1744) przesunął terminy dla systemów wysokiego ryzyka, ale nie zawiesił obowiązków, które już działają. Status liczy się względem dzisiejszej daty.',
       thDate: 'Data', thWhat: 'Co obowiązuje', thStatus: 'Status', thSrc: 'Źródło',
@@ -468,7 +468,7 @@
       thSymptom: 'Objaw', thFix: 'Co zrobić',
       secSources: 'Źródła',
       sourcesLead: 'Przy każdym źródle podano datę publikacji.',
-      footNote: 'Mapa wdrożenia AI 2026 · aktualizacja wersji z marca 2025',
+      footNote: 'Mapa wdrożenia AI 2026',
       footKeys: 'Skróty:',
       keyLang: 'język', keyExpand: 'rozwiń/zwiń', keyPhase: 'fazy',
       aLang: 'Język: polski',
@@ -490,11 +490,11 @@
       langLabel: 'Language',
       progLabel: 'Plan progress',
       title: 'AI Implementation Roadmap 2026',
-      lead: 'Five phases for rolling out AI in an organisation: from an accountable owner and an inventory of systems to governed agents in production. It reflects the EU AI Act as amended in July 2026, Poland\'s AI systems act, and what separated deployments with measurable results from endless pilots in 2025–2026. Tick actions as you complete them – progress is saved in this browser.',
+      lead: 'Five phases for rolling out AI in an organisation: from an accountable owner and an inventory of systems to governed agents in production. It reflects the EU AI Act as amended in July 2026, Poland\'s AI systems act, and what separates deployments with measurable results from endless pilots. Tick actions as you complete them – progress is saved in this browser.',
       asOf: 'Current as of 13 October 2026 · educational material, not legal advice',
       navPlan: 'Plan', navLaw: 'Regulation', navAgents: 'Agents', navMeasure: 'Measure', navSources: 'Sources',
-      secChanged: 'What changed since 2025',
-      changedLead: 'The first version of this roadmap (March 2025) treated AI as a tool for staff. Today more organisations deploy agents that take actions on their own, and regulation has started to bite.',
+      secChanged: 'Starting point',
+      changedLead: 'Organisations deploy agents that take actions on their own, and regulation is in force. Four numbers that set the scale of the task.',
       secLaw: 'Regulatory clock: EU AI Act and Polish law',
       lawLead: 'The Digital Omnibus on AI (Regulation (EU) 2026/1744) moved the high-risk deadlines but did not pause the obligations already in force. Status is computed against today\'s date.',
       thDate: 'Date', thWhat: 'What applies', thStatus: 'Status', thSrc: 'Source',
@@ -520,7 +520,7 @@
       thSymptom: 'Symptom', thFix: 'What to do',
       secSources: 'Sources',
       sourcesLead: 'Each source shows its publication date.',
-      footNote: 'AI Implementation Roadmap 2026 · update of the March 2025 version',
+      footNote: 'AI Implementation Roadmap 2026',
       footKeys: 'Shortcuts:',
       keyLang: 'language', keyExpand: 'expand/collapse', keyPhase: 'phases',
       aLang: 'Language: English',
@@ -567,8 +567,8 @@
 
   const STATS = [
     { tone: 'yellow', value: { pl: '37%', en: '37%' }, src: ['mckinsey'],
-      text: { pl: 'organizacji widzi jakikolwiek wpływ AI na EBIT – tyle samo co rok wcześniej. Tylko 6% to liderzy z wyraźnym zyskiem.',
-              en: 'of organisations see any EBIT impact from AI – flat on a year earlier. Only 6% are high performers with a clear gain.' } },
+      text: { pl: 'organizacji widzi jakikolwiek wpływ AI na EBIT. Tylko 6% to liderzy z wyraźnym zyskiem.',
+              en: 'of organisations see any EBIT impact from AI. Only 6% are high performers with a clear gain.' } },
     { tone: 'blue', value: { pl: '75% / 25%', en: '75% / 25%' }, src: ['mckinsey'],
       text: { pl: 'liderów i pozostałych firm przebudowało procesy wokół AI, zamiast dokładać narzędzie do starych.',
               en: 'of high performers vs other firms redesigned workflows around AI instead of bolting it onto old ones.' } },
@@ -925,7 +925,7 @@
   }
 
   function renderChanged() {
-    return `<section class="sec" id="changed"><div class="wrap">
+    return `<section class="sec" id="start"><div class="wrap">
       ${secHead(t('secChanged'), 'sparkles')}
       <p class="edu-body-lg sec-lead">${esc(t('changedLead'))}</p>
       <div class="stats">${STATS.map(s => `
