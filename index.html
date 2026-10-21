@@ -428,7 +428,7 @@
       langLabel: 'Język',
       progLabel: 'Postęp planu',
       title: 'Mapa wdrożenia AI 2026',
-      lead: 'Pięć faz wdrożenia AI w organizacji: od właściciela i spisu systemów po agentów działających w produkcji pod nadzorem. Plan uwzględnia AI Act po nowelizacji z lipca 2026, polską ustawę o systemach sztucznej inteligencji i to, co odróżnia wdrożenia z mierzalnym efektem od wiecznych pilotaży. Zaznaczaj wykonane działania – postęp zapisuje się w tej przeglądarce.',
+      lead: 'Pięć faz wdrożenia AI w organizacji: od właściciela i spisu systemów po agentów działających w produkcji pod nadzorem. Plan uwzględnia AI Act po nowelizacji z lipca 2026, polską ustawę o systemach sztucznej inteligencji i to, co odróżnia wdrożenia z mierzalnym efektem od wiecznych pilotaży. Zaznaczaj wykonane działania. Postęp zapisuje się w tej przeglądarce.',
       asOf: 'Stan wiedzy: 13 października 2026 · materiał edukacyjny, nie porada prawna',
       navPlan: 'Plan', navLaw: 'Prawo', navAgents: 'Agenci', navMeasure: 'Pomiar', navSources: 'Źródła',
       secLaw: 'Zegar regulacyjny: AI Act i polska ustawa',
@@ -449,7 +449,7 @@
       ruleOfTwo: 'Reguła dwóch',
       toolsHead: 'Narzędzia, MCP i tożsamość',
       secMeasure: 'Mierzenie efektów',
-      measureLead: 'Licz wynik biznesowy, nie liczbę promptów. Użycie jest wskaźnikiem wyprzedzającym, a nie celem.',
+      measureLead: 'Licz wynik biznesowy. Liczba promptów i aktywnych użytkowników to tylko wskaźnik wyprzedzający.',
       thArea: 'Obszar', thMetric: 'Miary',
       secIndustry: 'Uwagi branżowe',
       secPitfalls: 'Typowe błędy i jak ich uniknąć',
@@ -597,17 +597,17 @@
         { id: 'f-own', icon: 'user-check', title: { pl: 'Odpowiedzialność i cele', en: 'Ownership and goals' }, actions: [
           { id: 'f1', pl: 'Wyznacz członka zarządu odpowiedzialnego za wynik biznesowy AI, a nie za liczbę użytkowników.', en: 'Name an executive accountable for AI business results, not for user counts.', src: ['mckinsey'] },
           { id: 'f2', pl: 'Powiąż cele AI z 2–3 wynikami biznesowymi (koszt, czas realizacji, przychód, ryzyko) i zmierz punkt wyjścia.', en: 'Tie AI goals to 2–3 business outcomes (cost, cycle time, revenue, risk) and measure the baseline.' },
-          { id: 'f3', pl: 'Zaplanuj budżet z kosztami utrzymania (tokeny, licencje, monitoring, migracje modeli), nie tylko pilotaż.', en: 'Budget for run costs (tokens, licences, monitoring, model migrations), not just the pilot.', src: ['finops'] },
+          { id: 'f3', pl: 'Zaplanuj budżet na cały cykl: pilotaż plus utrzymanie (tokeny, licencje, monitoring, migracje modeli).', en: 'Budget for run costs (tokens, licences, monitoring, model migrations), not just the pilot.', src: ['finops'] },
         ] },
         { id: 'f-inv', icon: 'search', title: { pl: 'Spis systemów i shadow AI', en: 'Inventory and shadow AI' }, actions: [
           { id: 'f4', pl: 'Spisz każdy używany system AI: narzędzia dostawców, funkcje AI wbudowane w SaaS, rozwiązania własne i agentów.', en: 'Inventory every AI system in use: vendor tools, AI features inside SaaS, internal builds and agents.', src: ['gSprawl'] },
-          { id: 'f5', pl: 'Wykryj shadow AI (wtyczki, prywatne konta, nieznane klucze API). Zacznij od amnestii, nie od kar.', en: 'Discover shadow AI (extensions, personal accounts, unknown API keys). Start with an amnesty, not penalties.', src: ['ibm'] },
+          { id: 'f5', pl: 'Wykryj shadow AI (wtyczki, prywatne konta, nieznane klucze API). Na start ogłoś amnestię: kto zgłosi, czego używa, nie ponosi konsekwencji.', en: 'Discover shadow AI (extensions, personal accounts, unknown API keys). Start with an amnesty, not penalties.', src: ['ibm'] },
           { id: 'f6', pl: 'Udostępnij zatwierdzone narzędzie na tyle dobre, żeby zastąpiło nieoficjalne. Samo blokowanie spycha użycie do podziemia.', en: 'Provide a sanctioned tool good enough to replace unofficial ones. Blocking alone drives use underground.', src: ['gSprawl'] },
         ] },
         { id: 'f-law', icon: 'scale', title: { pl: 'Polityka i AI Act', en: 'Policy and the AI Act' }, actions: [
           { id: 'f7', pl: 'Opublikuj zasady korzystania z AI: zatwierdzone narzędzia, dane, których nie wolno wklejać, obowiązek weryfikacji wyników, zasady ujawniania.', en: 'Publish an AI acceptable-use policy: approved tools, data that must not be pasted, the duty to verify output, disclosure rules.' },
           { id: 'f8', pl: 'Sklasyfikuj każdy system wg AI Act: praktyka zakazana, wysokie ryzyko (zał. III), obowiązki przejrzystości (art. 50), ryzyko minimalne.', en: 'Classify each system under the AI Act: prohibited, high-risk (Annex III), transparency duties (Art. 50), minimal risk.', src: ['fpf'] },
-          { id: 'f9', pl: 'Wyłącz praktyki zakazane – obowiązuje to od lutego 2025 (np. rozpoznawanie emocji pracowników).', en: 'Shut down prohibited practices – banned since February 2025 (e.g. emotion recognition of employees).', src: ['fpf'] },
+          { id: 'f9', pl: 'Wyłącz praktyki zakazane, np. rozpoznawanie emocji pracowników. Zakaz obowiązuje od lutego 2025.', en: 'Shut down prohibited practices – banned since February 2025 (e.g. emotion recognition of employees).', src: ['fpf'] },
           { id: 'f10', pl: 'W Polsce: w sprawach granicznych rozważ wiążącą opinię indywidualną KRiBSI.', en: 'In Poland: for borderline cases consider a binding individual opinion from KRiBSI.', src: ['chambers'] },
         ] },
         { id: 'f-lit', icon: 'graduation-cap', title: { pl: 'Kompetencje AI', en: 'AI literacy' }, actions: [
@@ -624,11 +624,11 @@
       time: { pl: 'Tygodnie 3–6', en: 'Weeks 3–6' },
       title: { pl: 'Portfel zastosowań i dane', en: 'Use cases and data' },
       summary: { pl: 'Mniej, ale głębiej: proces, autonomia, dane, punkt wyjścia.', en: 'Fewer, deeper: workflow, autonomy, data, baseline.' },
-      intro: { pl: 'Wybierz mniej zastosowań i wejdź w nie głębiej. Firmy z wynikiem przebudowują cały proces, zamiast dokładać czat do starego. Najpewniejszy zwrot dają procesy zaplecza: finanse, zakupy, IT, obsługa zgłoszeń.',
+      intro: { pl: 'Kilka zastosowań przerobionych do końca daje więcej niż wiele płytkich pilotaży. Firmy z wynikiem przebudowują cały proces, zamiast dokładać czat do starego. Najpewniejszy zwrot dają procesy zaplecza: finanse, zakupy, IT, obsługa zgłoszeń.',
                en: 'Choose fewer use cases and go deeper. Organisations with results redesign the whole workflow instead of adding a chat window to the old one. Back-office processes give the most reliable return: finance, procurement, IT, ticket handling.' },
       streams: [
         { id: 'p-sel', icon: 'workflow', title: { pl: 'Wybór od procesu', en: 'Workflow-first selection' }, actions: [
-          { id: 'p1', pl: 'Rozrysuj docelowy proces od początku do końca i przeprojektuj go. Nie doklejaj AI do obecnego.', en: 'Map the target workflow end to end and redesign it. Do not bolt AI onto the current one.', src: ['mckinsey'] },
+          { id: 'p1', pl: 'Rozrysuj docelowy proces od początku do końca i przeprojektuj go, zanim wstawisz w niego AI.', en: 'Map the target workflow end to end and redesign it. Do not bolt AI onto the current one.', src: ['mckinsey'] },
           { id: 'p2', pl: 'Oceń kandydatów: wartość, wykonalność, dostępność danych, klasa ryzyka i odwracalność błędów.', en: 'Score candidates on value, feasibility, data availability, risk class and reversibility of errors.' },
           { id: 'p3', pl: 'Wybierz 2–3 zastosowania. Każde dostaje właściciela biznesowego i docelowy wskaźnik.', en: 'Select 2–3 use cases. Each gets a business owner and a target KPI.', src: ['mit'] },
         ] },
@@ -643,7 +643,7 @@
           { id: 'p9', pl: 'Sprawdź dostawcę: trenowanie na Twoich danych, lokalizacja danych, polityka wycofywania modeli, logi audytowe, możliwość wyjścia.', en: 'Check the vendor: training on your data, data residency, model deprecation policy, audit logs, exit options.', src: ['deprecation'] },
         ] },
         { id: 'p-data', icon: 'database', title: { pl: 'Gotowość danych', en: 'Data readiness' }, actions: [
-          { id: 'p10', pl: 'Wskaż źródło prawdy i jego właściciela. Popraw uprawnienia przed indeksowaniem – RAG dziedziczy każde nadmierne udostępnienie.', en: 'Name the source of truth and its owner. Fix permissions before indexing – RAG inherits every overshare.' },
+          { id: 'p10', pl: 'Wskaż źródło prawdy i jego właściciela. Popraw uprawnienia przed indeksowaniem, bo RAG dziedziczy każde nadmierne udostępnienie.', en: 'Name the source of truth and its owner. Fix permissions before indexing – RAG inherits every overshare.' },
           { id: 'p11', pl: 'Zdefiniuj pojęcia biznesowe (słownik, warstwa semantyczna), żeby agenci czytali dane tak samo jak ludzie.', en: 'Define business terms (glossary, semantic layer) so agents read data the way people do.', src: ['gSemantics'] },
           { id: 'p12', pl: 'Ustal zasady aktualności i usuń nieaktualne dokumenty z baz wiedzy.', en: 'Set freshness rules and remove outdated documents from knowledge bases.' },
           { id: 'p13', pl: 'Zmierz punkt wyjścia dla każdego zadania: czas, koszt, odsetek błędów.', en: 'Measure the baseline for each task: time, cost, error rate.' },
@@ -656,14 +656,14 @@
       id: 'pilot', key: '3', tone: 'yellow', icon: 'flask-conical', span: [6, 12],
       time: { pl: 'Tygodnie 6–12', en: 'Weeks 6–12' },
       title: { pl: 'Pilotaż z ewaluacją', en: 'Pilot with evals' },
-      summary: { pl: 'Eksperyment z progiem zaliczenia, a nie pokaz.', en: 'An experiment with a pass mark, not a demo.' },
-      intro: { pl: 'Pilotaż to eksperyment z progiem zaliczenia, a nie pokaz możliwości. Najpierw zbuduj zestaw testowy, potem rozwiązanie. Dzięki ewaluacjom zmiana modelu zajmuje dni, a nie tygodnie.',
+      summary: { pl: 'Próg zaliczenia, zestaw testowy, koszt udanego zadania.', en: 'An experiment with a pass mark, not a demo.' },
+      intro: { pl: 'Pilotaż ma próg zaliczenia ustalony przed startem. Najpierw zbuduj zestaw testowy, potem rozwiązanie. Z gotowymi ewaluacjami zmiana modelu zajmuje dni zamiast tygodni.',
                en: 'A pilot is an experiment with a pass mark, not a showcase. Build the test set first, then the solution. With evals in place, switching models takes days instead of weeks.' },
       streams: [
         { id: 'e-eval', icon: 'clipboard-check', title: { pl: 'Najpierw ewaluacje', en: 'Evals first' }, actions: [
           { id: 'e1', pl: 'Zbierz zestaw wzorcowy 20–50 prawdziwych zadań, w tym dawne porażki i przypadki brzegowe.', en: 'Build a golden set of 20–50 real tasks, including past failures and edge cases.', src: ['evals'] },
           { id: 'e2', pl: 'Połącz oceniających: testy w kodzie, model-sędzia skalibrowany na ocenach ludzi i przegląd ekspercki.', en: 'Combine graders: code checks, an LLM judge calibrated against human ratings, and expert review.', src: ['evals'] },
-          { id: 'e3', pl: 'Oceniaj wynik, nie tylko przebieg rozmowy. Uruchamiaj zadania kilka razy, bo odpowiedzi się różnią.', en: 'Grade the outcome, not just the transcript. Run each task several times, because outputs vary.', src: ['evals'] },
+          { id: 'e3', pl: 'Oceniaj końcowy wynik zadania, a przebieg rozmowy tylko pomocniczo. Uruchamiaj zadania kilka razy, bo odpowiedzi się różnią.', en: 'Grade the outcome, not just the transcript. Run each task several times, because outputs vary.', src: ['evals'] },
           { id: 'e4', pl: 'Trzymaj zestaw testowy i prompty w repozytorium z wersjonowaniem.', en: 'Keep the test set and prompts under version control.' },
         ] },
         { id: 'e-guard', icon: 'shield', title: { pl: 'Zabezpieczenia i nadzór', en: 'Guardrails and oversight' }, actions: [
@@ -707,7 +707,7 @@
         ] },
         { id: 's-roll', icon: 'users', title: { pl: 'Wdrożenie i zmiana', en: 'Rollout and change' }, actions: [
           { id: 's8', pl: 'Wdrażaj dział po dziale, z ambasadorami, szkoleniami dla konkretnych ról i dyżurami wsparcia.', en: 'Roll out department by department, with champions, role-specific training and support office hours.' },
-          { id: 's9', pl: 'Aktualizuj opisy stanowisk i procedury razem z narzędziem, nie po fakcie.', en: 'Update job descriptions and procedures together with the tool, not afterwards.', src: ['mckinsey'] },
+          { id: 's9', pl: 'Aktualizuj opisy stanowisk i procedury w tym samym czasie co narzędzie.', en: 'Update job descriptions and procedures together with the tool, not afterwards.', src: ['mckinsey'] },
           { id: 's10', pl: 'Pokazuj sukcesy z liczbami i pozwól bezpiecznie zgłaszać porażki.', en: 'Share wins with numbers and make it safe to report failures.' },
         ] },
         { id: 's-comp', icon: 'file-check', title: { pl: 'Zgodność w produkcji', en: 'Compliance in production' }, actions: [
@@ -784,7 +784,7 @@
     { pl: 'Każdy agent ma własną tożsamość i krótko żyjące tokeny o minimalnym zakresie. Żadnych współdzielonych kluczy.', en: 'Every agent has its own identity and short-lived, least-privilege tokens. No shared keys.', src: ['gSprawl'] },
     { pl: 'Testuj wg OWASP Top 10 dla agentów: przejęcie celu, nadużycie narzędzi, nadużycie tożsamości i uprawnień, zatrucie pamięci.', en: 'Test against the OWASP agentic Top 10: goal hijack, tool misuse, identity and privilege abuse, memory poisoning.', src: ['owaspAgentic'] },
     { pl: 'Zapisuj pełny ślad każdego uruchomienia: polecenie, wywołania narzędzi, wynik, koszt.', en: 'Log a full trace of every run: instruction, tool calls, result, cost.' },
-    { pl: 'Jednakowe zasady dla wszystkich agentów prowadzą do porażek – dopasuj nadzór do poziomu autonomii.', en: 'Uniform rules for all agents lead to failure – match oversight to the autonomy level.', src: ['gAutonomy'] },
+    { pl: 'Jednakowe zasady dla wszystkich agentów zawodzą; dopasuj nadzór do poziomu autonomii.', en: 'Uniform rules for all agents lead to failure – match oversight to the autonomy level.', src: ['gAutonomy'] },
   ];
 
   const KPIS = [
@@ -793,7 +793,7 @@
     { tone: 'green', icon: 'badge-check', area: { pl: 'Jakość', en: 'Quality' }, metric: { pl: 'Odsetek błędów i poprawek, eskalacje do człowieka, wynik ewaluacji.', en: 'Error and rework rate, escalations to a person, eval pass rate.' } },
     { tone: 'grape', icon: 'coins', area: { pl: 'Ekonomika', en: 'Economics' }, metric: { pl: 'Koszt udanego zadania (z czasem weryfikacji), koszt utrzymania wobec budżetu.', en: 'Cost per successful task (incl. review time), run cost against budget.' } },
     { tone: 'red', icon: 'shield-alert', area: { pl: 'Ryzyko i zgodność', en: 'Risk and compliance' }, metric: { pl: 'Incydenty, naruszenia polityki, wykryte shadow AI, odsetek sklasyfikowanych systemów.', en: 'Incidents, policy violations, shadow AI found, share of systems classified.' } },
-    { tone: 'stone', icon: 'activity', area: { pl: 'Użycie (pomocniczo)', en: 'Usage (secondary)' }, metric: { pl: 'Aktywne użycie w przebudowanych procesach – sygnał wyprzedzający, nie cel.', en: 'Active use within redesigned workflows – a leading signal, not a goal.' } },
+    { tone: 'stone', icon: 'activity', area: { pl: 'Użycie (pomocniczo)', en: 'Usage (secondary)' }, metric: { pl: 'Aktywne użycie w przebudowanych procesach, traktowane jako sygnał wyprzedzający.', en: 'Active use within redesigned workflows – a leading signal, not a goal.' } },
   ];
   const KPI_NOTE = { pl: 'Liderzy w badaniu McKinsey dwa razy częściej mają zaangażowane kierownictwo i zdefiniowany sposób mierzenia efektów.', en: 'High performers in the McKinsey survey are twice as likely to have committed senior leaders and a defined way to measure impact.', src: ['mckinsey'] };
 
