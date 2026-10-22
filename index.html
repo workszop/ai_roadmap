@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mapa wdrożenia AI 2026</title>
-  <meta name="description" content="AI implementation roadmap for 2026: five phases from ownership and AI inventory to governed agents in production, with the amended EU AI Act timeline, Poland's AI law, evals, agent security and FinOps. Polish and English.">
+  <title>Mapa AI dla małej firmy</title>
+  <meta name="description" content="Bilingual, practical AI roadmap for a small business: choose one task, test it, introduce a simple routine, and maintain it." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23FFD500'/%3E%3Cg fill='none' stroke='%231C1917' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='6' cy='19' r='3'/%3E%3Cpath d='M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15'/%3E%3Ccircle cx='18' cy='5' r='3'/%3E%3C/g%3E%3C/svg%3E">
 
   <!-- ─── edustyl head: fonts + boot gate ─── -->
@@ -411,10 +411,14 @@
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script>
   // ─── Constants ───
-  const STORAGE_KEYS = { lang: 'aiRoadmap.lang', done: 'aiRoadmap.done' };
+  const STORAGE_KEYS = {
+    lang: 'aiRoadmap.lang',
+    done: 'aiRoadmap.sme.done.v1',
+    legacyDone: 'aiRoadmap.done',
+  };
   const LANGS = ['pl', 'en'];
   const SOON_DAYS = 60;
-  const WEEKS_MAX = 28;
+  const TIMELINE_MAX = 4;
   const RESET_ARM_MS = 3000;
   const FONT_WAIT_MS = 1500;
   const BRAND_FONTS = ['400 1em Outfit', '700 1em Outfit', '400 1em "IBM Plex Sans"', '600 1em "IBM Plex Sans"', '400 1em "Roboto Mono"'];
@@ -422,399 +426,289 @@
 
   const T = {
     pl: {
-      docTitle: 'Mapa wdrożenia AI 2026',
+      docTitle: 'Mapa AI dla małej firmy',
       skip: 'Przejdź do treści',
       navLabel: 'Sekcje',
       langLabel: 'Język',
       progLabel: 'Postęp planu',
-      title: 'Mapa wdrożenia AI 2026',
-      lead: 'Pięć faz wdrożenia AI w organizacji: od właściciela i spisu systemów po agentów działających w produkcji pod nadzorem. Plan uwzględnia AI Act po nowelizacji z lipca 2026, polską ustawę o systemach sztucznej inteligencji i to, co odróżnia wdrożenia z mierzalnym efektem od wiecznych pilotaży. Zaznaczaj wykonane działania. Postęp zapisuje się w tej przeglądarce.',
-      asOf: 'Stan wiedzy: 13 października 2026 · materiał edukacyjny, nie porada prawna',
-      navPlan: 'Plan', navLaw: 'Prawo', navAgents: 'Agenci', navMeasure: 'Pomiar', navSources: 'Źródła',
-      secLaw: 'Zegar regulacyjny: AI Act i polska ustawa',
-      lawLead: 'Digital Omnibus on AI (rozporządzenie (UE) 2026/1744) przesunął terminy dla systemów wysokiego ryzyka, ale nie zawiesił obowiązków, które już działają. Status liczy się względem dzisiejszej daty.',
-      thDate: 'Data', thWhat: 'Co obowiązuje', thStatus: 'Status', thSrc: 'Źródło',
+      title: 'Mapa AI dla małej firmy',
+      lead: 'Jedno powtarzalne zadanie, krótki test i prosty rytm utrzymania. Wybór znanej pracy, porównanie wyniku z obecnym sposobem i decyzja o kontynuacji, poprawie albo zatrzymaniu rutyny. Postęp zapisuje się w tej przeglądarce.',
+      asOf: 'Wersja dla małej firmy · materiał edukacyjny, nie porada prawna',
+      navPlan: 'Plan', navLaw: 'AI Act', navAgents: 'Bezpieczeństwo', navMeasure: 'Pomiar', navSources: 'Źródła',
+      secLaw: 'Kalendarz AI Act: ustalenie zakresu',
+      lawLead: 'Oś czasu pokazuje główne, oficjalne etapy stosowania AI Act. To pomoc do ustalenia zakresu zadania, a nie automatyczna klasyfikacja prawna. Sprawdzenie roli firmy, rodzaju danych i aktualnego źródła przed użyciem. Sama wielkość firmy nie tworzy wyjątku; decydują rola, zastosowanie i zakres.',
+      thDate: 'Data', thWhat: 'Co zaczyna mieć zastosowanie', thStatus: 'Status', thSrc: 'Źródło',
       stInForce: 'obowiązuje', stSoon: 'wkrótce', stLater: 'zaplanowane',
-      secPlan: 'Plan w skrócie',
-      planLead: 'Fazy częściowo się nakładają. Każda kończy się bramką decyzyjną: skalujemy, poprawiamy albo zatrzymujemy. Kliknij fazę, żeby przejść do jej listy działań.',
+      secPlan: 'Kolejność czterech etapów',
+      planLead: 'Rozpoczęcie od jednego zadania. Etapy pokazują kolejność pracy, nie obowiązkowy program na określoną liczbę tygodni. Przy każdym etapie jest zwykła lista kontrolna bez formularza decyzyjnego.',
       expandAll: 'Rozwiń wszystko', collapseAll: 'Zwiń wszystko',
       reset: 'Wyczyść postęp', resetArmed: 'Na pewno? Kliknij ponownie',
       done: 'wykonano',
-      gate: 'Bramka decyzyjna',
-      gateThen: 'Jeśli tak – dalej. Jeśli nie – jeszcze jeden cykl poprawek albo stop.',
-      secAgents: 'Agenci: autonomia i bezpieczeństwo',
-      agentsLead: 'Zasady dla każdego agenta, niezależnie od dostawcy. Nadzór rośnie razem z poziomem autonomii.',
-      thLevel: 'Poziom', thDoes: 'Co robi agent', thControls: 'Wymagane zabezpieczenia',
-      autonomyHead: 'Poziomy autonomii',
-      ruleOfTwo: 'Reguła dwóch',
-      toolsHead: 'Narzędzia, MCP i tożsamość',
-      secMeasure: 'Mierzenie efektów',
-      measureLead: 'Licz wynik biznesowy. Liczba promptów i aktywnych użytkowników to tylko wskaźnik wyprzedzający.',
+      gate: 'Lista kontrolna etapu',
+      gateThen: 'Wskazanie kolejnego kroku na podstawie listy: kontynuacja, korekta z ponownym testem albo zatrzymanie. Brak potrzeby budowania planu dla całej firmy.',
+      secAgents: 'Bezpieczeństwo i prostota',
+      agentsLead: 'Początek od prostego przepływu z przeglądem człowieka. Podstawy dotyczą każdego zadania. Agenci, integracje i dodatkowe połączenia są opcjonalne: ich dodanie dopiero wtedy, gdy prostszy sposób nie wystarcza.',
+      thLevel: 'Poziom', thDoes: 'Co robi narzędzie', thControls: 'Podstawowe zabezpieczenia',
+      autonomyHead: 'Stopnie automatyzacji',
+      ruleOfTwo: 'Opcjonalna reguła ostrożności',
+      toolsHead: 'Opcjonalne połączenia',
+      safetyHead: 'Bezpieczeństwo według kontekstu',
+      safetyBasics: 'Podstawy', safetyWhen: 'Gdy dotyczy', safetySpecialist: 'Konsultacja specjalisty',
+      secMeasure: 'Pomiar sukcesu',
+      measureLead: 'Porównanie czasu, poprawek, jakości i kosztu ze stanem wyjściowym. Ustalenie progu przed testem, bez obietnicy oszczędności lub zwrotu z inwestycji.',
       thArea: 'Obszar', thMetric: 'Miary',
-      secIndustry: 'Uwagi branżowe',
-      secPitfalls: 'Typowe błędy i jak ich uniknąć',
-      thSymptom: 'Objaw', thFix: 'Co zrobić',
-      secSources: 'Źródła',
-      sourcesLead: 'Przy każdym źródle podano datę publikacji.',
-      footNote: 'Mapa wdrożenia AI 2026',
+      secIndustry: 'Przykłady zadań w małej firmie',
+      secPitfalls: 'Typowe przeszkody i odpowiedzi',
+      thSymptom: 'Sytuacja', thFix: 'Następny krok',
+      secSources: 'Źródła i dalsze czytanie',
+      sourcesLead: 'Data publikacji, wydanie lub data przeglądu źródła. Oś czasu i wskazówki są skrótem: sprawdzenie źródła oraz zakresu konkretnego zadania.',
+      footNote: 'Mapa AI dla małej firmy',
       footKeys: 'Skróty:',
-      keyLang: 'język', keyExpand: 'rozwiń/zwiń', keyPhase: 'fazy',
+      keyLang: 'język', keyExpand: 'rozwiń/zwiń', keyPhase: 'etapy',
       aLang: 'Język: polski',
       aProgress: (n, total) => `Wykonano ${n} z ${total} działań`,
       aCollapsed: 'Zwinięto wszystkie karty',
       aExpanded: 'Rozwinięto wszystkie karty',
       aReset: 'Postęp wyczyszczony',
+      legacyNotice: 'Wykryto zapis postępu z poprzedniej wersji. Nie został użyty do zaznaczenia nowych działań.',
+      legacyDownload: 'Pobierz oryginalną kopię',
+      legacyDownloaded: 'Pobrano oryginalną kopię poprzedniego zapisu',
       today: 'Dziś',
-      ganttTitle: 'Harmonogram faz', ganttUnit: 'tygodnie od startu', m3: 'M3', m6: 'M6',
-      streamsLbl: 'obszary', gateLbl: 'kryteria bramki',
-      outScale: 'skaluj', outFix: 'popraw', outStop: 'stop',
-      lessAuto: 'Mniej autonomii', moreAuto: 'więcej nadzoru',
+      ganttTitle: 'Kolejność etapów', ganttUnit: 'etapy, nie terminy', stageStart: 'start',
+      streamsLbl: 'obszary', gateLbl: 'punkty kontrolne',
+      outContinue: 'kontynuacja', outRetest: 'ponowny test', outStop: 'zatrzymanie',
+      lessAuto: 'Prościej', moreAuto: 'więcej automatyzacji',
       locale: 'pl-PL',
     },
     en: {
-      docTitle: 'AI Implementation Roadmap 2026',
+      docTitle: 'AI roadmap for a small business',
       skip: 'Skip to content',
       navLabel: 'Sections',
       langLabel: 'Language',
       progLabel: 'Plan progress',
-      title: 'AI Implementation Roadmap 2026',
-      lead: 'Five phases for rolling out AI in an organisation: from an accountable owner and an inventory of systems to governed agents in production. It reflects the EU AI Act as amended in July 2026, Poland\'s AI systems act, and what separates deployments with measurable results from endless pilots. Tick actions as you complete them – progress is saved in this browser.',
-      asOf: 'Current as of 13 October 2026 · educational material, not legal advice',
-      navPlan: 'Plan', navLaw: 'Regulation', navAgents: 'Agents', navMeasure: 'Measure', navSources: 'Sources',
-      secLaw: 'Regulatory clock: EU AI Act and Polish law',
-      lawLead: 'The Digital Omnibus on AI (Regulation (EU) 2026/1744) moved the high-risk deadlines but did not pause the obligations already in force. Status is computed against today\'s date.',
-      thDate: 'Date', thWhat: 'What applies', thStatus: 'Status', thSrc: 'Source',
+      title: 'AI roadmap for a small business',
+      lead: 'One repeatable task, a short practical test and a simple maintenance rhythm. Choosing familiar work, comparing the result with the current way of working, and deciding whether to continue, improve or stop the routine. Progress is saved in this browser.',
+      asOf: 'Small-business version · educational material, not legal advice',
+      navPlan: 'Plan', navLaw: 'AI Act', navAgents: 'Safety', navMeasure: 'Measure', navSources: 'Sources',
+      secLaw: 'AI Act calendar: check the scope',
+      lawLead: 'This timeline shows the main official AI Act application milestones. It helps frame the task, but it is not an automatic legal classification. Checking your role, data and the current source before use. Company size alone does not create an exemption; role, use and scope determine what applies.',
+      thDate: 'Date', thWhat: 'What starts to apply', thStatus: 'Status', thSrc: 'Source',
       stInForce: 'in force', stSoon: 'soon', stLater: 'scheduled',
-      secPlan: 'Plan at a glance',
-      planLead: 'Phases overlap. Each ends with a decision gate: scale, fix or stop. Select a phase to jump to its actions.',
+      secPlan: 'Four-stage order of work',
+      planLead: 'Starting with one task. The stages show an order of work, not a mandatory programme measured in weeks. Each stage has a plain checklist, not a decision form.',
       expandAll: 'Expand all', collapseAll: 'Collapse all',
       reset: 'Clear progress', resetArmed: 'Sure? Click again',
       done: 'done',
-      gate: 'Decision gate',
-      gateThen: 'If yes – move on. If not – one more fix cycle, or stop.',
-      secAgents: 'Agents: autonomy and security',
-      agentsLead: 'Rules for every agent, whatever the vendor. Oversight grows with the level of autonomy.',
-      thLevel: 'Level', thDoes: 'What the agent does', thControls: 'Required controls',
-      autonomyHead: 'Autonomy levels',
-      ruleOfTwo: 'The Rule of Two',
-      toolsHead: 'Tools, MCP and identity',
+      gate: 'Stage checklist',
+      gateThen: 'The list helps choose the next step: continue, correct and retest, or stop. There is no need to build a plan for the whole company.',
+      secAgents: 'Safety and simplicity',
+      agentsLead: 'Basics apply to every task: simple flow, human review and a manual fallback. Agents, integrations and extra connections are optional: add them only when a simpler approach is not enough.',
+      thLevel: 'Level', thDoes: 'What the tool does', thControls: 'Basic safeguards',
+      autonomyHead: 'Automation levels',
+      ruleOfTwo: 'Optional caution rule',
+      toolsHead: 'Optional connections',
+      safetyHead: 'Safety by context',
+      safetyBasics: 'Basics', safetyWhen: 'When applicable', safetySpecialist: 'Specialist consultation',
       secMeasure: 'Measuring success',
-      measureLead: 'Count business outcomes, not prompts. Usage is a leading indicator, not the goal.',
+      measureLead: 'Compare time, rework, quality and cost with the baseline. Set a threshold before the test, without promising savings or a return on investment.',
       thArea: 'Area', thMetric: 'Measures',
-      secIndustry: 'Industry notes',
-      secPitfalls: 'Common failure modes and fixes',
-      thSymptom: 'Symptom', thFix: 'What to do',
-      secSources: 'Sources',
-      sourcesLead: 'Each source shows its publication date.',
-      footNote: 'AI Implementation Roadmap 2026',
+      secIndustry: 'Small-business task examples',
+      secPitfalls: 'Common obstacles and responses',
+      thSymptom: 'Situation', thFix: 'Next step',
+      secSources: 'Sources and further reading',
+      sourcesLead: 'We show a publication date, edition or review date. The timeline and guidance are a short version: check the source and the scope of the task.',
+      footNote: 'AI roadmap for a small business',
       footKeys: 'Shortcuts:',
-      keyLang: 'language', keyExpand: 'expand/collapse', keyPhase: 'phases',
+      keyLang: 'language', keyExpand: 'expand/collapse', keyPhase: 'stages',
       aLang: 'Language: English',
       aProgress: (n, total) => `${n} of ${total} actions done`,
       aCollapsed: 'All cards collapsed',
       aExpanded: 'All cards expanded',
       aReset: 'Progress cleared',
+      legacyNotice: 'A progress record from the previous version was found. It was not used to mark new actions complete.',
+      legacyDownload: 'Download original backup',
+      legacyDownloaded: 'Original backup of the previous record downloaded',
       today: 'Today',
-      ganttTitle: 'Phase timeline', ganttUnit: 'weeks from start', m3: 'M3', m6: 'M6',
-      streamsLbl: 'workstreams', gateLbl: 'gate criteria',
-      outScale: 'scale', outFix: 'fix', outStop: 'stop',
-      lessAuto: 'Less autonomy', moreAuto: 'more oversight',
+      ganttTitle: 'Stage order', ganttUnit: 'stages, not deadlines', stageStart: 'start',
+      streamsLbl: 'areas', gateLbl: 'checkpoints',
+      outContinue: 'continue', outRetest: 'retest', outStop: 'stop',
+      lessAuto: 'Simpler', moreAuto: 'more automation',
       locale: 'en-GB',
     },
   };
 
   const SOURCES = [
-    { id: 'omnibus', title: 'Regulation (EU) 2026/1744 – Digital Omnibus on AI', org: 'EUR-Lex', date: '2026-07-24', url: 'https://eur-lex.europa.eu/eli/reg/2026/1744/oj/eng' },
-    { id: 'fpf', title: 'The AI Act implementation timeline: what changes under the AI Omnibus', org: 'Future of Privacy Forum', date: '2026-07', url: 'https://fpf.org/blog/the-ai-act-implementation-timeline-what-changes-under-the-ai-omnibus/' },
-    { id: 'whitecase', title: 'EU AI Omnibus enters into force, amending the AI Act', org: 'White & Case', date: '2026-08-04', url: 'https://www.whitecase.com/insight-alert/eu-ai-omnibus-enters-force-amending-ai-act' },
-    { id: 'plAct', title: 'Ustawa o systemach sztucznej inteligencji (Dz.U. 2026 poz. 1003)', org: 'ISAP Sejm RP', date: '2026-07-03', url: 'https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20260001003' },
-    { id: 'chambers', title: 'Poland\'s AI law is finally here: what changes for businesses', org: 'Chambers and Partners', date: '2026-10-05', url: 'https://chambers.com/articles/poland-s-ai-law-is-finally-here-what-changes-for-businesses' },
-    { id: 'mckinsey', title: 'The state of AI in 2026: on the road to ROI', org: 'McKinsey & Company', date: '2026-08-25', url: 'https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai' },
-    { id: 'mit', title: 'MIT report: 95% of generative AI pilots at companies are failing', org: 'Fortune (MIT NANDA, The GenAI Divide)', date: '2025-08-18', url: 'https://fortune.com/2025/08/18/mit-report-95-percent-generative-ai-pilots-at-companies-failing-cfo/' },
-    { id: 'gCancel', title: 'Gartner predicts over 40% of agentic AI projects will be canceled by end of 2027', org: 'Gartner', date: '2025-06-25', url: 'https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027' },
-    { id: 'gAutonomy', title: 'Applying uniform governance across AI agents will lead to enterprise AI agent failure', org: 'Gartner', date: '2026-05-26', url: 'https://www.gartner.com/en/newsroom/press-releases/2026-05-26-gartner-says-applying-uniform-governance-across-ai-agents-will-lead-to-enterprise-ai-agent-failure' },
-    { id: 'gSprawl', title: 'Six steps to manage AI agent sprawl', org: 'Gartner', date: '2026-04-28', url: 'https://www.gartner.com/en/newsroom/press-releases/2026-04-28-gartner-identifies-six-steps-to-manage-artificial-intelligence-agent-sprawl' },
-    { id: 'gInference', title: 'AI inference costs per agentic workflow will increase more than fivefold through 2028', org: 'Gartner', date: '2026-08-17', url: 'https://www.gartner.com/en/newsroom/press-releases/2026-08-17-gartner-predicts-ai-inference-costs-per-agentic-workflow-will-increase-more-than-fivefold-through-2028' },
-    { id: 'gSemantics', title: 'Lack of semantics causes inaccurate AI agents and wasted spending', org: 'Gartner', date: '2026-05-11', url: 'https://www.gartner.com/en/newsroom/press-releases/2026-05-11-gartner-says-lack-of-semantics-causes-inaccurate-artificial-intelligence-agents-and-wasted-spending' },
-    { id: 'evals', title: 'Demystifying evals for AI agents', org: 'Anthropic', date: '2026-01-09', url: 'https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents' },
-    { id: 'effective', title: 'Building effective agents', org: 'Anthropic', date: '2024-12-19', url: 'https://www.anthropic.com/engineering/building-effective-agents' },
-    { id: 'openaiGuide', title: 'A practical guide to building agents', org: 'OpenAI', date: '2025-04-17', url: 'https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf' },
-    { id: 'mcp', title: 'MCP specification 2026-07-28 release', org: 'Model Context Protocol', date: '2026-07-28', url: 'https://blog.modelcontextprotocol.io/posts/2026-07-28/' },
-    { id: 'owaspAgentic', title: 'OWASP Top 10 for Agentic Applications 2026', org: 'OWASP GenAI Security Project', date: '2025-12-09', url: 'https://genai.owasp.org/2025/12/09/owasp-top-10-for-agentic-applications-the-benchmark-for-agentic-security-in-the-age-of-autonomous-ai/' },
-    { id: 'owaspLlm', title: 'OWASP Top 10 for LLM Applications 2026', org: 'OWASP GenAI Security Project', date: '2026-08-03', url: 'https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/' },
-    { id: 'iso42001', title: 'ISO/IEC 42001:2023 – AI management systems', org: 'ISO', date: '2023-12', url: 'https://www.iso.org/standard/42001' },
-    { id: 'nist', title: 'AI Risk Management Framework and Generative AI Profile (NIST AI 600-1)', org: 'NIST', date: '2024-07-26', url: 'https://www.nist.gov/itl/ai-risk-management-framework' },
-    { id: 'finops', title: 'Token economics for SaaS and AI', org: 'FinOps Foundation', date: '2026-06', url: 'https://www.finops.org/wg/token-economics-saas/' },
-    { id: 'ibm', title: 'Cost of a Data Breach Report', org: 'IBM', date: '2026', url: 'https://www.ibm.com/reports/data-breach' },
-    { id: 'deprecation', title: 'Commitments on model deprecation and preservation', org: 'Anthropic', date: '2025-11-04', url: 'https://www.anthropic.com/research/deprecation-commitments' },
-    { id: 'ruleOfTwo', title: 'Agents Rule of Two: a practical approach to AI agent security', org: 'Meta AI', date: '2025-10-31', url: 'https://ai.meta.com/blog/practical-ai-agent-security/' },
-    { id: 'trifecta', title: 'The lethal trifecta for AI agents', org: 'Simon Willison', date: '2025-06-16', url: 'https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/' },
+    { id: 'aiAct', title: 'Regulatory framework for artificial intelligence', org: 'European Commission', date: 'updated 2026-10-19', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai' },
+    { id: 'agents', title: 'Building effective agents', org: 'Anthropic', date: '2024-12-19', url: 'https://www.anthropic.com/research/building-effective-agents' },
+    { id: 'owasp', title: 'OWASP Top 10 for LLM Applications', org: 'OWASP GenAI Security Project', date: 'reviewed 2026-10-22', url: 'https://genai.owasp.org/llm-top-10/' },
   ];
 
-
   const CLOCK = [
-    { date: '2025-02-02', src: ['fpf'],
-      what: { pl: 'Zakaz praktyk z art. 5 (m.in. scoring społeczny, rozpoznawanie emocji w pracy i w szkole) oraz obowiązek wspierania kompetencji AI personelu (art. 4, złagodzony przez Omnibus).',
-              en: 'Art. 5 prohibited practices (incl. social scoring, emotion recognition at work and in schools) and the duty to support staff AI literacy (Art. 4, softened by the Omnibus).' } },
-    { date: '2025-08-02', src: ['fpf'],
-      what: { pl: 'Obowiązki dostawców modeli AI ogólnego przeznaczenia (GPAI); kodeks praktyk GPAI z 10 lipca 2025.',
-              en: 'Obligations for general-purpose AI (GPAI) model providers; GPAI Code of Practice of 10 July 2025.' } },
-    { date: '2026-07-27', src: ['omnibus', 'whitecase'],
-      what: { pl: 'Wchodzi w życie Digital Omnibus on AI, który przesuwa terminy dla systemów wysokiego ryzyka.',
-              en: 'The Digital Omnibus on AI enters into force, moving the high-risk deadlines.' } },
-    { date: '2026-08-02', src: ['fpf'],
-      what: { pl: 'Przejrzystość z art. 50: chatbot informuje, że jest AI, deepfake musi być oznaczony. Urząd ds. AI może egzekwować obowiązki dostawców GPAI.',
-              en: 'Art. 50 transparency: chatbots must disclose they are AI and deepfakes must be labelled. The AI Office can enforce GPAI provider obligations.' } },
-    { date: '2026-08-11', src: ['plAct'],
-      what: { pl: 'Polska ustawa o systemach sztucznej inteligencji w mocy. Organ nadzoru: Komisja Rozwoju i Bezpieczeństwa Sztucznej Inteligencji (KRiBSI).',
-              en: 'Poland\'s act on AI systems in force. Supervisory authority: the Commission for AI Development and Safety (KRiBSI).' } },
-    { date: '2026-10-28', src: ['chambers'],
-      what: { pl: 'KRiBSI zaczyna kontrole, nakładanie kar i przyjmowanie skarg. Można też wystąpić o wiążącą opinię indywidualną albo wejść do piaskownicy regulacyjnej.',
-              en: 'KRiBSI starts inspections, fines and complaint handling. Organisations can also request a binding individual opinion or join the regulatory sandbox.' } },
-    { date: '2026-12-02', src: ['fpf'],
-      what: { pl: 'Zakaz generowania przez AI materiałów CSAM i intymnych obrazów bez zgody; maszynowo czytelne znakowanie treści generowanych (art. 50 ust. 2) dla systemów już na rynku.',
-              en: 'Ban on AI-generated CSAM and non-consensual intimate imagery; machine-readable marking of generated content (Art. 50(2)) for systems already on the market.' } },
-    { date: '2027-08-02', src: ['fpf'],
-      what: { pl: 'Modele GPAI wprowadzone na rynek przed sierpniem 2025 muszą spełnić wymogi.',
-              en: 'GPAI models placed on the market before August 2025 must comply.' } },
-    { date: '2027-12-02', src: ['omnibus', 'fpf'],
-      what: { pl: 'Systemy wysokiego ryzyka z załącznika III: rekrutacja i zarządzanie pracownikami, edukacja, ocena zdolności kredytowej, dostęp do usług podstawowych.',
-              en: 'Annex III high-risk systems: recruitment and workforce management, education, creditworthiness, access to essential services.' } },
-    { date: '2028-08-02', src: ['fpf'],
-      what: { pl: 'Systemy wysokiego ryzyka z załącznika I, wbudowane w produkty regulowane (np. maszyny, wyroby medyczne).',
-              en: 'Annex I high-risk systems built into regulated products (e.g. machinery, medical devices).' } },
+    { date: '2024-08-01', src: ['aiAct'],
+      what: { pl: 'AI Act wchodzi w życie. Przepisy stosuje się etapami, zgodnie z zakresem i rolą podmiotu.', en: 'The AI Act enters into force. Its rules apply in stages, depending on scope and role.' } },
+    { date: '2025-02-02', src: ['aiAct'],
+      what: { pl: 'Zaczynają obowiązywać zakazy określonych praktyk oraz wymaganie odpowiednich umiejętności AI. Zakres zależy od zastosowania i roli.', en: 'Prohibitions on certain practices and the requirement for appropriate AI literacy start to apply. Scope depends on the use and role.' } },
+    { date: '2025-08-02', src: ['aiAct'],
+      what: { pl: 'Zaczynają obowiązywać wybrane zasady zarządzania i obowiązki dostawców modeli ogólnego przeznaczenia.', en: 'Selected governance rules and obligations for providers of general-purpose AI models start to apply.' } },
+    { date: '2026-08-02', src: ['aiAct'],
+      what: { pl: 'Zasadnicza część AI Act, w tym obowiązki przejrzystości, zaczyna mieć zastosowanie zgodnie z rolą i zakresem systemu.', en: 'The main body of the AI Act, including transparency obligations, starts to apply according to the system role and scope.' } },
+    { date: '2027-12-02', src: ['aiAct'],
+      what: { pl: 'Pełny etap dla odpowiednich systemów wysokiego ryzyka z załącznika III. Wstępne sprawdzenie, czy dane zastosowanie wchodzi w ten zakres.', en: 'Full requirements for relevant Annex III high-risk systems. First check whether the use case falls within that scope.' } },
+    { date: '2028-08-02', src: ['aiAct'],
+      what: { pl: 'Etap dla odpowiednich systemów wysokiego ryzyka związanych z produktami z załącznika I. Sprawdzenie zakresu przed wyciągnięciem wniosków.', en: 'The stage for relevant high-risk systems related to Annex I products. Check the scope before drawing conclusions.' } },
   ];
 
   const PHASES = [
     {
-      id: 'foundations', key: '1', tone: 'grape', icon: 'landmark', span: [0, 4],
-      time: { pl: 'Tygodnie 0–4', en: 'Weeks 0–4' },
-      title: { pl: 'Fundamenty', en: 'Foundations' },
-      summary: { pl: 'Właściciel, zasady, spis systemów AI i szkolenia.', en: 'An owner, rules, an AI inventory and training.' },
-      intro: { pl: 'Zanim wybierzesz narzędzia, ustal, kto odpowiada za wynik, jakie AI już działa w firmie i na jakich zasadach. Programy bez efektów najczęściej pominęły ten krok i doklejały AI do niezmienionych procesów.',
-               en: 'Before choosing tools, settle who owns the result, what AI is already running in the organisation and under which rules. Programmes without results usually skipped this and bolted AI onto unchanged processes.' },
+      id: 'choice', key: '1', tone: 'grape', icon: 'target', span: [0, 1],
+      time: { pl: 'Etap 1 · wybór zadania', en: 'Stage 1 · choose the task' },
+      title: { pl: 'Wybór zadania', en: 'Choose the task' },
+      summary: { pl: 'Jedno powtarzalne zadanie, odpowiedzialność i granice próby.', en: 'One repeatable task, responsibility and test boundaries.' },
+      intro: { pl: 'Zawężenie pracy do jednego zadania znanego z codziennej praktyki. Zapis obecnego przebiegu, osoby wykonującej i osoby podejmującej decyzję. Jedna osoba może pełnić obie role.',
+               en: 'Narrowing the work to one task known from daily practice. Recording the current flow, the person doing it and the person deciding. One person may fill both roles.' },
       streams: [
-        { id: 'f-own', icon: 'user-check', title: { pl: 'Odpowiedzialność i cele', en: 'Ownership and goals' }, actions: [
-          { id: 'f1', pl: 'Wyznacz członka zarządu odpowiedzialnego za wynik biznesowy AI, a nie za liczbę użytkowników.', en: 'Name an executive accountable for AI business results, not for user counts.', src: ['mckinsey'] },
-          { id: 'f2', pl: 'Powiąż cele AI z 2–3 wynikami biznesowymi (koszt, czas realizacji, przychód, ryzyko) i zmierz punkt wyjścia.', en: 'Tie AI goals to 2–3 business outcomes (cost, cycle time, revenue, risk) and measure the baseline.' },
-          { id: 'f3', pl: 'Zaplanuj budżet na cały cykl: pilotaż plus utrzymanie (tokeny, licencje, monitoring, migracje modeli).', en: 'Budget for run costs (tokens, licences, monitoring, model migrations), not just the pilot.', src: ['finops'] },
+        { id: 'sme-choice-description', icon: 'file-text', title: { pl: 'Opisanie zadania i celu', en: 'Describe the task and goal' }, actions: [
+          { id: 'sme.choice.action.001', pl: 'Wybór jednego powtarzalnego zadania oraz opisanie obecnego przebiegu i używanych narzędzi.', en: 'Choosing one repeatable task and describing the current flow and tools used.' },
+          { id: 'sme.choice.action.002', pl: 'Wyznaczenie osoby wykonującej zadanie i osoby podejmującej decyzję; jedna osoba może pełnić obie role.', en: 'Naming the person doing the task and the person making the decision; one person may fill both roles.' },
+          { id: 'sme.choice.action.003', pl: 'Ustalenie stanu wyjściowego, oczekiwanej poprawy i kryterium jakości.', en: 'Setting the baseline, expected improvement and quality criterion.' },
         ] },
-        { id: 'f-inv', icon: 'search', title: { pl: 'Spis systemów i shadow AI', en: 'Inventory and shadow AI' }, actions: [
-          { id: 'f4', pl: 'Spisz każdy używany system AI: narzędzia dostawców, funkcje AI wbudowane w SaaS, rozwiązania własne i agentów.', en: 'Inventory every AI system in use: vendor tools, AI features inside SaaS, internal builds and agents.', src: ['gSprawl'] },
-          { id: 'f5', pl: 'Wykryj shadow AI (wtyczki, prywatne konta, nieznane klucze API). Na start ogłoś amnestię: kto zgłosi, czego używa, nie ponosi konsekwencji.', en: 'Discover shadow AI (extensions, personal accounts, unknown API keys). Start with an amnesty, not penalties.', src: ['ibm'] },
-          { id: 'f6', pl: 'Udostępnij zatwierdzone narzędzie na tyle dobre, żeby zastąpiło nieoficjalne. Samo blokowanie spycha użycie do podziemia.', en: 'Provide a sanctioned tool good enough to replace unofficial ones. Blocking alone drives use underground.', src: ['gSprawl'] },
-        ] },
-        { id: 'f-law', icon: 'scale', title: { pl: 'Polityka i AI Act', en: 'Policy and the AI Act' }, actions: [
-          { id: 'f7', pl: 'Opublikuj zasady korzystania z AI: zatwierdzone narzędzia, dane, których nie wolno wklejać, obowiązek weryfikacji wyników, zasady ujawniania.', en: 'Publish an AI acceptable-use policy: approved tools, data that must not be pasted, the duty to verify output, disclosure rules.' },
-          { id: 'f8', pl: 'Sklasyfikuj każdy system wg AI Act: praktyka zakazana, wysokie ryzyko (zał. III), obowiązki przejrzystości (art. 50), ryzyko minimalne.', en: 'Classify each system under the AI Act: prohibited, high-risk (Annex III), transparency duties (Art. 50), minimal risk.', src: ['fpf'] },
-          { id: 'f9', pl: 'Wyłącz praktyki zakazane, np. rozpoznawanie emocji pracowników. Zakaz obowiązuje od lutego 2025.', en: 'Shut down prohibited practices – banned since February 2025 (e.g. emotion recognition of employees).', src: ['fpf'] },
-          { id: 'f10', pl: 'W Polsce: w sprawach granicznych rozważ wiążącą opinię indywidualną KRiBSI.', en: 'In Poland: for borderline cases consider a binding individual opinion from KRiBSI.', src: ['chambers'] },
-        ] },
-        { id: 'f-lit', icon: 'graduation-cap', title: { pl: 'Kompetencje AI', en: 'AI literacy' }, actions: [
-          { id: 'f11', pl: 'Przeprowadź szkolenia dopasowane do ról (art. 4): podstawy dla wszystkich, ryzyko i ROI dla menedżerów, ewaluacje i bezpieczeństwo dla zespołów technicznych.', en: 'Run role-based AI literacy (Art. 4): basics for everyone, risk and ROI for managers, evals and security for technical teams.', src: ['fpf'] },
-          { id: 'f12', pl: 'Prowadź rejestr szkoleń: kto, z czego i kiedy.', en: 'Keep a training record: who, on what, and when.' },
-          { id: 'f13', pl: 'Wyłoń ambasadorów AI (2–3 na dział) i zarezerwuj im 10–20% czasu pracy.', en: 'Recruit AI champions (2–3 per department) and reserve 10–20% of their time.' },
+        { id: 'sme-choice-boundaries', icon: 'shield-check', title: { pl: 'Ustalenie granic pierwszego testu', en: 'Set the first test boundaries' }, actions: [
+          { id: 'sme.choice.action.004', pl: 'Określenie dostępnego czasu, budżetu oraz zakresu pierwszego testu.', en: 'Defining the available time, budget and scope of the first test.' },
+          { id: 'sme.choice.action.005', pl: 'Ustalenie granic bezpieczeństwa danych, dostępu i przeglądu człowieka.', en: 'Setting boundaries for data safety, access and human review.', src: ['owasp'] },
         ] },
       ],
-      gate: { pl: ['Jest imienny właściciel i budżet z kosztami utrzymania.', 'Spis systemów AI istnieje i ma właściciela.', 'Każdy system ma klasę ryzyka wg AI Act.', 'Polityka korzystania z AI jest opublikowana.'],
-              en: ['There is a named owner and a budget that includes run costs.', 'The AI inventory exists and has an owner.', 'Every system has an AI Act risk class.', 'The AI acceptable-use policy is published.'] },
+      gate: { pl: ['Opis zadania, stan wyjściowy i kryterium sukcesu są zapisane.', 'Wyznaczenie osoby wykonującej i osoby podejmującej decyzję jest potwierdzone.', 'Ustalenie granic danych, czasu i budżetu jest realne.'],
+              en: ['The task description, baseline and success criterion are written down.', 'The person doing the task and the person deciding are confirmed.', 'The data, time and budget boundaries are realistic.'] },
     },
     {
-      id: 'portfolio', key: '2', tone: 'blue', icon: 'layers', span: [3, 6],
-      time: { pl: 'Tygodnie 3–6', en: 'Weeks 3–6' },
-      title: { pl: 'Portfel zastosowań i dane', en: 'Use cases and data' },
-      summary: { pl: 'Mniej, ale głębiej: proces, autonomia, dane, punkt wyjścia.', en: 'Fewer, deeper: workflow, autonomy, data, baseline.' },
-      intro: { pl: 'Kilka zastosowań przerobionych do końca daje więcej niż wiele płytkich pilotaży. Firmy z wynikiem przebudowują cały proces, zamiast dokładać czat do starego. Najpewniejszy zwrot dają procesy zaplecza: finanse, zakupy, IT, obsługa zgłoszeń.',
-               en: 'Choose fewer use cases and go deeper. Organisations with results redesign the whole workflow instead of adding a chat window to the old one. Back-office processes give the most reliable return: finance, procurement, IT, ticket handling.' },
+      id: 'test', key: '2', tone: 'blue', icon: 'flask-conical', span: [1, 2],
+      time: { pl: 'Etap 2 · próba na przykładach', en: 'Stage 2 · practical test' },
+      title: { pl: 'Test w praktyce', en: 'Test in practice' },
+      summary: { pl: 'Jedno narzędzie, reprezentatywne przykłady i porównanie wyniku.', en: 'One tool, representative examples and a comparison.' },
+      intro: { pl: 'Sprawdzenie jednego narzędzia na przykładach podobnych do prawdziwej pracy. Porównanie czasu całego testu wraz z przeglądem, poprawek, jakości i kosztu ze stanem wyjściowym. Zapis wyniku bez obietnicy z góry.',
+               en: 'Testing one tool on examples similar to real work. Comparing total test time including review, rework, quality and cost with the baseline. Recording the result without a promise in advance.' },
       streams: [
-        { id: 'p-sel', icon: 'workflow', title: { pl: 'Wybór od procesu', en: 'Workflow-first selection' }, actions: [
-          { id: 'p1', pl: 'Rozrysuj docelowy proces od początku do końca i przeprojektuj go, zanim wstawisz w niego AI.', en: 'Map the target workflow end to end and redesign it. Do not bolt AI onto the current one.', src: ['mckinsey'] },
-          { id: 'p2', pl: 'Oceń kandydatów: wartość, wykonalność, dostępność danych, klasa ryzyka i odwracalność błędów.', en: 'Score candidates on value, feasibility, data availability, risk class and reversibility of errors.' },
-          { id: 'p3', pl: 'Wybierz 2–3 zastosowania. Każde dostaje właściciela biznesowego i docelowy wskaźnik.', en: 'Select 2–3 use cases. Each gets a business owner and a target KPI.', src: ['mit'] },
+        { id: 'sme-test-setup', icon: 'settings-2', title: { pl: 'Ustalenie narzędzia i danych', en: 'Set up the tool and data' }, actions: [
+          { id: 'sme.test.action.001', pl: 'Wybór jednego narzędzia dopasowanego do zadania i potwierdzenie jego ustawień.', en: 'Choosing one tool suited to the task and confirming its settings.', src: ['agents'] },
+          { id: 'sme.test.action.002', pl: 'Określenie dozwolonych danych, dostępu i ustawień testu.', en: 'Defining allowed data, access and test settings.', src: ['owasp'] },
         ] },
-        { id: 'p-aut', icon: 'gauge', title: { pl: 'Poziom autonomii', en: 'Autonomy level' }, actions: [
-          { id: 'p4', pl: 'Przypisz każdemu zastosowaniu poziom: obserwuje, doradza, działa za zgodą, działa samodzielnie.', en: 'Give each use case a level: observe, advise, act with approval, act autonomously.', src: ['gAutonomy'] },
-          { id: 'p5', pl: 'Zacznij poziom niżej, niż się wydaje potrzebne. Autonomię przyznawaj na podstawie wyników ewaluacji.', en: 'Start one level lower than seems necessary. Grant autonomy on the strength of eval results.' },
-          { id: 'p6', pl: 'Tam, gdzie się da, wybierz prosty przepływ o stałych krokach zamiast agenta, który sam planuje.', en: 'Where possible, choose a simple fixed-step workflow over an agent that plans for itself.', src: ['effective', 'openaiGuide'] },
-        ] },
-        { id: 'p-buy', icon: 'shopping-bag', title: { pl: 'Kupić, zbudować czy współpracować', en: 'Buy, build or partner' }, actions: [
-          { id: 'p7', pl: 'Dla typowych funkcji domyślnie kupuj lub współpracuj: rozwiązania od dostawców udawały się mniej więcej dwa razy częściej niż budowane w firmie.', en: 'For commodity capabilities default to buy or partner: vendor solutions succeeded roughly twice as often as internal builds.', src: ['mit'] },
-          { id: 'p8', pl: 'Buduj tam, gdzie proces jest Twoją przewagą. Przelicz to na nowo: agenci programistyczni obniżyli koszt budowy.', en: 'Build where the workflow is your edge. Re-run the numbers: coding agents have lowered the cost of building.', src: ['mckinsey'] },
-          { id: 'p9', pl: 'Sprawdź dostawcę: trenowanie na Twoich danych, lokalizacja danych, polityka wycofywania modeli, logi audytowe, możliwość wyjścia.', en: 'Check the vendor: training on your data, data residency, model deprecation policy, audit logs, exit options.', src: ['deprecation'] },
-        ] },
-        { id: 'p-data', icon: 'database', title: { pl: 'Gotowość danych', en: 'Data readiness' }, actions: [
-          { id: 'p10', pl: 'Wskaż źródło prawdy i jego właściciela. Popraw uprawnienia przed indeksowaniem, bo RAG dziedziczy każde nadmierne udostępnienie.', en: 'Name the source of truth and its owner. Fix permissions before indexing – RAG inherits every overshare.' },
-          { id: 'p11', pl: 'Zdefiniuj pojęcia biznesowe (słownik, warstwa semantyczna), żeby agenci czytali dane tak samo jak ludzie.', en: 'Define business terms (glossary, semantic layer) so agents read data the way people do.', src: ['gSemantics'] },
-          { id: 'p12', pl: 'Ustal zasady aktualności i usuń nieaktualne dokumenty z baz wiedzy.', en: 'Set freshness rules and remove outdated documents from knowledge bases.' },
-          { id: 'p13', pl: 'Zmierz punkt wyjścia dla każdego zadania: czas, koszt, odsetek błędów.', en: 'Measure the baseline for each task: time, cost, error rate.' },
+        { id: 'sme-test-results', icon: 'clipboard-check', title: { pl: 'Porównanie wyników', en: 'Compare the results' }, actions: [
+          { id: 'sme.test.action.003', pl: 'Przygotowanie reprezentatywnych przykładów oraz sposobu oceny wyniku.', en: 'Preparing representative examples and a way to assess the result.' },
+          { id: 'sme.test.action.004', pl: 'Porównanie czasu wykonania, liczby poprawek, jakości i kosztu ze stanem wyjściowym.', en: 'Comparing task time, rework, quality and cost with the baseline.' },
+          { id: 'sme.test.action.005', pl: 'Ustalenie decyzji: kontynuacja, korekta i ponowny test albo zatrzymanie.', en: 'Setting the decision: continue, correct and retest, or stop.' },
         ] },
       ],
-      gate: { pl: ['Każde zastosowanie ma właściciela, poziom autonomii i źródło danych.', 'Punkt wyjścia jest zmierzony.', 'Próg sukcesu pilotażu jest zapisany przed startem.'],
-              en: ['Every use case has an owner, an autonomy level and a data source.', 'The baseline is measured.', 'The pilot success threshold is written down before launch.'] },
+      gate: { pl: ['Potwierdzenie jednego narzędzia, dozwolonych danych i ustawień jest zapisane.', 'Porównanie jakości, czasu, poprawek i kosztu ze stanem wyjściowym jest wykonane.', 'Zapis wyniku testu i rekomendacji jest gotowy.'],
+              en: ['The one tool, allowed data and settings are recorded.', 'Quality, time, rework and cost are compared with the baseline.', 'The test result and recommendation are recorded.'] },
     },
     {
-      id: 'pilot', key: '3', tone: 'yellow', icon: 'flask-conical', span: [6, 12],
-      time: { pl: 'Tygodnie 6–12', en: 'Weeks 6–12' },
-      title: { pl: 'Pilotaż z ewaluacją', en: 'Pilot with evals' },
-      summary: { pl: 'Próg zaliczenia, zestaw testowy, koszt udanego zadania.', en: 'An experiment with a pass mark, not a demo.' },
-      intro: { pl: 'Pilotaż ma próg zaliczenia ustalony przed startem. Najpierw zbuduj zestaw testowy, potem rozwiązanie. Z gotowymi ewaluacjami zmiana modelu zajmuje dni zamiast tygodni.',
-               en: 'A pilot is an experiment with a pass mark, not a showcase. Build the test set first, then the solution. With evals in place, switching models takes days instead of weeks.' },
+      id: 'work', key: '3', tone: 'yellow', icon: 'users-round', span: [2, 3],
+      time: { pl: 'Etap 3 · rutyna jednego zespołu', en: 'Stage 3 · one-team routine' },
+      title: { pl: 'Wprowadzenie do pracy', en: 'Put it into everyday work' },
+      summary: { pl: 'Krótka instrukcja, przegląd człowieka i sposób ręczny.', en: 'A short guide, human review and a manual fallback.' },
+      intro: { pl: 'Przekształcenie udanej próby w krótką, zrozumiałą rutynę. Pozostawienie osoby przeglądającej wynik i zwykłego ręcznego sposobu wykonania zadania, gdy narzędzie jest niedostępne albo wynik jest niepewny.',
+               en: 'Turning a useful test into a short, understandable routine. Keeping a reviewer and the ordinary manual way to do the task when the tool is unavailable or uncertain.' },
       streams: [
-        { id: 'e-eval', icon: 'clipboard-check', title: { pl: 'Najpierw ewaluacje', en: 'Evals first' }, actions: [
-          { id: 'e1', pl: 'Zbierz zestaw wzorcowy 20–50 prawdziwych zadań, w tym dawne porażki i przypadki brzegowe.', en: 'Build a golden set of 20–50 real tasks, including past failures and edge cases.', src: ['evals'] },
-          { id: 'e2', pl: 'Połącz oceniających: testy w kodzie, model-sędzia skalibrowany na ocenach ludzi i przegląd ekspercki.', en: 'Combine graders: code checks, an LLM judge calibrated against human ratings, and expert review.', src: ['evals'] },
-          { id: 'e3', pl: 'Oceniaj końcowy wynik zadania, a przebieg rozmowy tylko pomocniczo. Uruchamiaj zadania kilka razy, bo odpowiedzi się różnią.', en: 'Grade the outcome, not just the transcript. Run each task several times, because outputs vary.', src: ['evals'] },
-          { id: 'e4', pl: 'Trzymaj zestaw testowy i prompty w repozytorium z wersjonowaniem.', en: 'Keep the test set and prompts under version control.' },
+        { id: 'sme-work-guide', icon: 'book-open', title: { pl: 'Opracowanie instrukcji i ról', en: 'Write the guide and assign roles' }, actions: [
+          { id: 'sme.work.action.001', pl: 'Opracowanie krótkiej instrukcji z jednym przykładem poprawnego użycia.', en: 'Writing a short guide with one example of correct use.' },
+          { id: 'sme.work.action.002', pl: 'Przedstawienie przebiegu osobom wykonującym zadanie i zebranie pytań.', en: 'Showing the flow to the people doing the task and collecting questions.' },
+          { id: 'sme.work.action.003', pl: 'Wyznaczenie osoby przeglądającej wynik oraz sposobu akceptacji.', en: 'Naming the person reviewing the result and the acceptance method.' },
         ] },
-        { id: 'e-guard', icon: 'shield', title: { pl: 'Zabezpieczenia i nadzór', en: 'Guardrails and oversight' }, actions: [
-          { id: 'e5', pl: 'Ułóż zabezpieczenia warstwami: filtr wejścia, walidacja wyjścia, maskowanie danych osobowych, lista dozwolonych narzędzi.', en: 'Layer guardrails: input filtering, output validation, PII masking, a tool allowlist.', src: ['openaiGuide'] },
-          { id: 'e6', pl: 'Wymagaj zgody człowieka na każde nieodwracalne lub zewnętrzne działanie (płatność, e-mail, zmiana rekordu).', en: 'Require human approval for every irreversible or external action (payment, email, record change).', src: ['openaiGuide'] },
-          { id: 'e7', pl: 'Przetestuj rozwiązanie wg OWASP Top 10 dla LLM i dla agentów, zwłaszcza pod kątem wstrzykiwania promptów.', en: 'Test against the OWASP Top 10 for LLM and for agentic applications, especially prompt injection.', src: ['owaspLlm', 'owaspAgentic'] },
-          { id: 'e8', pl: 'Spełnij art. 50 tam, gdzie dotyczy: użytkownik wie, że rozmawia z AI, a treści generowane są oznaczone.', en: 'Meet Art. 50 where it applies: users know they are talking to AI and generated content is labelled.', src: ['fpf'] },
-        ] },
-        { id: 'e-run', icon: 'play', title: { pl: 'Prowadzenie pilotażu', en: 'Running the pilot' }, actions: [
-          { id: 'e9', pl: 'Zacznij od danych niewrażliwych i małej grupy, potem przejdź do prawdziwej pracy pod nadzorem.', en: 'Start with non-sensitive data and a small group, then move to real work under review.' },
-          { id: 'e10', pl: 'Zapisuj każde uruchomienie: wejście, wynik, wywołania narzędzi, koszt i ocenę recenzenta.', en: 'Log every run: input, output, tool calls, cost and the reviewer\'s verdict.' },
-          { id: 'e11', pl: 'Raz w tygodniu przeglądaj wyniki z ekspertami. Każdy nowy błąd zamieniaj w przypadek testowy.', en: 'Review results weekly with experts. Turn every new failure into a test case.', src: ['evals'] },
-        ] },
-        { id: 'e-cost', icon: 'coins', title: { pl: 'Ekonomika', en: 'Unit economics' }, actions: [
-          { id: 'e12', pl: 'Licz koszt udanego zadania (z czasem weryfikacji przez człowieka), a nie koszt pojedynczego wywołania.', en: 'Measure cost per successful task (including human review time), not cost per call.', src: ['finops'] },
-          { id: 'e13', pl: 'Porównaj klasy modeli i wybierz najtańszy, który przechodzi próg ewaluacji.', en: 'Compare model tiers and pick the cheapest one that passes the eval threshold.', src: ['gInference'] },
-          { id: 'e14', pl: 'Przelicz koszty na pełny wolumen: przepływy agentowe zużywają wielokrotnie więcej tokenów niż czat.', en: 'Project costs at full volume: agentic workflows use many times more tokens than chat.', src: ['gInference'] },
+        { id: 'sme-work-continuity', icon: 'life-buoy', title: { pl: 'Ustalenie dostępu i ciągłości', en: 'Set access and continuity' }, actions: [
+          { id: 'sme.work.action.004', pl: 'Ustalenie zasad dostępu, wydatków i odpowiedzialności za konto.', en: 'Setting access, spending and account responsibility rules.', src: ['owasp'] },
+          { id: 'sme.work.action.005', pl: 'Przygotowanie ręcznego sposobu wykonania zadania na wypadek problemu.', en: 'Preparing the manual way to do the task if a problem occurs.' },
         ] },
       ],
-      gate: { pl: ['Próg ewaluacji osiągnięty w kilku przebiegach.', 'Wskaźnik biznesowy lepszy od punktu wyjścia.', 'Koszt udanego zadania mieści się w budżecie.', 'Brak otwartych krytycznych uwag bezpieczeństwa.'],
-              en: ['Eval threshold met across several runs.', 'The business KPI beats the baseline.', 'Cost per successful task is within budget.', 'No open critical security findings.'] },
+      gate: { pl: ['Przygotowanie krótkiej instrukcji, przykładu i kryterium akceptacji jest zakończone.', 'Przedstawienie rutyny osobom wykonującym zadanie oraz wyznaczenie osoby przeglądającej jest potwierdzone.', 'Ustalenie dostępu, wydatków i ręcznego sposobu wykonania jest zapisane.'],
+              en: ['The short guide, example and acceptance criterion are ready.', 'The routine was shown to the people doing the task and a reviewer is named.', 'Access, spending and the manual way to do the task are recorded.'] },
     },
     {
-      id: 'scale', key: '4', tone: 'green', icon: 'rocket', span: [12, 26],
-      time: { pl: 'Miesiące 3–6', en: 'Months 3–6' },
-      title: { pl: 'Produkcja i skalowanie', en: 'Production and scale' },
-      summary: { pl: 'Wspólna platforma, tożsamość agentów, zmiana w zespołach.', en: 'Shared platform, agent identity, team change.' },
-      intro: { pl: 'Przejście z pilotażu do produkcji to miejsce, w którym utyka większość programów. Zbuduj wspólne mechanizmy kontroli raz, a kolejne zastosowania podłączaj do nich.',
-               en: 'The move from pilot to production is where most programmes stall. Build the shared controls once, then plug each new use case into them.' },
+      id: 'keep', key: '4', tone: 'green', icon: 'refresh-cw', span: [3, 4], open: true,
+      time: { pl: 'Etap 4 · rytm przeglądu', en: 'Stage 4 · review rhythm' },
+      title: { pl: 'Utrzymanie i rozwój', en: 'Maintain and improve' },
+      summary: { pl: 'Przegląd, aktualizacja i decyzja o utrzymaniu, zmianie albo zatrzymaniu.', en: 'Review, update and decide whether to maintain, change or stop.' },
+      intro: { pl: 'Sprawdzenie, czy rutyna nadal pomaga. Aktualizacja instrukcji i ustawień, uporządkowanie dostępów, a następnie podjęcie decyzji o utrzymaniu, zmianie albo zatrzymaniu na podstawie danych.',
+               en: 'Checking whether the routine still helps. Updating the guide and settings, tidying access, then deciding whether to maintain, change or stop based on the evidence.' },
       streams: [
-        { id: 's-plat', icon: 'server', title: { pl: 'Platforma', en: 'Platform' }, actions: [
-          { id: 's1', pl: 'Przepuść cały ruch do modeli przez bramę AI (proxy): klucze, przypisanie kosztów, routing modeli, limity.', en: 'Route all model traffic through an AI gateway (proxy): keys, cost attribution, model routing, rate limits.', src: ['finops'] },
-          { id: 's2', pl: 'Dodaj śledzenie i monitoring: jakość, opóźnienia, koszt, dryf i błędy dla każdego zastosowania.', en: 'Add tracing and monitoring: quality, latency, cost, drift and errors per use case.' },
-          { id: 's3', pl: 'Miej plan awaryjny: drugi dostawca albo model open-weight uruchamiany u siebie dla krytycznych procesów.', en: 'Keep a fallback: a second provider or a self-hosted open-weight model for critical processes.' },
+        { id: 'sme-keep-review', icon: 'bar-chart-3', title: { pl: 'Przegląd i aktualizacja', en: 'Review and update' }, actions: [
+          { id: 'sme.keep.action.001', pl: 'Przegląd użyteczności, kosztu, błędów i czasu po uruchomieniu rutyny.', en: 'Reviewing usefulness, cost, errors and time after the routine starts.' },
+          { id: 'sme.keep.action.002', pl: 'Aktualizacja instrukcji, przykładu i kryterium jakości na podstawie wyników.', en: 'Updating the guide, example and quality criterion based on results.' },
+          { id: 'sme.keep.action.003', pl: 'Uporządkowanie dostępów, danych i ustawień po zakończeniu testu.', en: 'Tidy access, data and settings after the test ends.', src: ['owasp'] },
         ] },
-        { id: 's-id', icon: 'key-round', title: { pl: 'Tożsamość agentów i narzędzia', en: 'Agent identity and tools' }, actions: [
-          { id: 's4', pl: 'Prowadź centralny rejestr agentów: właściciel, cel, poziom autonomii, narzędzia, dostęp do danych.', en: 'Keep a central agent registry: owner, purpose, autonomy level, tools, data access.', src: ['gSprawl'] },
-          { id: 's5', pl: 'Daj każdemu agentowi własną tożsamość i krótko żyjące uprawnienia o minimalnym zakresie.', en: 'Give every agent its own identity and short-lived, least-privilege credentials.', src: ['gSprawl', 'ibm'] },
-          { id: 's6', pl: 'Dopuszczaj tylko zatwierdzone serwery MCP i konektory, za bramą, która widzi wywoływane narzędzia.', en: 'Allow only approved MCP servers and connectors, behind a gateway that sees which tools are called.', src: ['mcp'] },
-          { id: 's7', pl: 'Stosuj regułę dwóch: bez zgody człowieka agent łączy najwyżej dwie z trzech cech (niezaufane treści, wrażliwe dane, działanie na zewnątrz).', en: 'Apply the Rule of Two: without human approval an agent combines at most two of three traits (untrusted input, sensitive data, external action).', src: ['ruleOfTwo'] },
-        ] },
-        { id: 's-roll', icon: 'users', title: { pl: 'Wdrożenie i zmiana', en: 'Rollout and change' }, actions: [
-          { id: 's8', pl: 'Wdrażaj dział po dziale, z ambasadorami, szkoleniami dla konkretnych ról i dyżurami wsparcia.', en: 'Roll out department by department, with champions, role-specific training and support office hours.' },
-          { id: 's9', pl: 'Aktualizuj opisy stanowisk i procedury w tym samym czasie co narzędzie.', en: 'Update job descriptions and procedures together with the tool, not afterwards.', src: ['mckinsey'] },
-          { id: 's10', pl: 'Pokazuj sukcesy z liczbami i pozwól bezpiecznie zgłaszać porażki.', en: 'Share wins with numbers and make it safe to report failures.' },
-        ] },
-        { id: 's-comp', icon: 'file-check', title: { pl: 'Zgodność w produkcji', en: 'Compliance in production' }, actions: [
-          { id: 's11', pl: 'Dla każdego systemu prowadź dokumentację techniczną, logi i procedurę nadzoru człowieka.', en: 'Keep technical documentation, logs and a human-oversight procedure for every system.' },
-          { id: 's12', pl: 'Systemy wysokiego ryzyka z zał. III: buduj teraz system zarządzania jakością, zarządzanie ryzykiem i ocenę zgodności. Termin: 2 grudnia 2027.', en: 'Annex III high-risk systems: build the quality management system, risk management and conformity assessment now. Deadline: 2 December 2027.', src: ['omnibus', 'fpf'] },
-          { id: 's13', pl: 'Przeprowadź DPIA tam, gdzie przetwarzasz dane osobowe (RODO), i ocenę wpływu AI.', en: 'Run a DPIA where personal data is processed (GDPR), plus an AI impact assessment.' },
+      { id: 'sme-keep-decision', icon: 'list-checks', title: { pl: 'Ustalenie rytmu i decyzji', en: 'Set the review rhythm and decision rule' }, actions: [
+          { id: 'sme.keep.action.004', pl: 'Ustalenie właściciela rutyny, rytmu przeglądu i odpowiedzialności za zmianę.', en: 'Setting the routine owner, review rhythm and responsibility for change.' },
+          { id: 'sme.keep.action.005', pl: 'Podjęcie decyzji o utrzymaniu, zmianie albo zatrzymaniu rutyny na podstawie przeglądu.', en: 'Making the decision to maintain, change or stop the routine based on the review.' },
         ] },
       ],
-      gate: { pl: ['Działają monitoring i możliwość wycofania zmian.', 'Każdy agent jest w rejestrze i ma właściciela.', 'Dokumentacja i procedura nadzoru są gotowe.', 'Zespoły przeszły szkolenie dla swoich ról.'],
-              en: ['Monitoring and rollback are in place.', 'Every agent is registered and has an owner.', 'Documentation and the oversight procedure are ready.', 'Teams have completed role-specific training.'] },
-    },
-    {
-      id: 'operate', key: '5', tone: 'ink', icon: 'refresh-cw', span: [12, 28], open: true,
-      time: { pl: 'Stale', en: 'Ongoing' },
-      title: { pl: 'Utrzymanie i nadzór', en: 'Operate and govern' },
-      summary: { pl: 'Cykl życia modeli, bezpieczeństwo, przegląd portfela.', en: 'Model lifecycle, security, portfolio review.' },
-      intro: { pl: 'Systemy AI zmieniają się pod Tobą: dostawcy wycofują modele, dane się starzeją, przepisy się przesuwają. Traktuj AI jak linię produktów, którą trzeba utrzymywać.',
-               en: 'AI systems change underneath you: vendors retire models, data drifts, regulation moves. Treat AI as a product line that needs maintenance.' },
-      streams: [
-        { id: 'o-gov', icon: 'building-2', title: { pl: 'System zarządzania', en: 'Management system' }, actions: [
-          { id: 'o1', pl: 'Oprzyj nadzór na ISO/IEC 42001, a praktykę zarządzania ryzykiem na NIST AI RMF i jego profilu dla GenAI.', en: 'Base governance on ISO/IEC 42001, and risk practice on the NIST AI RMF and its GenAI profile.', src: ['iso42001', 'nist'] },
-          { id: 'o2', pl: 'Stały komitet AI (biznes, IT, bezpieczeństwo, prawo, HR) spotyka się co miesiąc i zatwierdza nowe zastosowania oraz podniesienie autonomii.', en: 'A standing AI committee (business, IT, security, legal, HR) meets monthly and approves new use cases and autonomy upgrades.' },
-          { id: 'o3', pl: 'Co kwartał przeglądaj spis systemów i wyłączaj to, co nie daje efektu.', en: 'Review the inventory quarterly and retire what is not delivering.', src: ['gAutonomy'] },
-        ] },
-        { id: 'o-life', icon: 'history', title: { pl: 'Cykl życia modeli', en: 'Model lifecycle' }, actions: [
-          { id: 'o4', pl: 'Śledź kalendarze wycofywania modeli u dostawców i zaplanuj budżet na migracje.', en: 'Track vendor model deprecation calendars and budget for migrations.', src: ['deprecation'] },
-          { id: 'o5', pl: 'Uruchamiaj testy regresji przy każdej zmianie modelu, promptu lub źródła danych, przed publikacją.', en: 'Run regression evals on every model, prompt or data-source change, before release.', src: ['evals'] },
-          { id: 'o6', pl: 'Regularnie przeglądaj dobór modeli do zadań, bo ceny i możliwości szybko się zmieniają.', en: 'Revisit which model serves which task regularly, as prices and capabilities change fast.', src: ['gInference'] },
-        ] },
-        { id: 'o-sec', icon: 'siren', title: { pl: 'Bezpieczeństwo i incydenty', en: 'Security and incidents' }, actions: [
-          { id: 'o7', pl: 'Testuj ataki stale (red teaming) i dopisuj nowe wzorce do zestawu testowego.', en: 'Red-team continuously and add new attack patterns to the test set.', src: ['owaspAgentic'] },
-          { id: 'o8', pl: 'Przygotuj procedurę incydentu AI: wyłącznik dla każdego agenta, wycofanie zmian, obowiązki zgłoszeniowe.', en: 'Prepare an AI incident playbook: a kill switch per agent, rollback, reporting duties.' },
-          { id: 'o9', pl: 'Pilnuj łańcucha dostaw AI: pakiety, pliki modeli, serwery MCP, wersje SDK.', en: 'Watch the AI supply chain: packages, model files, MCP servers, SDK versions.', src: ['owaspAgentic'] },
-        ] },
-        { id: 'o-val', icon: 'trending-up', title: { pl: 'Mierzenie wartości', en: 'Value tracking' }, actions: [
-          { id: 'o10', pl: 'Co kwartał raportuj zarządowi wyniki: wpływ na EBIT, czas realizacji, jakość, ryzyko.', en: 'Report outcomes to the board quarterly: EBIT impact, cycle time, quality, risk.', src: ['mckinsey'] },
-          { id: 'o11', pl: 'Śledź koszt udanego zadania i łączny koszt utrzymania każdego zastosowania.', en: 'Track cost per successful task and total run cost per use case.', src: ['finops'] },
-          { id: 'o12', pl: 'Odświeżaj szkolenia co roku i przy każdej większej zmianie narzędzi.', en: 'Refresh training yearly and with every major tool change.' },
-        ] },
-      ],
-      gate: { pl: ['Co kwartał każde zastosowanie dostaje decyzję: skalujemy, poprawiamy albo wyłączamy.', 'Podniesienie autonomii wymaga wyników ewaluacji i zgody komitetu.'],
-              en: ['Every quarter each use case gets a decision: scale, fix or retire.', 'Any autonomy upgrade requires eval results and committee approval.'] },
+      gate: { pl: ['Przegląd użyteczności, kosztu, błędów i czasu jest wykonany.', 'Aktualizacja instrukcji oraz uporządkowanie dostępów i danych są zapisane.', 'Decyzja o utrzymaniu, zmianie albo zatrzymaniu rutyny wynika z danych.'],
+              en: ['Usefulness, cost, errors and time are reviewed.', 'The guide is updated and access and data are tidied.', 'The decision to maintain, change or stop follows from the evidence.'] },
     },
   ];
 
   const AUTONOMY = [
-    { tone: 'stone', icon: 'eye', level: { pl: 'Obserwuje', en: 'Observe' },
-      does: { pl: 'Czyta dane i raportuje; niczego nie zmienia.', en: 'Reads data and reports; changes nothing.' },
-      controls: { pl: 'Logowanie, przegląd dostępu do danych.', en: 'Logging, data access review.' } },
-    { tone: 'blue', icon: 'message-square', level: { pl: 'Doradza', en: 'Advise' },
-      does: { pl: 'Proponuje działanie; decyzję i wykonanie zostawia człowiekowi.', en: 'Proposes an action; a person decides and executes.' },
-      controls: { pl: 'Ewaluacje jakości, cytowanie źródeł, wskazany recenzent.', en: 'Quality evals, source citations, a named reviewer.' } },
-    { tone: 'yellow', icon: 'hand', level: { pl: 'Działa za zgodą', en: 'Act with approval' },
-      does: { pl: 'Wykonuje działanie po akceptacji człowieka.', en: 'Executes an action after a person approves it.' },
-      controls: { pl: 'Zgoda na każde działanie, ślad audytowy, wąskie uprawnienia.', en: 'Per-action approval, audit trail, narrow credentials.' } },
-    { tone: 'red', icon: 'zap', level: { pl: 'Działa samodzielnie', en: 'Act autonomously' },
-      does: { pl: 'Działa sam w ustalonych granicach.', en: 'Acts alone within set limits.' },
-      controls: { pl: 'Bezpieczniki (limity kosztów i liczby działań), wycofanie zmian, imienny właściciel, stały monitoring.', en: 'Circuit breakers (spend and action limits), rollback, a named owner, continuous monitoring.' } },
+    { tone: 'stone', icon: 'eye', level: { pl: 'Podgląd', en: 'View only' },
+      does: { pl: 'Czyta dane lub pokazuje propozycję; niczego nie zmienia.', en: 'Reads data or shows a suggestion; changes nothing.' },
+      controls: { pl: 'Minimalny dostęp i przegląd wyniku.', en: 'Minimal access and result review.' } },
+    { tone: 'blue', icon: 'message-square', level: { pl: 'Sugestia', en: 'Suggestion' },
+      does: { pl: 'Przygotowuje szkic odpowiedzi, oferty lub opisu; człowiek decyduje.', en: 'Drafts a reply, offer or description; a person decides.' },
+      controls: { pl: 'Kryterium jakości, źródło danych i osoba sprawdzająca.', en: 'Quality criterion, data source and a named reviewer.' } },
+    { tone: 'yellow', icon: 'hand', level: { pl: 'Działanie po zgodzie', en: 'Act after approval' },
+      does: { pl: 'Wykonuje ustalony krok po akceptacji człowieka.', en: 'Performs a defined step after human approval.' },
+      controls: { pl: 'Zgoda na działanie, ślad i wąski dostęp.', en: 'Action approval, trace and narrow access.' } },
+    { tone: 'red', icon: 'shield-check', level: { pl: 'Samodzielnie w granicach', en: 'Autonomous within limits' },
+      does: { pl: 'Działa samodzielnie tylko w małym, odwracalnym zakresie.', en: 'Acts alone only within a small, reversible scope.' },
+      controls: { pl: 'Limit kosztu i działań, wycofanie zmian, stały przegląd.', en: 'Spend and action limits, rollback and regular review.' } },
   ];
 
   const RULE_OF_TWO = {
-    intro: { pl: 'Bez zgody człowieka agent może łączyć najwyżej dwie z trzech cech:', en: 'Without human approval an agent may combine at most two of three traits:' },
+    intro: { pl: 'Ilustracyjna kombinacja ryzyk dla opcjonalnych połączeń, a nie oficjalny test: przy braku przeglądu człowieka nie łącz wszystkich trzech cech:', en: 'An illustrative risk combination for optional connections, not an official test: without human review, do not combine all three traits:' },
     rows: [
-      { pl: 'Przetwarza niezaufane treści: e-maile, strony WWW, dokumenty z zewnątrz.', en: 'Processes untrusted content: emails, web pages, outside documents.' },
-      { pl: 'Ma dostęp do danych wrażliwych lub systemów wewnętrznych.', en: 'Has access to sensitive data or internal systems.' },
-      { pl: 'Może działać na zewnątrz: wysyłać, publikować, płacić, zmieniać dane.', en: 'Can act externally: send, publish, pay, change data.' },
+      { pl: 'Czyta niezaufane treści, na przykład e-maile, strony lub dokumenty z zewnątrz.', en: 'Reads untrusted content such as emails, web pages or outside documents.' },
+      { pl: 'Ma dostęp do danych poufnych albo systemu wewnętrznego.', en: 'Has access to confidential data or an internal system.' },
+      { pl: 'Może działać na zewnątrz, na przykład wysyłać wiadomości albo zmieniać dane.', en: 'Can act externally, for example send messages or change data.' },
     ],
-    foot: { pl: 'Wszystkie trzy naraz to tzw. śmiertelna trójca: wstrzyknięty prompt może wtedy wyprowadzić dane na zewnątrz.', en: 'All three at once is the so-called lethal trifecta: an injected prompt can then exfiltrate data.' },
-    src: ['ruleOfTwo', 'trifecta'],
+    foot: { pl: 'To ilustracyjna wskazówka ostrożności dla opcjonalnych połączeń, nie obowiązek budowania agenta.', en: 'This is an illustrative caution for optional connections, not a requirement to build an agent.' },
   };
 
   const TOOL_RULES = [
-    { pl: 'Dopuszczaj tylko zatwierdzone serwery MCP i konektory. Nowy serwer traktuj jak nowego dostawcę: przegląd, właściciel, wersja.', en: 'Allow only approved MCP servers and connectors. Treat a new server like a new supplier: review, owner, version.', src: ['mcp'] },
-    { pl: 'Każdy agent ma własną tożsamość i krótko żyjące tokeny o minimalnym zakresie. Żadnych współdzielonych kluczy.', en: 'Every agent has its own identity and short-lived, least-privilege tokens. No shared keys.', src: ['gSprawl'] },
-    { pl: 'Testuj wg OWASP Top 10 dla agentów: przejęcie celu, nadużycie narzędzi, nadużycie tożsamości i uprawnień, zatrucie pamięci.', en: 'Test against the OWASP agentic Top 10: goal hijack, tool misuse, identity and privilege abuse, memory poisoning.', src: ['owaspAgentic'] },
-    { pl: 'Zapisuj pełny ślad każdego uruchomienia: polecenie, wywołania narzędzi, wynik, koszt.', en: 'Log a full trace of every run: instruction, tool calls, result, cost.' },
-    { pl: 'Jednakowe zasady dla wszystkich agentów zawodzą; dopasuj nadzór do poziomu autonomii.', en: 'Uniform rules for all agents lead to failure – match oversight to the autonomy level.', src: ['gAutonomy'] },
+    { pl: 'Opcjonalnie: wybór zwykłego przepływu o stałych krokach. Agent nie jest wymagany, gdy wystarcza prostsze narzędzie.', en: 'Optional: choosing a fixed-step flow. An agent is not required when a simpler tool is enough.', src: ['agents'] },
+    { pl: 'Opcjonalnie: ograniczenie integracji do jednego potrzebnego narzędzia i jednego właściciela ustawień.', en: 'Optional: limiting an integration to one needed tool and one settings owner.' },
+    { pl: 'Opcjonalnie: dodanie przeglądu człowieka i możliwości zatrzymania działania przy połączeniu z danymi poufnymi.', en: 'Optional: adding human review and a way to stop the action when a connection touches confidential data.', src: ['owasp'] },
+    { pl: 'Opcjonalnie: zapisanie krótkiego śladu wejścia, wyniku i kosztu w celu ponowienia testu.', en: 'Optional: recording a short trace of input, result and cost so the test can be repeated.' },
+  ];
+
+  const SAFETY = [
+    { tone: 'green', icon: 'shield-check', title: { pl: 'Podstawy', en: 'Basics' }, body: { pl: 'Podstawy każdego zadania: minimalny zakres danych i dostępów, przegląd człowieka przed przekazaniem wyniku oraz ręczny sposób wykonania zadania na wypadek problemu.', en: 'Basics for every task: minimal data and access, human review before handing over the result, and a manual way to do the task if something goes wrong.' } },
+    { tone: 'yellow', icon: 'scale', title: { pl: 'Gdy dotyczy', en: 'When applicable' }, body: { pl: 'Sprawdzenie zakresu i retencji przy danych osobowych lub poufnych. Sprawdzenie treści i roli dostawcy przy wyniku dla klienta. Ustalenie dostępu i właściciela przy integracji lub kilku zespołach.', en: 'Checking scope and retention with personal or confidential data. Checking content and the provider role with customer-facing output. Setting access and an owner with an integration or several teams.' } },
+    { tone: 'red', icon: 'user-round-check', title: { pl: 'Konsultacja specjalisty', en: 'Specialist consultation' }, body: { pl: 'Konsultacja specjalisty przy materialnych decyzjach dotyczących praw, dostępu do usług lub istotnych skutków dla osób, a także przy niejasnej roli dostawcy, zakresie prawa albo ocenie skutków.', en: 'Specialist consultation for material decisions about rights, access to services or significant effects on people, and when the provider role, legal scope or impact assessment is unclear.' } },
   ];
 
   const KPIS = [
-    { tone: 'yellow', icon: 'trending-up', area: { pl: 'Wynik biznesowy', en: 'Business outcome' }, metric: { pl: 'Wpływ na EBIT, koszt jednostkowy procesu, przychód z nowych usług.', en: 'EBIT impact, unit cost of the process, revenue from new services.' } },
-    { tone: 'blue', icon: 'timer', area: { pl: 'Szybkość', en: 'Speed' }, metric: { pl: 'Czas realizacji, przepustowość, czas odpowiedzi dla klienta.', en: 'Cycle time, throughput, customer response time.' } },
-    { tone: 'green', icon: 'badge-check', area: { pl: 'Jakość', en: 'Quality' }, metric: { pl: 'Odsetek błędów i poprawek, eskalacje do człowieka, wynik ewaluacji.', en: 'Error and rework rate, escalations to a person, eval pass rate.' } },
-    { tone: 'grape', icon: 'coins', area: { pl: 'Ekonomika', en: 'Economics' }, metric: { pl: 'Koszt udanego zadania (z czasem weryfikacji), koszt utrzymania wobec budżetu.', en: 'Cost per successful task (incl. review time), run cost against budget.' } },
-    { tone: 'red', icon: 'shield-alert', area: { pl: 'Ryzyko i zgodność', en: 'Risk and compliance' }, metric: { pl: 'Incydenty, naruszenia polityki, wykryte shadow AI, odsetek sklasyfikowanych systemów.', en: 'Incidents, policy violations, shadow AI found, share of systems classified.' } },
-    { tone: 'stone', icon: 'activity', area: { pl: 'Użycie (pomocniczo)', en: 'Usage (secondary)' }, metric: { pl: 'Aktywne użycie w przebudowanych procesach, traktowane jako sygnał wyprzedzający.', en: 'Active use within redesigned workflows – a leading signal, not a goal.' } },
+    { tone: 'yellow', icon: 'timer', area: { pl: 'Czas', en: 'Time' }, metric: { pl: 'Czas całego zadania, czas sprawdzania i poprawek, liczba zadań w ustalonym okresie.', en: 'Total task time, review and rework time, number of tasks in the chosen period.' } },
+    { tone: 'blue', icon: 'badge-check', area: { pl: 'Jakość', en: 'Quality' }, metric: { pl: 'Liczba błędów, liczba poprawek i akceptacja według kryterium ustalonego przed testem.', en: 'Errors, rework and acceptance against a criterion set before the test.' } },
+    { tone: 'green', icon: 'wallet', area: { pl: 'Koszt', en: 'Cost' }, metric: { pl: 'Koszt narzędzia, czas pracy przy sprawdzaniu i koszt jednego zadania względem budżetu.', en: 'Tool cost, review time and cost per task against the budget.' } },
+    { tone: 'grape', icon: 'message-circle', area: { pl: 'Użyteczność dla klienta', en: 'Customer usefulness' }, metric: { pl: 'Czas odpowiedzi, zrozumiałość oferty lub opisu produktu i liczba poprawek przed wysłaniem.', en: 'Response time, clarity of an offer or product description, and rework before sending.' } },
   ];
-  const KPI_NOTE = { pl: 'Liderzy w badaniu McKinsey dwa razy częściej mają zaangażowane kierownictwo i zdefiniowany sposób mierzenia efektów.', en: 'High performers in the McKinsey survey are twice as likely to have committed senior leaders and a defined way to measure impact.', src: ['mckinsey'] };
+  const KPI_NOTE = { pl: 'Zapisanie progu sukcesu przed testem. Wynik może uzasadnić kontynuację, korektę z ponownym testem albo zatrzymanie.', en: 'Writing the success threshold before the test. The result may support continuing, correcting and retesting, or stopping.' };
 
   const INDUSTRIES = [
-    { tone: 'blue', icon: 'banknote', title: { pl: 'Finanse', en: 'Financial services' }, text: { pl: 'Ocena zdolności kredytowej osób fizycznych to system wysokiego ryzyka. Zacznij od analizy dokumentów, compliance i obsługi klienta. Dostawców AI obejmij zarządzaniem ryzykiem ICT według DORA.', en: 'Creditworthiness assessment of individuals is high-risk. Start with document analysis, compliance and customer service. Bring AI vendors under DORA ICT risk management.' } },
-    { tone: 'green', icon: 'heart-pulse', title: { pl: 'Ochrona zdrowia', en: 'Healthcare' }, text: { pl: 'Zacznij od administracji: dokumentacja, rejestracja, rozliczenia. AI diagnostyczna to zwykle wyrób medyczny (zał. I, termin 2 sierpnia 2028). Dane o zdrowiu to kategoria szczególna RODO; w USA dochodzi HIPAA.', en: 'Start with admin: documentation, scheduling, billing. Diagnostic AI is usually a medical device (Annex I, deadline 2 August 2028). Health data is a GDPR special category; in the US, HIPAA applies too.' } },
-    { tone: 'yellow', icon: 'graduation-cap', title: { pl: 'Edukacja i sektor publiczny', en: 'Education and public sector' }, text: { pl: 'Ocenianie, rekrutacja na studia i dostęp do świadczeń publicznych to obszary wysokiego ryzyka. Uczeń i obywatel muszą wiedzieć, że rozmawiają z AI (art. 50).', en: 'Grading, admissions and access to public benefits are high-risk areas. Students and citizens must know they are talking to AI (Art. 50).' } },
-    { tone: 'grape', icon: 'users', title: { pl: 'Kadry (każda branża)', en: 'HR (every sector)' }, text: { pl: 'Rekrutacja, ocena i zwalnianie z pomocą AI to wysokie ryzyko od 2 grudnia 2027. Rozpoznawanie emocji pracowników jest zakazane od lutego 2025.', en: 'AI in hiring, appraisal and dismissal is high-risk from 2 December 2027. Recognising employees\' emotions has been banned since February 2025.' } },
-    { tone: 'ink', icon: 'factory', title: { pl: 'Produkcja', en: 'Manufacturing' }, text: { pl: 'Utrzymanie predykcyjne, kontrola jakości, planowanie. AI jako element bezpieczeństwa maszyn podlega zał. I (sierpień 2028). Uporządkuj znaczenie danych z czujników i MES, zanim podłączysz agentów.', en: 'Predictive maintenance, quality control, planning. AI as a machinery safety component falls under Annex I (August 2028). Sort out the meaning of sensor and MES data before connecting agents.' } },
-    { tone: 'stone', icon: 'shopping-cart', title: { pl: 'Handel', en: 'Retail' }, text: { pl: 'Agent obsługi klienta musi przedstawiać się jako AI. Przy prognozach popytu i dynamicznych cenach mierz wpływ na marżę i dostępność towaru, nie liczbę rozmów.', en: 'Customer service agents must identify as AI. For demand forecasting and dynamic pricing measure the effect on margin and availability, not the number of conversations.' } },
+    { tone: 'blue', icon: 'message-circle', title: { pl: 'Odpowiedzi dla klientów', en: 'Customer replies' }, text: { pl: 'Testowanie szkiców odpowiedzi na niekrytycznych pytaniach. Pomiar czasu, poprawek i zgodności z ofertą; zatwierdzenie wiadomości przez człowieka przed wysłaniem.', en: 'Testing reply drafts on non-critical questions. Measuring time, rework and fit with the offer; a person approves the message before sending.' } },
+    { tone: 'green', icon: 'file-check-2', title: { pl: 'Oferty i wyceny', en: 'Offers and quotes' }, text: { pl: 'Rozpoczęcie od zebrania danych do oferty lub uporządkowania szkicu. Ustalenie źródła cen, limitu danych i ręcznego sprawdzenia przed przekazaniem klientowi.', en: 'Starting by gathering offer data or organising a draft. Setting the price source, data limit and manual check before sharing with a customer.' } },
+    { tone: 'yellow', icon: 'package-search', title: { pl: 'Opisy produktów', en: 'Product descriptions' }, text: { pl: 'Porównanie opisów z zatwierdzonymi cechami produktu. Niedopuszczenie do dopisywania przez narzędzie właściwości, których nie ma w źródle.', en: 'Comparing descriptions with approved product facts. Preventing the tool from inventing properties that are not in the source.' } },
+    { tone: 'grape', icon: 'clipboard-list', title: { pl: 'Administracja', en: 'Administration' }, text: { pl: 'Próba na notatkach, porządkowaniu dokumentów lub prostych zestawieniach może skrócić pracę, ale wynik nadal sprawdza osoba odpowiedzialna.', en: 'A test on notes, document sorting or simple summaries may shorten work, but the responsible person still checks the result.' } },
+    { tone: 'ink', icon: 'calendar-check', title: { pl: 'Terminy i obsługa', en: 'Scheduling and service' }, text: { pl: 'Wybór prostego przypomnienia lub szkicu odpowiedzi. Integracja z kalendarzem albo CRM jest opcjonalna i wymaga osobnego testu dostępu.', en: 'Choosing a simple reminder or reply draft. Calendar or CRM integration is optional and needs a separate access test.' } },
+    { tone: 'stone', icon: 'help-circle', title: { pl: 'Wiedza firmy', en: 'Company knowledge' }, text: { pl: 'Rozpoczęcie od krótkiego, aktualnego zestawu instrukcji. Przy danych osobowych, poufnych lub nieaktualnych konsultacja zakresu i sposobu użycia.', en: 'Starting with a short, current set of instructions. For personal, confidential or outdated data, consult on scope and use.' } },
   ];
 
   const PITFALLS = [
-    { symptom: { pl: 'Wieczny pilotaż: pokazy nigdy nie trafiają do produkcji.', en: 'Pilot purgatory: demos never reach production.' }, fix: { pl: 'Kryteria bramki i właściciel produkcji od pierwszego dnia.', en: 'Gate criteria and a production owner from day one.' }, src: ['gCancel'] },
-    { symptom: { pl: 'AI doklejona do niezmienionego procesu.', en: 'AI bolted onto an unchanged process.' }, fix: { pl: 'Przeprojektuj proces, potem dobierz narzędzie.', en: 'Redesign the workflow, then choose the tool.' } },
-    { symptom: { pl: 'Raport mówi o liczbie użytkowników, nie o wyniku.', en: 'Reports count users, not results.' }, fix: { pl: 'Wskaźniki wyniku i punkt wyjścia przed startem.', en: 'Outcome KPIs and a baseline before launch.' } },
-    { symptom: { pl: 'Agent z szerokimi uprawnieniami i wspólnym kluczem.', en: 'An agent with broad permissions and a shared key.' }, fix: { pl: 'Własna tożsamość, minimalne uprawnienia, reguła dwóch.', en: 'Own identity, least privilege, Rule of Two.' } },
-    { symptom: { pl: 'Po zmianie modelu jakość cicho spada.', en: 'Quality drops silently after a model change.' }, fix: { pl: 'Testy regresji przed każdą zmianą.', en: 'Regression evals before every change.' } },
-    { symptom: { pl: 'Koszty rosną szybciej niż wolumen.', en: 'Costs grow faster than volume.' }, fix: { pl: 'Koszt udanego zadania, routing do tańszych modeli, brama AI.', en: 'Cost per successful task, routing to cheaper models, an AI gateway.' }, src: ['gCancel'] },
-    { symptom: { pl: 'Pracownicy używają prywatnych kont AI.', en: 'Staff use personal AI accounts.' }, fix: { pl: 'Lepsze narzędzie oficjalne, wykrywanie i amnestia.', en: 'A better official tool, discovery and an amnesty.' } },
-    { symptom: { pl: 'Zgodność sprawdzana na końcu.', en: 'Compliance checked at the end.' }, fix: { pl: 'Klasyfikacja wg AI Act już przy spisie systemów.', en: 'AI Act classification at inventory time.' } },
+    { symptom: { pl: 'Test tylko na jednym wygodnym przykładzie.', en: 'The test uses only one convenient example.' }, fix: { pl: 'Przygotowanie kilku reprezentatywnych przykładów i kryterium oceny.', en: 'Prepare several representative examples and an assessment criterion.' } },
+    { symptom: { pl: 'Szkic odpowiedzi lub oferty trafia do klienta bez kontroli.', en: 'A reply or offer draft reaches the customer without review.' }, fix: { pl: 'Wyznaczenie osoby przeglądającej i akceptacja przed wysłaniem.', en: 'Name a reviewer and require approval before sending.' } },
+    { symptom: { pl: 'Dane osobowe lub poufne trafiają do niewłaściwego narzędzia.', en: 'Personal or confidential data reaches the wrong tool.' }, fix: { pl: 'Ograniczenie zakresu danych, dostępu i retencji; konsultacja, gdy zakres jest niejasny.', en: 'Limit data, access and retention; consult when the scope is unclear.' }, src: ['owasp'] },
+    { symptom: { pl: 'Nie wiadomo, kto płaci za narzędzie i kto może je zmieniać.', en: 'No one knows who pays for the tool or may change it.' }, fix: { pl: 'Ustalenie właściciela konta, budżetu i odpowiedzialności za ustawienia.' , en: 'Set the account owner, budget and responsibility for settings.' } },
+    { symptom: { pl: 'Narzędzie jest niedostępne albo zmieniło wynik.', en: 'The tool is unavailable or its output has changed.' }, fix: { pl: 'Przygotowanie ręcznego sposobu awaryjnego i ponowny test na przykładach.', en: 'Prepare a manual fallback and retest on the examples.' }, src: ['agents'] },
+    { symptom: { pl: 'Integracja wydaje się potrzebna, zanim sprawdzono prostszy sposób.', en: 'An integration seems necessary before a simpler way was tested.' }, fix: { pl: 'Wybór prostego przepływu najpierw; połączenie dopiero po osobnym teście zakresu.', en: 'Choose a simple flow first; add a connection only after a separate scope test.' }, src: ['agents'] },
+    { symptom: { pl: 'Po kilku tygodniach instrukcja i dane są nieaktualne.', en: 'The guide and data are outdated after a few weeks.' }, fix: { pl: 'Ustalenie rytmu przeglądu, aktualizacji i decyzji o zmianie albo zatrzymaniu.', en: 'Set a rhythm for review, updates and the decision to change or stop.' } },
+    { symptom: { pl: 'Nie ma jasnego progu, po którym test ma sens.', en: 'There is no clear threshold for a useful test result.' }, fix: { pl: 'Zapisanie stanu wyjściowego i progu sukcesu przed uruchomieniem.', en: 'Write down the baseline and success threshold before starting.' } },
   ];
 
   // ─── State ───
@@ -823,6 +717,7 @@
     done: new Set(),
     collapsed: new Set(),
     resetArmed: false,
+    legacyRaw: null,
   };
   let resetTimer = null;
   let navObserver = null;
@@ -872,7 +767,7 @@
   const icon = name => `<i data-lucide="${name}" class="ic" aria-hidden="true"></i>`;
   const badge = (name, tone, size = '') => `<span class="badge ${size} tone-${tone}">${icon(name)}</span>`;
   const secHead = (title, ic, tone = 'ink') => `<div class="sec-head">${ic ? badge(ic, tone, 'badge-lg') : ''}<h2>${esc(title)}</h2></div>`;
-  const pos = w => (w / WEEKS_MAX * 100).toFixed(3) + '%';
+  const pos = stage => (stage / TIMELINE_MAX * 100).toFixed(3) + '%';
   const drawIcons = () => { if (window.lucide) window.lucide.createIcons(); };
 
   // ─── Render ───
@@ -887,15 +782,29 @@
     langSeg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.langBtn === state.lang)));
     const navItems = [['plan', 'navPlan'], ['law', 'navLaw'], ['agents', 'navAgents'], ['measure', 'navMeasure'], ['sources', 'navSources']];
     navEl.innerHTML = navItems.map(([id, key]) => `<li><a href="#${id}" data-nav="${id}">${esc(t(key))}</a></li>`).join('');
+    const legacyNotice = state.legacyRaw !== null ? `<div class="callout legacy-notice edu-block" data-legacy-notice role="status"><p>${esc(t('legacyNotice'))}</p><button id="legacyDownload" type="button" class="btn-ghost" data-legacy-download>${esc(t('legacyDownload'))}</button></div>` : '';
     pageHead.innerHTML = `
       <h1 class="app-title">${esc(t('title'))}</h1>
       <p class="edu-lead">${esc(t('lead'))}</p>
-      <p class="asof">${esc(t('asOf'))}</p>`;
+      <p class="asof">${esc(t('asOf'))}</p>${legacyNotice}`;
     footEl.innerHTML = `
       <span>${esc(t('footNote'))} · <a href="https://github.com/workszop/ai_roadmap">GitHub</a></span>
-      <span>${esc(t('footKeys'))} <kbd>L</kbd> ${esc(t('keyLang'))} · <kbd>E</kbd> ${esc(t('keyExpand'))} · <kbd>1</kbd>–<kbd>5</kbd> ${esc(t('keyPhase'))}</span>`;
+      <span>${esc(t('footKeys'))} <kbd>L</kbd> ${esc(t('keyLang'))} · <kbd>E</kbd> ${esc(t('keyExpand'))} · <kbd>1</kbd>–<kbd>4</kbd> ${esc(t('keyPhase'))}</span>`;
   }
 
+  function downloadLegacyBackup() {
+    if (state.legacyRaw === null) return;
+    const blob = new Blob([state.legacyRaw], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `ai-roadmap-legacy-progress-${localIso(new Date())}.json`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    announce(t('legacyDownloaded'));
+  }
 
   function renderLaw() {
     const chip = st => ({
@@ -943,15 +852,15 @@
   }
 
   function renderOverview() {
-    const ticks = [0, 4, 8, 12, 16, 20, 26];
-    const tickLabel = w => w === 12 ? t('m3') : w === 26 ? t('m6') : String(w);
+    const ticks = [0, 1, 2, 3, 4];
+    const tickLabel = stage => stage === 0 ? t('stageStart') : String(stage);
     return `<section class="sec" id="plan" data-nav="plan"><div class="wrap">
       ${secHead(t('secPlan'), 'map')}
       <p class="edu-body-lg sec-lead">${esc(t('planLead'))}</p>
       <div class="card gantt">
         <div class="card-head"><h3>${esc(t('ganttTitle'))}</h3><span class="count">${esc(t('ganttUnit'))}</span></div>
         <div class="card-body">
-          <div class="g-axis" aria-hidden="true"><span></span><span class="g-scale">${ticks.map(w => `<span class="g-tick" style="left:${pos(w)}">${tickLabel(w)}</span>`).join('')}</span></div>
+          <div class="g-axis" aria-hidden="true"><span></span><span class="g-scale">${ticks.map(stage => `<span class="g-tick" style="left:${pos(stage)}">${esc(tickLabel(stage))}</span>`).join('')}</span></div>
           ${PHASES.map(p => `
           <a class="g-row" href="#${p.id}" data-ov="${p.id}" title="${esc(L(p.title))} · ${esc(L(p.time))}">
             <span class="g-label">${badge(p.icon, p.tone)}<span class="g-text"><span class="g-name">${esc(L(p.title))}</span><span class="g-time">${esc(L(p.time))}</span></span><span class="count" data-count="${p.id}"></span></span>
@@ -998,12 +907,11 @@
               </li>`).join('')}
             </ul>
           </div>
-        </details>`).join('')}
-      </div>
+        </details>`).join('')}</div>
       <div class="card gate-card" data-gate="${p.id}">
         <div class="card-head">
           <span class="tile-h">${badge('flag', 'ink')}<h3>${esc(t('gate'))}: ${esc(L(p.title))}</h3></span>
-          <span class="outcomes"><span class="edu-chip chip-green">${esc(t('outScale'))}</span><span class="edu-chip chip-yellow">${esc(t('outFix'))}</span><span class="edu-chip chip-red">${esc(t('outStop'))}</span></span>
+          <span class="outcomes"><span class="edu-chip chip-green">${esc(t('outContinue'))}</span><span class="edu-chip chip-yellow">${esc(t('outRetest'))}</span><span class="edu-chip chip-red">${esc(t('outStop'))}</span></span>
         </div>
         <div class="card-body"><ul class="gate-list">${L(p.gate).map(g => `<li>${icon('circle-check')}<span>${esc(g)}</span></li>`).join('')}</ul></div>
         <div class="card-foot">${esc(t('gateThen'))}</div>
@@ -1013,10 +921,13 @@
   }
 
   function renderAgents() {
+    const safetyCards = SAFETY.map(s => `<div class="card tile"><div class="card-head"><span class="tile-h">${badge(s.icon, s.tone)}<h3>${esc(L(s.title))}</h3></span></div><div class="card-body"><p class="edu-small">${esc(L(s.body))}</p></div></div>`).join('');
     return `<section class="sec" id="agents" data-nav="agents"><div class="wrap">
-      ${secHead(t('secAgents'), 'bot')}
+      ${secHead(t('secAgents'), 'shield-check')}
       <p class="edu-body-lg sec-lead">${esc(t('agentsLead'))}</p>
-      <div class="ladder-axis"><span>${esc(t('lessAuto'))}</span><span class="axis-line"></span>${icon('arrow-right')}<span>${esc(t('moreAuto'))}</span>${refs(['gAutonomy'])}</div>
+      <div class="grid-3 mt">${safetyCards}</div>
+      <div class="ladder-axis"><span>${esc(t('lessAuto'))}</span><span class="axis-line"></span>${icon('arrow-right')}<span>${esc(t('moreAuto'))}</span></div>
+      <h3 class="sr-only">${esc(t('autonomyHead'))}</h3>
       <div class="ladder">${AUTONOMY.map((r, i) => `
         <div class="card rung" data-level="${i + 1}">
           <div class="rung-head tone-${r.tone} edu-block">
@@ -1027,18 +938,17 @@
             <p class="edu-overline">${esc(t('thDoes'))}</p><p>${esc(L(r.does))}</p>
             <p class="edu-overline">${esc(t('thControls'))}</p><p>${esc(L(r.controls))}</p>
           </div>
-        </div>`).join('')}
-      </div>
+        </div>`).join('')}</div>
       <div class="grid-2 mt">
         <div class="panel-dark">
-          <p class="edu-overline">Rule of Two</p>
+          <p class="edu-overline">${esc(t('ruleOfTwo'))}</p>
           <h3>${esc(t('ruleOfTwo'))}</h3>
           <p>${esc(L(RULE_OF_TWO.intro))}</p>
           ${RULE_OF_TWO.rows.map((r, i) => `<div class="pd-row"><b>${'ABC'[i]}</b><span>${esc(L(r))}</span></div>`).join('')}
           <p class="pd-foot">${esc(L(RULE_OF_TWO.foot))} ${refs(RULE_OF_TWO.src)}</p>
         </div>
         <div class="card">
-          <div class="card-head"><span class="tile-h">${badge('key-round', 'blue')}<h3>${esc(t('toolsHead'))}</h3></span></div>
+          <div class="card-head"><span class="tile-h">${badge('plug', 'blue')}<h3>${esc(t('toolsHead'))}</h3></span></div>
           <div class="card-body"><ul class="plain">${TOOL_RULES.map(r => `<li>${esc(L(r))} ${refs(r.src)}</li>`).join('')}</ul></div>
         </div>
       </div>
@@ -1054,13 +964,13 @@
       ${secHead(t('secMeasure'), 'chart-column')}
       <p class="edu-body-lg sec-lead">${esc(t('measureLead'))}</p>
       <div class="grid-3">${KPIS.map(k => tileCard(k.icon, k.tone, L(k.area), L(k.metric))).join('')}</div>
-      <div class="callout edu-block"><p>${esc(L(KPI_NOTE))} ${refs(KPI_NOTE.src)}</p></div>
+      <div class="callout edu-block"><p>${esc(L(KPI_NOTE))}</p></div>
     </div></section>`;
   }
 
   function renderIndustries() {
     return `<section class="sec" id="industries" data-nav="measure"><div class="wrap">
-      ${secHead(t('secIndustry'), 'building-2')}
+      ${secHead(t('secIndustry'), 'briefcase-business')}
       <div class="grid-3">${INDUSTRIES.map(i => tileCard(i.icon, i.tone, L(i.title), L(i.text))).join('')}</div>
     </div></section>`;
   }
@@ -1212,7 +1122,7 @@
   // Invariants on data + DOM. Run window.ROADMAP_CHECK() from DevTools or a headless probe.
   function ROADMAP_CHECK() {
     const errors = [];
-    const data = { CLOCK, PHASES, AUTONOMY, RULE_OF_TWO, TOOL_RULES, KPIS, KPI_NOTE, INDUSTRIES, PITFALLS, SOURCES };
+    const data = { CLOCK, PHASES, AUTONOMY, RULE_OF_TWO, TOOL_RULES, SAFETY, KPIS, KPI_NOTE, INDUSTRIES, PITFALLS, SOURCES };
     const walk = (node, path) => {
       if (Array.isArray(node)) return node.forEach((n, i) => walk(n, `${path}[${i}]`));
       if (node && typeof node === 'object') {
@@ -1234,7 +1144,10 @@
     const tKeys = LANGS.map(l => Object.keys(T[l]).sort().join());
     if (tKeys[0] !== tKeys[1]) errors.push('T.pl and T.en keys differ');
     const ids = allActions().map(a => a.id);
+    if (PHASES.length !== 4) errors.push(`phase count ${PHASES.length} != 4`);
+    if (PHASES.some(p => phaseActions(p).length !== 5)) errors.push('each phase must have exactly 5 actions');
     if (new Set(ids).size !== ids.length) errors.push('duplicate action ids');
+    if (ids.some(id => !/^sme\.[a-z]+\.action\.\d{3}$/.test(id))) errors.push('unstable or unnamespaced action id');
     const srcIds = new Set(SOURCES.map(s => s.id));
     const usedSrc = new Set();
     const collectSrc = node => {
@@ -1245,7 +1158,6 @@
       }
     };
     collectSrc(data);
-    usedSrc.add('gAutonomy'); // cited in the autonomy table head
     SOURCES.forEach(s => {
       if (!usedSrc.has(s.id)) errors.push(`unused source ${s.id}`);
       if (!/^https:\/\//.test(s.url)) errors.push(`non-https source ${s.id}`);
@@ -1255,7 +1167,7 @@
       if (!TONES.includes(p.tone) || !p.icon || !Array.isArray(p.span)) errors.push(`phase ${p.id} missing tone/icon/span`);
       p.streams.forEach(s => { if (!s.icon) errors.push(`stream ${s.id} missing icon`); });
     });
-    [...AUTONOMY, ...KPIS, ...INDUSTRIES].forEach((x, i) => { if (!TONES.includes(x.tone) || !x.icon) errors.push(`tile ${i} missing tone/icon`); });
+    [...AUTONOMY, ...SAFETY, ...KPIS, ...INDUSTRIES].forEach((x, i) => { if (!TONES.includes(x.tone) || !x.icon) errors.push(`tile ${i} missing tone/icon`); });
     if (document.querySelectorAll('[data-today]').length !== 1) errors.push('today marker missing or duplicated');
     if (window.lucide && document.querySelector('main i[data-lucide]')) errors.push('icons not drawn');
     const boxes = document.querySelectorAll('input[data-action]').length;
@@ -1265,7 +1177,9 @@
     if (document.querySelectorAll('.sources li').length !== SOURCES.length) errors.push('source list out of sync');
     if (document.querySelectorAll('section.phase').length !== PHASES.length) errors.push('phase sections out of sync');
     if (html.lang !== state.lang || html.dataset.lang !== state.lang) errors.push('html[lang] out of sync');
-    return { ok: errors.length === 0, errors, actions: ids.length, done: state.done.size, sources: SOURCES.length, lang: state.lang };
+    if (STORAGE_KEYS.done === STORAGE_KEYS.legacyDone) errors.push('new storage key aliases legacy key');
+    if (state.legacyRaw !== null && !document.querySelector('[data-legacy-notice]')) errors.push('legacy notice missing');
+    return { ok: errors.length === 0, errors, actions: ids.length, done: state.done.size, sources: SOURCES.length, lang: state.lang, storageKey: STORAGE_KEYS.done, legacyKey: STORAGE_KEYS.legacyDone };
   }
   window.ROADMAP_CHECK = ROADMAP_CHECK;
 
@@ -1273,6 +1187,10 @@
   langSeg.addEventListener('click', e => {
     const b = e.target.closest('[data-lang-btn]');
     if (b) setLang(b.dataset.langBtn);
+  });
+
+  pageHead.addEventListener('click', e => {
+    if (e.target.closest('[data-legacy-download]')) downloadLegacyBackup();
   });
 
   mainEl.addEventListener('change', e => {
@@ -1304,13 +1222,14 @@
     const k = e.key.toLowerCase();
     if (k === 'l') setLang(state.lang === 'pl' ? 'en' : 'pl');
     else if (k === 'e') toggleAll();
-    else if (/^[1-5]$/.test(k)) jumpToPhase(k);
+    else if (/^[1-4]$/.test(k)) jumpToPhase(k);
   });
 
   // ─── Init ───
   (function init() {
     const savedLang = store.get(STORAGE_KEYS.lang);
     if (LANGS.includes(savedLang)) state.lang = savedLang;
+    state.legacyRaw = store.get(STORAGE_KEYS.legacyDone);
     try {
       const saved = JSON.parse(store.get(STORAGE_KEYS.done) || '[]');
       const valid = new Set(allActions().map(a => a.id));

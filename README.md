@@ -1,24 +1,33 @@
-# AI Implementation Roadmap 2026 / Mapa wdrożenia AI 2026
+# AI roadmap for a small business / Mapa AI dla małej firmy
 
-Interactive, bilingual (Polish / English) roadmap for rolling out AI in an organisation, in the edulab design system.
+Interactive, bilingual (Polish / English) roadmap for introducing one practical AI routine in a small business, in the original edulab design system.
 
 Live: https://workszop.github.io/ai_roadmap/
 
 ## What it covers
 
-- **Five phases with decision gates** – a phase timeline, then Foundations, Use cases and data, Pilot with evals, Production and scale, Operate and govern. Each phase has its own colour; 65 tickable actions with sources; gate cards with scale / fix / stop outcomes.
-- **Regulatory clock** – vertical timeline of EU AI Act dates as amended by the Digital Omnibus (Regulation (EU) 2026/1744) and Poland's act on AI systems (KRiBSI), with a "today" marker. Status is computed against today's date.
-- **Agents** – a four-step autonomy ladder, the Rule of Two, MCP / tool and identity rules.
-- **Measuring success, industry notes, failure modes, sources.**
+- **Four practical stages** – Wybór zadania, Test w praktyce, Wprowadzenie do pracy, Utrzymanie i rozwój. Each has five tickable actions, a plain checklist and a continue / retest / stop hint rather than a mandatory scale programme.
+- **One-task scope** – one repeatable task, one person doing it and one person deciding; the same person may fill both roles. The plan includes a success threshold, total test time including review, a small budget and tool limit, a manual fallback, and a review rhythm.
+- **Safety by context** – basics for every task, extra questions when applicable, and specialist consultation when the impact or legal scope is unclear. Agents and integrations are optional; a simpler fixed-step flow is preferred.
+- **AI Act timeline** – a qualified visual summary of the official EU milestones, with the current day marker and a primary European Commission source. It is a screening aid, not legal advice or an automatic classification.
+- **Small-business examples, measures and pitfalls** – customer replies, offers, product descriptions, administration and other repeatable work; time, rework, quality and cost are measured without marketing ROI promises.
 
-Content is current as of 13 October 2026. Educational material, not legal advice.
+Educational material, not legal advice. Check the linked primary source and the concrete scope of the task before making a decision.
 
 ## Use
 
-Open `index.html` – a single self-contained file, no build step (fonts and Lucide icons load from CDNs). Progress and language are stored in `localStorage`.
+Open `/home/andrzey/git-claude/ai_roadmap/index.html` – a single self-contained file, no build step (fonts and Lucide icons load from CDNs). Language stays under `aiRoadmap.lang`; new SME progress uses the namespaced `aiRoadmap.sme.done.v1` key.
 
-Shortcuts: `L` language · `E` expand / collapse all · `1`–`5` jump to a phase.
+If `aiRoadmap.done` from the previous roadmap is present, it is never used for the new actions. A bilingual notice appears with a download of the original raw value, while the old key remains untouched.
+
+Shortcuts: `L` language · `E` expand / collapse all · `1`–`4` jump to a stage.
 
 ## Verification
 
-`window.ROADMAP_CHECK()` in the browser console validates the data and DOM contract: every string present in both languages, no em-dashes, unique action ids, every cited source exists and is used, every phase, workstream and tile has a valid tone and icon, one "today" marker, icons drawn, and `data-*` counters in sync with state. `body[data-done]`, `body[data-total]`, `section.phase[data-done]` / `[data-tone]` and `li[data-status]` expose state for automated checks.
+`window.ROADMAP_CHECK()` in the browser console validates the data and DOM contract: four phases with exactly 20 stable `sme.*` action ids (five per phase), bilingual strings, no em-dashes, narrow primary sources, valid tones and icons, one "today" marker, the legacy notice when needed, and `data-*` counters in sync with state. `body[data-done]`, `body[data-total]`, `section.phase[data-done]` / `[data-tone]` and `li[data-status]` expose state for automated checks.
+
+Focused deterministic checks:
+
+```bash
+node --test /home/andrzey/git-claude/ai_roadmap/tests/core.test.mjs
+```
