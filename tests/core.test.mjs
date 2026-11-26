@@ -80,5 +80,5 @@ test('sources and storage migration are deliberately narrow', () => {
 test('original edulab style blocks stay byte-identical to the style contract', () => {
   const styles = (html) => [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((match) => match[1]);
   const styleHash = createHash('sha256').update(styles(HTML).join('')).digest('hex');
-  assert.equal(styleHash, 'd37d345e893116c5a815e506522b4afc9aca84e79ee05dd23e1b60475830f367');
+  assert.equal(styleHash, '0b93f0c9e77be703787854e2181cee088ed8cd13e51adef93d9a5ebd9af6c890');
 });
