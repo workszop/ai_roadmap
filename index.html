@@ -456,7 +456,7 @@
       asOf: 'Wersja dla małej firmy · materiał edukacyjny, nie porada prawna',
       navPlan: 'Plan', navLaw: 'AI Act', navAgents: 'Bezpieczeństwo', navMeasure: 'Pomiar', navSources: 'Źródła',
       secLaw: 'Kalendarz AI Act: co już obowiązuje',
-      lawLead: 'Punktem wyjścia jest zakres zadania, Twoja rola i aktualny status obowiązku. Oś czasu to tylko tło: sama data nie zastąpi sprawdzenia, jak przepis brzmi dziś. Sama wielkość firmy nie zwalnia z obowiązków.',
+      lawLead: 'Punktem wyjścia jest zakres zadania, Twoja rola i aktualny status obowiązku. Oś czasu to tylko tło: data nie zastąpi sprawdzenia, jak przepis brzmi dziś, a wielkość firmy sama w sobie nie zwalnia z obowiązków.',
       thDate: 'Data', thWhat: 'Co zaczyna mieć zastosowanie', thStatus: 'Status', thSrc: 'Źródło',
       stInForce: 'obowiązuje', stSoon: 'wkrótce', stLater: 'zaplanowane',
       secPlan: 'Cztery etapy i jeden konkretny cel',
@@ -467,7 +467,7 @@
       gate: 'Warunki decyzji',
       gateThen: 'Zanim zdecydujesz o następnym kroku, sprawdź te warunki. Nie trzeba planu dla całej firmy.',
       secAgents: 'Bezpieczeństwo i prostota',
-      agentsLead: 'Początek od prostego przepływu ze sprawdzeniem wyników przez człowieka. Podstawy dotyczą każdego zadania. Agenci, integracje i dodatkowe połączenia są opcjonalne: ich dodanie dopiero wtedy, gdy prostszy sposób nie wystarcza.',
+      agentsLead: 'Na początek wystarczy prosty proces, w którym wyniki sprawdza człowiek. Podstawy dotyczą każdego zadania. Agenci, integracje i dodatkowe połączenia są opcjonalne: dodaj je dopiero wtedy, gdy prostszy sposób nie wystarcza.',
       thLevel: 'Poziom', thDoes: 'Co robi narzędzie', thControls: 'Podstawowe zabezpieczenia',
       autonomyHead: 'Stopnie automatyzacji',
       ruleOfTwo: 'Opcjonalna reguła ostrożności',
@@ -567,15 +567,15 @@
     { date: '2024-08-01', src: ['aiAct'],
       what: { pl: 'AI Act wchodzi w życie. Przepisy stosuje się etapami, zgodnie z zakresem i rolą podmiotu.', en: 'The AI Act enters into force. Its rules apply in stages, depending on scope and role.' } },
     { date: '2025-02-02', src: ['aiAct'],
-      what: { pl: 'Zaczynają obowiązywać zakazy określonych praktyk oraz wymaganie odpowiednich umiejętności AI. Zakres zależy od zastosowania i roli.', en: 'Prohibitions on certain practices and the requirement for appropriate AI literacy start to apply. Scope depends on the use and role.' } },
+      what: { pl: 'Zaczynają obowiązywać zakazy określonych praktyk oraz wymóg odpowiednich umiejętności AI. Zakres zależy od zastosowania i roli.', en: 'Prohibitions on certain practices and the requirement for appropriate AI literacy start to apply. Scope depends on the use and role.' } },
     { date: '2025-08-02', src: ['aiAct'],
       what: { pl: 'Zaczynają obowiązywać wybrane zasady zarządzania i obowiązki dostawców modeli ogólnego przeznaczenia.', en: 'Selected governance rules and obligations for providers of general-purpose AI models start to apply.' } },
     { date: '2026-08-02', src: ['aiAct'],
       what: { pl: 'Zasadnicza część AI Act, w tym obowiązki przejrzystości, zaczyna mieć zastosowanie zgodnie z rolą i zakresem systemu.', en: 'The main body of the AI Act, including transparency obligations, starts to apply according to the system role and scope.' } },
     { date: '2027-12-02', src: ['aiAct'],
-      what: { pl: 'Pełny etap dla odpowiednich systemów wysokiego ryzyka z załącznika III. Wstępne sprawdzenie, czy dane zastosowanie wchodzi w ten zakres.', en: 'Full requirements for relevant Annex III high-risk systems. First check whether the use case falls within that scope.' } },
+      what: { pl: 'Pełny etap dla odpowiednich systemów wysokiego ryzyka z załącznika III. Najpierw sprawdź, czy Twoje zastosowanie wchodzi w ten zakres.', en: 'Full requirements for relevant Annex III high-risk systems. First check whether the use case falls within that scope.' } },
     { date: '2028-08-02', src: ['aiAct'],
-      what: { pl: 'Etap dla odpowiednich systemów wysokiego ryzyka związanych z produktami z załącznika I. Sprawdzenie zakresu przed wyciągnięciem wniosków.', en: 'The stage for relevant high-risk systems related to Annex I products. Check the scope before drawing conclusions.' } },
+      what: { pl: 'Etap dla odpowiednich systemów wysokiego ryzyka związanych z produktami z załącznika I. Zanim wyciągniesz wnioski, sprawdź zakres.', en: 'The stage for relevant high-risk systems related to Annex I products. Check the scope before drawing conclusions.' } },
   ];
 
   const PHASES = [
@@ -681,26 +681,26 @@
   ];
 
   const RULE_OF_TWO = {
-    intro: { pl: 'Ilustracyjna kombinacja ryzyk dla opcjonalnych połączeń, a nie oficjalny test: bez sprawdzenia przez człowieka nie łącz wszystkich trzech cech:', en: 'An illustrative risk combination for optional connections, not an official test: without human review, do not combine all three traits:' },
+    intro: { pl: 'Poglądowa kombinacja ryzyk dla opcjonalnych połączeń; to nie jest oficjalny test. Bez sprawdzenia przez człowieka nie łącz wszystkich trzech cech:', en: 'An illustrative risk combination for optional connections, not an official test: without human review, do not combine all three traits:' },
     rows: [
       { pl: 'Czyta niezaufane treści, na przykład e-maile, strony lub dokumenty z zewnątrz.', en: 'Reads untrusted content such as emails, web pages or outside documents.' },
       { pl: 'Ma dostęp do danych poufnych albo systemu wewnętrznego.', en: 'Has access to confidential data or an internal system.' },
       { pl: 'Może działać na zewnątrz, na przykład wysyłać wiadomości albo zmieniać dane.', en: 'Can act externally, for example send messages or change data.' },
     ],
-    foot: { pl: 'To ilustracyjna wskazówka ostrożności dla opcjonalnych połączeń, nie obowiązek budowania agenta.', en: 'This is an illustrative caution for optional connections, not a requirement to build an agent.' },
+    foot: { pl: 'Ta wskazówka ostrożności nie zobowiązuje do budowania agenta.', en: 'This is an illustrative caution for optional connections, not a requirement to build an agent.' },
   };
 
   const TOOL_RULES = [
-    { pl: 'Opcjonalnie: wybór zwykłego przepływu o stałych krokach. Agent nie jest wymagany, gdy wystarcza prostsze narzędzie.', en: 'Optional: choosing a fixed-step flow. An agent is not required when a simpler tool is enough.', src: ['agents'] },
+    { pl: 'Opcjonalnie: zwykły proces o stałych krokach. Gdy wystarcza prostsze narzędzie, agent nie jest potrzebny.', en: 'Optional: choosing a fixed-step flow. An agent is not required when a simpler tool is enough.', src: ['agents'] },
     { pl: 'Opcjonalnie: ograniczenie integracji do jednego potrzebnego narzędzia i jednego właściciela ustawień.', en: 'Optional: limiting an integration to one needed tool and one settings owner.' },
-    { pl: 'Opcjonalnie: dodanie sprawdzenia przez człowieka i możliwości zatrzymania działania przy połączeniu z danymi poufnymi.', en: 'Optional: adding human review and a way to stop the action when a connection touches confidential data.', src: ['owasp'] },
-    { pl: 'Opcjonalnie: zapisanie krótkiego śladu wejścia, wyniku i kosztu w celu ponowienia testu.', en: 'Optional: recording a short trace of input, result and cost so the test can be repeated.' },
+    { pl: 'Opcjonalnie: przy połączeniu z danymi poufnymi sprawdzenie przez człowieka i możliwość zatrzymania działania.', en: 'Optional: adding human review and a way to stop the action when a connection touches confidential data.', src: ['owasp'] },
+    { pl: 'Opcjonalnie: krótki zapis wejścia, wyniku i kosztu, żeby dało się powtórzyć test.', en: 'Optional: recording a short trace of input, result and cost so the test can be repeated.' },
   ];
 
   const SAFETY = [
     { tone: 'green', icon: 'shield-check', title: { pl: 'Podstawy', en: 'Basics' }, body: { pl: 'Podstawy każdego zadania: minimalny zakres danych i dostępów, sprawdzenie wyniku przez człowieka przed przekazaniem oraz ręczny sposób wykonania zadania na wypadek problemu.', en: 'Basics for every task: minimal data and access, human review before handing over the result, and a manual way to do the task if something goes wrong.' } },
     { tone: 'yellow', icon: 'scale', title: { pl: 'Gdy dotyczy', en: 'When applicable' }, body: { pl: 'Dane osobowe lub poufne: zakres, retencja, anonimizacja i podstawa przekazania. Wynik dla klienta lub na zewnątrz: przegląd treści, rola dostawcy i, jeśli trzeba, informacja dla odbiorcy. Kolejny zespół: właściciel rutyny, dostęp według ról i wspólne kryterium jakości. Połączenie z innym systemem: zakres danych, właściciel integracji, test przywracania danych i ręczny sposób awaryjny.', en: 'Personal or confidential data: scope, retention, anonymisation and the basis for sharing. Output for a customer or outside the company: content review, the provider role and, if needed, a notice to the recipient. Another team: a routine owner, role-based access and a shared quality criterion. Connection to another system: data scope, an integration owner, a data restore test and a manual fallback.' } },
-    { tone: 'red', icon: 'user-round-check', title: { pl: 'Potrzebna konsultacja specjalisty', en: 'Specialist consultation needed' }, body: { pl: 'Wpływ na ludzi, pieniądze lub dostęp do usług: zatrzymanie automatycznej decyzji i konsultacja specjalisty przed użyciem. Dotyczy to zwłaszcza rekrutacji, oceny pracowników, kredytu i edukacji, wysokiego ryzyka dla praw i wolności, potrzeby oceny skutków dla ochrony danych, niejasnej roli dostawcy, przekazania danych poza EOG albo obowiązku przejrzystości.', en: 'Impact on people, money or access to services: stop automatic decisions and consult a specialist before use. This applies especially to recruitment, employee assessment, credit and education, high risk to rights and freedoms, a need for a data protection impact assessment, an unclear provider role, transfers outside the EEA or transparency obligations.' } },
+    { tone: 'red', icon: 'user-round-check', title: { pl: 'Potrzebna konsultacja specjalisty', en: 'Specialist consultation needed' }, body: { pl: 'Wpływ na ludzi, pieniądze lub dostęp do usług: zatrzymaj automatyczną decyzję i przed użyciem skonsultuj się ze specjalistą. Dotyczy to zwłaszcza rekrutacji, oceny pracowników, kredytu i edukacji, wysokiego ryzyka dla praw i wolności, potrzeby oceny skutków dla ochrony danych, niejasnej roli dostawcy, przekazania danych poza EOG albo obowiązku przejrzystości.', en: 'Impact on people, money or access to services: stop automatic decisions and consult a specialist before use. This applies especially to recruitment, employee assessment, credit and education, high risk to rights and freedoms, a need for a data protection impact assessment, an unclear provider role, transfers outside the EEA or transparency obligations.' } },
   ];
 
   const KPIS = [
@@ -709,26 +709,26 @@
     { tone: 'green', icon: 'wallet', area: { pl: 'Koszt', en: 'Cost' }, metric: { pl: 'Koszt narzędzia, koszt pracy przy sprawdzaniu i koszt jednego zadania.', en: 'Tool cost, the cost of review work and cost per task.' } },
     { tone: 'grape', icon: 'message-circle', area: { pl: 'Użyteczność', en: 'Usefulness' }, metric: { pl: 'Czy rutyna skraca pracę, czy instrukcja jest zrozumiała i czy ręczny sposób awaryjny pozostaje dostępny.', en: 'Whether the routine shortens the work, whether the guide is clear and whether the manual fallback is still available.' } },
   ];
-  const KPI_NOTE = { pl: 'Zapisanie progu sukcesu przed testem. Wynik może uzasadnić kontynuację, korektę z ponownym testem albo zatrzymanie.', en: 'Writing the success threshold before the test. The result may support continuing, correcting and retesting, or stopping.' };
+  const KPI_NOTE = { pl: 'Zapisz próg sukcesu przed testem. Wynik może uzasadnić kontynuację, korektę z ponownym testem albo zatrzymanie.', en: 'Writing the success threshold before the test. The result may support continuing, correcting and retesting, or stopping.' };
 
   const INDUSTRIES = [
-    { tone: 'blue', icon: 'message-circle', title: { pl: 'Odpowiedzi dla klientów', en: 'Customer replies' }, text: { pl: 'Testowanie szkiców odpowiedzi na niekrytycznych pytaniach. Pomiar czasu, poprawek i zgodności z ofertą; zatwierdzenie wiadomości przez człowieka przed wysłaniem.', en: 'Testing reply drafts on non-critical questions. Measuring time, rework and fit with the offer; a person approves the message before sending.' } },
-    { tone: 'green', icon: 'file-check-2', title: { pl: 'Oferty i wyceny', en: 'Offers and quotes' }, text: { pl: 'Rozpoczęcie od zebrania danych do oferty lub uporządkowania szkicu. Ustalenie źródła cen, limitu danych i ręcznego sprawdzenia przed przekazaniem klientowi.', en: 'Starting by gathering offer data or organising a draft. Setting the price source, data limit and manual check before sharing with a customer.' } },
-    { tone: 'yellow', icon: 'package-search', title: { pl: 'Opisy produktów', en: 'Product descriptions' }, text: { pl: 'Porównanie opisów z zatwierdzonymi cechami produktu. Niedopuszczenie do dopisywania przez narzędzie właściwości, których nie ma w źródle.', en: 'Comparing descriptions with approved product facts. Preventing the tool from inventing properties that are not in the source.' } },
+    { tone: 'blue', icon: 'message-circle', title: { pl: 'Odpowiedzi dla klientów', en: 'Customer replies' }, text: { pl: 'Testuj szkice odpowiedzi na niekrytycznych pytaniach. Mierz czas, liczbę poprawek i zgodność z ofertą. Przed wysłaniem wiadomość zatwierdza człowiek.', en: 'Testing reply drafts on non-critical questions. Measuring time, rework and fit with the offer; a person approves the message before sending.' } },
+    { tone: 'green', icon: 'file-check-2', title: { pl: 'Oferty i wyceny', en: 'Offers and quotes' }, text: { pl: 'Najpierw zbierz dane do oferty albo uporządkuj szkic. Ustal źródło cen, limit danych i ręczne sprawdzenie, zanim oferta trafi do klienta.', en: 'Starting by gathering offer data or organising a draft. Setting the price source, data limit and manual check before sharing with a customer.' } },
+    { tone: 'yellow', icon: 'package-search', title: { pl: 'Opisy produktów', en: 'Product descriptions' }, text: { pl: 'Porównuj opisy z zatwierdzonymi cechami produktu. Pilnuj, żeby narzędzie nie dopisywało właściwości, których nie ma w źródle.', en: 'Comparing descriptions with approved product facts. Preventing the tool from inventing properties that are not in the source.' } },
     { tone: 'grape', icon: 'clipboard-list', title: { pl: 'Administracja', en: 'Administration' }, text: { pl: 'Próba na notatkach, porządkowaniu dokumentów lub prostych zestawieniach może skrócić pracę, ale wynik nadal sprawdza osoba odpowiedzialna.', en: 'A test on notes, document sorting or simple summaries may shorten work, but the responsible person still checks the result.' } },
-    { tone: 'ink', icon: 'calendar-check', title: { pl: 'Terminy i obsługa', en: 'Scheduling and service' }, text: { pl: 'Wybór prostego przypomnienia lub szkicu odpowiedzi. Integracja z kalendarzem albo CRM jest opcjonalna i wymaga osobnego testu dostępu.', en: 'Choosing a simple reminder or reply draft. Calendar or CRM integration is optional and needs a separate access test.' } },
-    { tone: 'stone', icon: 'help-circle', title: { pl: 'Wiedza firmy', en: 'Company knowledge' }, text: { pl: 'Rozpoczęcie od krótkiego, aktualnego zestawu instrukcji. Przy danych osobowych, poufnych lub nieaktualnych konsultacja zakresu i sposobu użycia.', en: 'Starting with a short, current set of instructions. For personal, confidential or outdated data, consult on scope and use.' } },
+    { tone: 'ink', icon: 'calendar-check', title: { pl: 'Terminy i obsługa', en: 'Scheduling and service' }, text: { pl: 'Wybierz proste przypomnienie albo szkic odpowiedzi. Integracja z kalendarzem albo CRM jest opcjonalna i wymaga osobnego testu dostępu.', en: 'Choosing a simple reminder or reply draft. Calendar or CRM integration is optional and needs a separate access test.' } },
+    { tone: 'stone', icon: 'help-circle', title: { pl: 'Wiedza firmy', en: 'Company knowledge' }, text: { pl: 'Zacznij od krótkiego, aktualnego zestawu instrukcji. Jeśli dane są osobowe, poufne lub nieaktualne, skonsultuj zakres i sposób użycia.', en: 'Starting with a short, current set of instructions. For personal, confidential or outdated data, consult on scope and use.' } },
   ];
 
   const PITFALLS = [
-    { symptom: { pl: 'Test tylko na jednym wygodnym przykładzie.', en: 'The test uses only one convenient example.' }, fix: { pl: 'Przygotowanie kilku reprezentatywnych przykładów i kryterium oceny.', en: 'Prepare several representative examples and an assessment criterion.' } },
-    { symptom: { pl: 'Szkic odpowiedzi lub oferty trafia do klienta bez kontroli.', en: 'A reply or offer draft reaches the customer without review.' }, fix: { pl: 'Wyznaczenie osoby sprawdzającej i akceptacja przed wysłaniem.', en: 'Name a reviewer and require approval before sending.' } },
-    { symptom: { pl: 'Dane osobowe lub poufne trafiają do niewłaściwego narzędzia.', en: 'Personal or confidential data reaches the wrong tool.' }, fix: { pl: 'Ograniczenie zakresu danych, dostępu i retencji; konsultacja, gdy zakres jest niejasny.', en: 'Limit data, access and retention; consult when the scope is unclear.' }, src: ['owasp'] },
-    { symptom: { pl: 'Nie wiadomo, kto płaci za narzędzie i kto może je zmieniać.', en: 'No one knows who pays for the tool or may change it.' }, fix: { pl: 'Ustalenie właściciela konta, budżetu i odpowiedzialności za ustawienia.' , en: 'Set the account owner, budget and responsibility for settings.' } },
-    { symptom: { pl: 'Narzędzie jest niedostępne albo zmieniło wynik.', en: 'The tool is unavailable or its output has changed.' }, fix: { pl: 'Przygotowanie ręcznego sposobu awaryjnego i ponowny test na przykładach.', en: 'Prepare a manual fallback and retest on the examples.' }, src: ['agents'] },
-    { symptom: { pl: 'Integracja wydaje się potrzebna, zanim sprawdzono prostszy sposób.', en: 'An integration seems necessary before a simpler way was tested.' }, fix: { pl: 'Wybór prostego przepływu najpierw; połączenie dopiero po osobnym teście zakresu.', en: 'Choose a simple flow first; add a connection only after a separate scope test.' }, src: ['agents'] },
-    { symptom: { pl: 'Po kilku tygodniach instrukcja i dane są nieaktualne.', en: 'The guide and data are outdated after a few weeks.' }, fix: { pl: 'Ustalenie harmonogramu kontroli, aktualizacji i decyzji o zmianie albo zatrzymaniu.', en: 'Set a schedule for reviews, updates and the decision to change or stop.' } },
-    { symptom: { pl: 'Nie ma jasnego progu, po którym test ma sens.', en: 'There is no clear threshold for a useful test result.' }, fix: { pl: 'Zapisanie stanu wyjściowego i progu sukcesu przed uruchomieniem.', en: 'Write down the baseline and success threshold before starting.' } },
+    { symptom: { pl: 'Test tylko na jednym wygodnym przykładzie.', en: 'The test uses only one convenient example.' }, fix: { pl: 'Przygotuj kilka reprezentatywnych przykładów i kryterium oceny.', en: 'Prepare several representative examples and an assessment criterion.' } },
+    { symptom: { pl: 'Szkic odpowiedzi lub oferty trafia do klienta bez kontroli.', en: 'A reply or offer draft reaches the customer without review.' }, fix: { pl: 'Wyznacz osobę sprawdzającą; szkic wychodzi dopiero po jej akceptacji.', en: 'Name a reviewer and require approval before sending.' } },
+    { symptom: { pl: 'Dane osobowe lub poufne trafiają do niewłaściwego narzędzia.', en: 'Personal or confidential data reaches the wrong tool.' }, fix: { pl: 'Ogranicz zakres danych, dostęp i retencję. Gdy zakres jest niejasny, skonsultuj go.', en: 'Limit data, access and retention; consult when the scope is unclear.' }, src: ['owasp'] },
+    { symptom: { pl: 'Nie wiadomo, kto płaci za narzędzie i kto może je zmieniać.', en: 'No one knows who pays for the tool or may change it.' }, fix: { pl: 'Ustal właściciela konta i budżet oraz to, kto odpowiada za ustawienia.' , en: 'Set the account owner, budget and responsibility for settings.' } },
+    { symptom: { pl: 'Narzędzie jest niedostępne albo zmieniło wynik.', en: 'The tool is unavailable or its output has changed.' }, fix: { pl: 'Przygotuj ręczny sposób awaryjny i powtórz test na przykładach.', en: 'Prepare a manual fallback and retest on the examples.' }, src: ['agents'] },
+    { symptom: { pl: 'Integracja wydaje się potrzebna, zanim sprawdzono prostszy sposób.', en: 'An integration seems necessary before a simpler way was tested.' }, fix: { pl: 'Zacznij od prostego procesu; połączenie dodaj dopiero po osobnym teście zakresu.', en: 'Choose a simple flow first; add a connection only after a separate scope test.' }, src: ['agents'] },
+    { symptom: { pl: 'Po kilku tygodniach instrukcja i dane są nieaktualne.', en: 'The guide and data are outdated after a few weeks.' }, fix: { pl: 'Ustal, kiedy kontrolujesz i aktualizujesz ten sposób pracy oraz kiedy decydujesz o zmianie albo zatrzymaniu.', en: 'Set a schedule for reviews, updates and the decision to change or stop.' } },
+    { symptom: { pl: 'Nie ma jasnego progu, po którym test ma sens.', en: 'There is no clear threshold for a useful test result.' }, fix: { pl: 'Przed uruchomieniem zapisz stan wyjściowy i próg sukcesu.', en: 'Write down the baseline and success threshold before starting.' } },
   ];
 
   // ─── State ───
