@@ -369,10 +369,20 @@
       .tl-row .tl-body { grid-column: 2; grid-row: 2; }
       .tl-year .tl-ylabel { grid-column: 2; grid-row: 1; }
     }
-    /* Step the title down where 38px would be truncated (checked in PL and EN); from 897px the nav fills the row, so the old 19px stays */
-    @media (min-width: 641px) and (max-width: 896px) { .edu-app-title { font-size: 30px; } }
+    /* Desktop: the section nav gets its own row under the brand row, so the title keeps its full size */
+    @media (min-width: 901px) {
+      .edu-header-inner { flex-wrap: wrap; row-gap: 0; padding-top: 4px; padding-bottom: 4px; }
+      #navWrap { order: 3; flex: 1 0 100%; margin-left: 0; border-top: 1px solid var(--line); padding-top: 4px; }
+      .nav { margin-left: -12px; }
+      .nav a { padding: 6px 12px; }
+      html { scroll-padding-top: 130px; }   /* the two-row header is 114px tall */
+      .sources li { scroll-margin-top: 140px; }
+      .head-tools { margin-left: auto; }
+    }
+    /* Below 901px the nav is hidden; step the title down where 38px would be truncated (checked in PL and EN) */
+    @media (min-width: 641px) and (max-width: 900px) { .edu-app-title { font-size: 30px; } }
     @media (min-width: 641px) and (max-width: 823px) { .edu-app-title { font-size: 24px; } }
-    @media (max-width: 695px), (min-width: 897px) { .edu-app-title { font-size: 19px; letter-spacing: -.01em; line-height: 1.2; } }
+    @media (min-width: 641px) and (max-width: 695px) { .edu-app-title { font-size: 19px; letter-spacing: -.01em; line-height: 1.2; } }
     @media (max-width: 640px) { .edu-app-title { font-size: 15px; margin-left: 10px; padding-left: 10px; } }
     @media (max-width: 480px) {
       .stats, .ladder { grid-template-columns: 1fr; }
